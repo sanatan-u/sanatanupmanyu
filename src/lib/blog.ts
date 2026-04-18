@@ -17,6 +17,12 @@ export type BlogPost = {
 
 export type BlogMeta = Omit<BlogPost, "body">;
 
+function toIsoDate(value: unknown): string {
+  if (!value) return "";
+  if (value instanceof Date) return value.toISOString().slice(0, 10);
+  return String(value);
+}
+
 function readPost(file: string): BlogPost {
   const filePath = path.join(BLOG_DIR, file);
   const raw = fs.readFileSync(filePath, "utf8");
@@ -24,8 +30,8 @@ function readPost(file: string): BlogPost {
   const slug = file.replace(/\.mdx$/, "");
   const words = content.trim().split(/\s+/).filter(Boolean).length;
   const readingTimeMin = Math.max(1, Math.round(words / 220));
-  const date = String(data.date ?? "");
-  const frontmatterUpdated = data.updated ? String(data.updated) : "";
+  const date = toIsoDate(data.date);
+  const frontmatterUpdated = toIsoDate(data.updated);
   const updated =
     frontmatterUpdated ||
     fs.statSync(filePath).mtime.toISOString().slice(0, 10);
