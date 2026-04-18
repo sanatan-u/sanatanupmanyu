@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 import { site } from "@/content/site";
 
 export const runtime = "nodejs";
@@ -31,12 +32,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid email" }, { status: 400 });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const toAddress = process.env.CONTACT_TO ?? site.emails.personal;
-  const fromAddress = process.env.CONTACT_FROM ?? "contact@sanatanupmanyu.com";
+  const host = process.env.SMTP_HOST;
+  const port = Number(process.env.SMTP_PORT ?? 587);
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  const to = process.env.CONTACT_TO ?? site.emails.personal;
+  const from = process.env.CONTACT_FROM ?? user;
 
-  if (!apiKey) {
-    console.warn("[contact] RESEND_API_KEY not set — logging submission only", {
+  if (!host || !user || !pass) {
+    console.warn("[contact] SMTP not configured — logging submission only", {
       name,
       email,
       organization: body.organization,
@@ -44,16 +48,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, delivered: false });
   }
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: `Website Contact <${fromAddress}>`,
-      to: [toAddress],
-      reply_to: email,
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: { user, pass },
+  });
+
+  try {
+    await transporter.sendMail({
+      from: `"${name} via website" <${from}>`,
+      to,
+      replyTo: `"${name}" <${email}>`,
       subject: `New message from ${name}`,
       text: [
         `Name: ${name}`,
@@ -62,12 +68,9 @@ export async function POST(req: Request) {
         "",
         message,
       ].join("\n"),
-    }),
-  });
-
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    console.error("[contact] Resend error", res.status, text);
+    });
+  } catch (err) {
+    console.error("[contact] SMTP error", err);
     return NextResponse.json({ error: "Delivery failed" }, { status: 502 });
   }
 

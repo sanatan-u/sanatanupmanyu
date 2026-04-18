@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter_Tight } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { PersonJsonLd, WebSiteJsonLd } from "@/components/json-ld";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -27,11 +29,29 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description: site.tagline,
+  applicationName: site.name,
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.name,
+  keywords: [
+    "AI for biomedicine",
+    "drug discovery AI",
+    "pharma AI",
+    "biotech AI",
+    "machine learning healthcare",
+    "Sanatan Upmanyu",
+    "Apxora",
+    "AlphaMeld",
+    "QuriousRI",
+    "Basel",
+  ],
+  alternates: { canonical: "/" },
   openGraph: {
     title: `${site.name} — ${site.headline}`,
     description: site.tagline,
     url: site.url,
     siteName: site.name,
+    locale: "en_US",
     type: "website",
   },
   twitter: {
@@ -39,7 +59,14 @@ export const metadata: Metadata = {
     title: `${site.name} — ${site.headline}`,
     description: site.tagline,
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
 };
+
+const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
 export default function RootLayout({
   children,
@@ -52,6 +79,8 @@ export default function RootLayout({
       className={`${fraunces.variable} ${interTight.variable}`}
     >
       <body className="min-h-screen flex flex-col">
+        <PersonJsonLd />
+        <WebSiteJsonLd />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[110] focus:bg-ink focus:text-white focus:px-3 focus:py-2"
@@ -64,6 +93,7 @@ export default function RootLayout({
         </main>
         <SiteFooter />
       </body>
+      {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
     </html>
   );
 }

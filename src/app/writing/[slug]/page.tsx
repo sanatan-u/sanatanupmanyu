@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPostMeta, getPost } from "@/lib/blog";
+import { BlogPostingJsonLd } from "@/components/json-ld";
+import { site } from "@/content/site";
 
 type Params = { slug: string };
 
@@ -19,10 +21,28 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
+  const url = `/writing/${post.slug}`;
   return {
     title: post.title,
     description: post.excerpt,
-    openGraph: { title: post.title, description: post.excerpt, type: "article" },
+    keywords: post.tags,
+    authors: [{ name: site.name, url: site.url }],
+    alternates: { canonical: url },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: "article",
+      url,
+      publishedTime: post.date,
+      modifiedTime: post.updated,
+      authors: [site.url],
+      tags: post.tags,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+    },
   };
 }
 
@@ -47,6 +67,14 @@ export default async function WritingPost({
 
   return (
     <article className="mx-auto max-w-[720px] px-6 md:px-12 pt-12 pb-8">
+      <BlogPostingJsonLd
+        title={post.title}
+        description={post.excerpt}
+        slug={post.slug}
+        datePublished={post.date}
+        dateModified={post.updated}
+        tags={post.tags}
+      />
       <Link
         href="/writing"
         className="inline-flex items-center gap-1.5 text-sm text-ink-3 hover:text-accent mb-10"

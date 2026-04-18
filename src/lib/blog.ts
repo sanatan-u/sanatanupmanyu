@@ -8,6 +8,7 @@ export type BlogPost = {
   slug: string;
   title: string;
   date: string;
+  updated: string;
   excerpt: string;
   tags: string[];
   readingTimeMin: number;
@@ -17,15 +18,22 @@ export type BlogPost = {
 export type BlogMeta = Omit<BlogPost, "body">;
 
 function readPost(file: string): BlogPost {
-  const raw = fs.readFileSync(path.join(BLOG_DIR, file), "utf8");
+  const filePath = path.join(BLOG_DIR, file);
+  const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
   const slug = file.replace(/\.mdx$/, "");
   const words = content.trim().split(/\s+/).filter(Boolean).length;
   const readingTimeMin = Math.max(1, Math.round(words / 220));
+  const date = String(data.date ?? "");
+  const frontmatterUpdated = data.updated ? String(data.updated) : "";
+  const updated =
+    frontmatterUpdated ||
+    fs.statSync(filePath).mtime.toISOString().slice(0, 10);
   return {
     slug,
     title: String(data.title ?? slug),
-    date: String(data.date ?? ""),
+    date,
+    updated,
     excerpt: String(data.excerpt ?? ""),
     tags: Array.isArray(data.tags) ? (data.tags as string[]) : [],
     readingTimeMin,

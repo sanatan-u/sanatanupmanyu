@@ -13,7 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
   const posts: MetadataRoute.Sitemap = getAllPostMeta().map((p) => ({
     url: `${site.url}/writing/${p.slug}`,
-    lastModified: new Date(p.date || now),
+    lastModified: new Date(p.updated || p.date || now),
     changeFrequency: "yearly",
     priority: 0.6,
   }));
