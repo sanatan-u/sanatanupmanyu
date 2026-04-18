@@ -2,7 +2,7 @@ export const site = {
   name: "Sanatan Upmanyu",
   shortName: "Sanatan",
   url: "https://sanatanupmanyu.com",
-  headline: "AI for biomedicine — from hypothesis to patient.",
+  headline: "AI for biomedicine — hypothesis to patient",
   tagline:
     "I build AI systems that help pharma and biotech teams move drugs from hypothesis to patient — faster and with better evidence.",
   currently:
