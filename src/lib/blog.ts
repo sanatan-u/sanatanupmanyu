@@ -13,6 +13,8 @@ export type BlogPost = {
   tags: string[];
   readingTimeMin: number;
   body: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 export type BlogMeta = Omit<BlogPost, "body">;
@@ -35,15 +37,25 @@ function readPost(file: string): BlogPost {
   const updated =
     frontmatterUpdated ||
     fs.statSync(filePath).mtime.toISOString().slice(0, 10);
+  if (!data.title) {
+    throw new Error(`Blog post "${slug}" is missing frontmatter field "title"`);
+  }
+  if (!data.date) {
+    throw new Error(`Blog post "${slug}" is missing frontmatter field "date"`);
+  }
+  const image = data.image ? String(data.image) : undefined;
+  const imageAlt = data.imageAlt ? String(data.imageAlt) : undefined;
   return {
     slug,
-    title: String(data.title ?? slug),
+    title: String(data.title),
     date,
     updated,
     excerpt: String(data.excerpt ?? ""),
     tags: Array.isArray(data.tags) ? (data.tags as string[]) : [],
     readingTimeMin,
     body: content,
+    image,
+    imageAlt,
   };
 }
 

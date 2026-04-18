@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Two overlapping patient silhouettes diverging">
+  <defs>
+    <linearGradient id="bg2" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7f6f3"/>
+      <stop offset="1" stop-color="#eee6df"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg2)"/>
+  <g fill="none" stroke-width="2">
+    <path d="M 380 460 C 380 360 340 300 400 230 C 440 180 520 180 540 230 C 560 280 540 350 540 460" stroke="#2f5d5a" opacity="0.85"/>
+    <path d="M 620 460 C 620 360 660 300 660 230 C 660 180 740 170 780 230 C 820 290 800 360 800 460" stroke="#a13d1e" opacity="0.85" stroke-dasharray="6 6"/>
+  </g>
+  <g stroke="#3a3a3a" stroke-width="1" opacity="0.35">
+    <line x1="200" y1="500" x2="1000" y2="500"/>
+    <line x1="200" y1="150" x2="1000" y2="150"/>
+  </g>
+  <g fill="#2f5d5a">
+    <circle cx="460" cy="210" r="34"/>
+  </g>
+  <g fill="#a13d1e">
+    <circle cx="720" cy="210" r="34"/>
+  </g>
+  <text x="80" y="580" font-family="Georgia, serif" font-style="italic" font-size="28" fill="#1c3b39">real patient · digital twin</text>
+</svg>

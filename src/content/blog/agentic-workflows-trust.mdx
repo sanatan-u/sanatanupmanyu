@@ -1,0 +1,28 @@
+---
+title: Designing agentic workflows clinicians will actually trust
+date: 2026-04-12
+excerpt: Agents that act on behalf of clinicians need a different design budget than agents that suggest. Three principles I keep coming back to.
+tags: [ai, agents, clinical]
+image: /blog/agentic-workflows-trust.svg
+imageAlt: Diagram of a linear workflow with plan, act, check, and ship stages, and human checkpoints in orange
+---
+
+An agent that suggests is a search box with nicer prose. An agent that acts — queries a registry, drafts a protocol amendment, schedules a follow-up — operates under a different contract with the user. The design budget changes accordingly.
+
+Three principles I keep coming back to:
+
+## 1. Checkpoints over autonomy
+
+The temptation is to build one long autonomous chain and hope it doesn't drift. What actually gets trusted is the opposite: short segments of automation between human checkpoints, where the checkpoint is designed to be cheap for the human — small diffs, clear before/after, one-click revert. The goal is not to minimize human involvement; it's to make each human touch worth seconds instead of minutes.
+
+## 2. Provenance down to the claim
+
+A clinician will not accept a recommendation they can't trace. That means every material claim an agent makes needs a pointer back to the source — the specific trial record, the specific guideline paragraph, the specific lab value. Not "based on recent literature." Not a bibliography dump. A claim-to-source map the user can hover.
+
+This is expensive to build. It's also the difference between a tool clinicians pilot and a tool they ignore.
+
+## 3. Know when to stop
+
+Most agent failures I see in practice aren't wrong answers. They're confident answers when the agent should have said "I can't do this safely." Designing the "stop and escalate" path is the part most teams skip, because it feels like admitting the agent is incomplete. It isn't. Every system a clinician trusts has a clear handoff. The agent's job is to know the shape of its own competence, not to pretend to be complete.
+
+None of this is novel. What is novel is the pressure to skip it, because the demos look better without checkpoints and without stops. The systems that survive contact with actual practice have all three.

@@ -1,0 +1,30 @@
+---
+title: Four failure modes of knowledge graphs over messy literature
+date: 2026-03-10
+excerpt: Building knowledge graphs over biomedical literature looks clean on a slide. The failure modes only show up once a domain expert starts asking questions.
+tags: [ai, knowledge-graphs, biomedicine]
+image: /blog/knowledge-graphs-failure-modes.svg
+imageAlt: Abstract network of nodes and edges in muted green, with two highlighted hubs in orange
+---
+
+Knowledge graphs over biomedical literature look clean on a slide. A few million papers, a few entity types, a few relation types, some pretty force-directed visualization. Ship it.
+
+In practice, four failure modes bite every time. None of them are model problems — they are ontology, evidence, and workflow problems.
+
+## 1. Synonymy, but also non-synonymy
+
+The first instinct is to collapse synonyms. *Gene X* and *Protein Y* and *Receptor Z* all get merged into the same node. Then a biologist asks a question where the protein matters but the gene doesn't, and your graph has already eaten the distinction. Every merge is a lossy compression step; every merge should be auditable and reversible at query time.
+
+## 2. Evidence without strength
+
+A relation extracted from one sentence of one preprint gets the same edge as a relation supported by twenty review articles and a phase-3 trial. Unless edges carry a calibrated confidence — ideally tied to source type, recency, and contradiction — downstream reasoning will treat speculation as fact. This is where most "hallucination" in RAG-over-graphs actually comes from: the graph itself was never hedged.
+
+## 3. Temporal drift
+
+Biomedical consensus moves. A gene-disease association that was plausible in 2012 may have been refuted by 2020. If your graph is a timeless blob, you will surface retracted claims with confidence. Every edge needs a "as of" and ideally a "superseded by" pointer.
+
+## 4. The question the graph can't answer
+
+The failure mode that hurts most is the one where a domain expert asks a question the graph *structurally* can't answer — because the relation type was never modeled, or the entity type never extracted. You discover this after you've invested in infrastructure. The fix is to start from the questions, not the papers: pick ten hard questions an expert would ask, and design the schema backwards from those.
+
+None of this is a reason not to build graphs. But the graph is the floor, not the ceiling. What you build on top — ranking, hedging, provenance, and the workflows that let experts push back — is where the actual value lives.

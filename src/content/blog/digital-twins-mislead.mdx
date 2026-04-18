@@ -1,0 +1,28 @@
+---
+title: Three places patient digital twins mislead
+date: 2026-03-28
+excerpt: Digital twins are useful. They are also confident in exactly the situations where a clinician would hedge. Here are three failure modes I keep seeing.
+tags: [ai, digital-twins, clinical]
+image: /blog/digital-twins-mislead.svg
+imageAlt: Two patient silhouettes overlapping, one green and solid, one orange and dashed
+---
+
+Patient digital twins are genuinely useful. They compress a messy medical history into something a model can reason over, they let you simulate counterfactuals, and they occasionally surface subgroups a trial was never powered to find.
+
+They also fail — and they tend to fail with a straight face. Three patterns I keep running into:
+
+## 1. The twin looks nothing like the patient it's modeling
+
+A twin built from registry data, claims, and a handful of lab values can look plausible on a dashboard and bear no resemblance to the person sitting in front of a clinician. Medication adherence is missing. Social determinants are missing. The last six months of deterioration are missing because the data lags. Any recommendation derived from this twin is a recommendation for a fictional patient who shares a zip code with the real one.
+
+The fix isn't more features. It's being honest in the UI about what the twin *is not* modeling, so the clinician can weight it accordingly.
+
+## 2. Distributional twins trained on who made it into the dataset
+
+If your twin population is built from patients who reached a tertiary care center and consented to research, your model has learned the physiology of a specific survivorship-biased cohort. Generalizing to primary care or under-represented populations is not a validation question — it's a first-principles problem that more validation data won't fix.
+
+## 3. Counterfactuals that smuggle in the treatment effect you were trying to measure
+
+The most seductive failure. You build a twin, you simulate "what if we had given drug B instead of drug A," and the twin confidently predicts an outcome. But the features that drive the prediction are themselves correlated with whoever historically received drug A vs B — prescribers, disease severity, insurance — and the twin has silently encoded the old treatment allocation policy. You end up with a counterfactual that is really a restatement of clinical practice in 2019.
+
+Digital twins that acknowledge their own boundaries — in the data they trained on, in the populations they represent, in the questions they can answer — are the ones clinicians actually use. Everything else gets politely ignored, which is the best-case outcome.

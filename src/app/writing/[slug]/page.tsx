@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPostMeta, getPost } from "@/lib/blog";
 import { BlogPostingJsonLd } from "@/components/json-ld";
@@ -22,6 +23,7 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return {};
   const url = `/writing/${post.slug}`;
+  const images = post.image ? [{ url: post.image, alt: post.imageAlt ?? post.title }] : undefined;
   return {
     title: post.title,
     description: post.excerpt,
@@ -37,11 +39,13 @@ export async function generateMetadata({
       modifiedTime: post.updated,
       authors: [site.url],
       tags: post.tags,
+      images,
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
+      images: post.image ? [post.image] : undefined,
     },
   };
 }
@@ -84,6 +88,18 @@ export default async function WritingPost({
       <h1 className="display text-[clamp(2rem,4.5vw,3.25rem)] mb-4">
         {post.title}
       </h1>
+      {post.image ? (
+        <div className="relative mt-6 mb-10 aspect-[1200/630] overflow-hidden rounded-lg border border-rule bg-bg-soft">
+          <Image
+            src={post.image}
+            alt={post.imageAlt ?? ""}
+            fill
+            sizes="(max-width: 720px) 100vw, 720px"
+            priority
+            className="object-cover"
+          />
+        </div>
+      ) : null}
       <div className="text-sm text-ink-3 mb-10 flex flex-wrap gap-x-3 gap-y-1">
         <span>{formatDate(post.date)}</span>
         <span>·</span>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Agentic workflow diagram with human-in-the-loop checkpoints">
+  <defs>
+    <linearGradient id="bg3" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#f7f6f3"/>
+      <stop offset="1" stop-color="#e6e9ec"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg3)"/>
+  <g stroke="#2f5d5a" stroke-width="1.75" fill="none">
+    <path d="M 140 315 L 340 315"/>
+    <path d="M 440 315 L 640 315"/>
+    <path d="M 740 315 L 940 315"/>
+    <path d="M 940 315 L 1060 315"/>
+  </g>
+  <g fill="#ffffff" stroke="#2f5d5a" stroke-width="2">
+    <rect x="80" y="265" width="120" height="100" rx="8"/>
+    <rect x="340" y="265" width="120" height="100" rx="8"/>
+    <rect x="640" y="265" width="120" height="100" rx="8"/>
+    <circle cx="1020" cy="315" r="50"/>
+  </g>
+  <g fill="#a13d1e">
+    <circle cx="400" cy="265" r="10"/>
+    <circle cx="700" cy="265" r="10"/>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#1c3b39" text-anchor="middle">
+    <text x="140" y="322">plan</text>
+    <text x="400" y="322">act</text>
+    <text x="700" y="322">check</text>
+    <text x="1020" y="322">ship</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#a13d1e" text-anchor="middle">
+    <text x="400" y="250">human</text>
+    <text x="700" y="250">human</text>
+  </g>
+  <text x="80" y="570" font-family="Georgia, serif" font-style="italic" font-size="26" fill="#1c3b39">agents + clinicians, in the loop</text>
+</svg>

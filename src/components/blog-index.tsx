@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Search, X } from "lucide-react";
 import type { BlogMeta } from "@/lib/blog";
@@ -120,28 +121,46 @@ export function BlogIndex({ posts }: { posts: BlogMeta[] }) {
             <ul className="space-y-8">
               {byYear[year].map((p) => (
                 <li key={p.slug} className="border-t border-rule pt-5">
-                  <Link href={`/writing/${p.slug}`} className="group block">
-                    <h3 className="font-medium text-lg group-hover:text-accent transition-colors">
-                      {p.title}
-                    </h3>
-                    <div className="text-sm text-ink-3 mt-1 flex flex-wrap gap-x-3 gap-y-1">
-                      <span>{formatDate(p.date)}</span>
-                      <span>·</span>
-                      <span>{p.readingTimeMin} min read</span>
-                      {p.tags.length > 0 ? (
-                        <>
-                          <span>·</span>
-                          <span className="text-ink-3">
-                            {p.tags.join(", ")}
-                          </span>
-                        </>
+                  <Link
+                    href={`/writing/${p.slug}`}
+                    className="group grid gap-4 md:grid-cols-[200px_1fr]"
+                  >
+                    {p.image ? (
+                      <div className="relative aspect-[1200/630] overflow-hidden rounded-md border border-rule bg-bg-soft md:aspect-[200/120]">
+                        <Image
+                          src={p.image}
+                          alt={p.imageAlt ?? ""}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 200px"
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="hidden md:block" aria-hidden />
+                    )}
+                    <div>
+                      <h3 className="font-medium text-lg group-hover:text-accent transition-colors">
+                        {p.title}
+                      </h3>
+                      <div className="text-sm text-ink-3 mt-1 flex flex-wrap gap-x-3 gap-y-1">
+                        <span>{formatDate(p.date)}</span>
+                        <span>·</span>
+                        <span>{p.readingTimeMin} min read</span>
+                        {p.tags.length > 0 ? (
+                          <>
+                            <span>·</span>
+                            <span className="text-ink-3">
+                              {p.tags.join(", ")}
+                            </span>
+                          </>
+                        ) : null}
+                      </div>
+                      {p.excerpt ? (
+                        <p className="text-[15px] text-ink-2 leading-relaxed mt-2">
+                          {p.excerpt}
+                        </p>
                       ) : null}
                     </div>
-                    {p.excerpt ? (
-                      <p className="text-[15px] text-ink-2 leading-relaxed mt-2">
-                        {p.excerpt}
-                      </p>
-                    ) : null}
                   </Link>
                 </li>
               ))}
