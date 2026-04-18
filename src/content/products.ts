@@ -23,9 +23,9 @@ export const products: Product[] = [
     stage: "Live",
     url: "https://app.quriousri.com",
     builtFor: "Artixio Pvt Ltd",
-    impact: "Real-time global regulatory signal with expert-written risk summaries",
+    impact: "Drug & biologic regulatory intelligence spanning 12+ agencies — FDA, EMA, PMDA, NMPA, Health Canada, MHRA, Swissmedic, and more",
     description:
-      "AI-powered regulatory tracking and risk analysis tool — real-time updates, expert-written summaries, and risk impact analysis in one platform.",
+      "Secure, role-based platform for pharma/biotech regulatory affairs teams to search, analyze, compare, and manage global drug and biologic approvals. Covers pharmaceuticals, biologics, biosimilars, and generics across 12+ regulators. Combines role-based dashboards, pathway and classification guides, dossier preparation support, a centralized guidelines library, Q&A with expert responses, and AI-assisted document analysis (GPT-4, Claude).",
   },
   {
     name: "Secondary Research Automation",
