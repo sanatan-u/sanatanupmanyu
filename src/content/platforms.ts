@@ -9,7 +9,7 @@ export type Platform = {
 export const platforms: Platform[] = [
   {
     name: "AlphaMeld® Operating System",
-    impact: "~60% faster hypothesis-to-insight cycle time",
+    impact: "Compresses hypothesis-to-insight cycles from months to weeks, varying by disease area",
     url: "https://alphameld.com",
     description:
       "End-to-end AI stack combining a custom UI layer (Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis, AlphaClinMeld) with 12 ML models — including NER, RE, evidence scoring, digital-twin CT predictors and landscape assessment — running on PostgreSQL + Neo4j and self-hosted GPT/Claude custom APIs.",
@@ -35,7 +35,7 @@ export const platforms: Platform[] = [
   },
   {
     name: "AlphaCompass Portfolio Intelligence",
-    impact: "~30% faster portfolio-review turnaround",
+    impact: "Standardized indication-prioritization across 200 active programs",
     description:
       "Clinical-trial–centric SaaS module on AlphaMeld® graph analytics; benchmarks pipeline assets and quantifies comparative risk. Adopted by two BD teams within six months, standardizing evidence-based indication-prioritization across 200 active programs.",
   },

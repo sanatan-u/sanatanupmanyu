@@ -32,7 +32,7 @@ export const products: Product[] = [
   },
   {
     name: "Regulatory Intelligence for ArtiXio",
-    impact: "~40% reduced preparation time for first-in-class device filings",
+    impact: "Auto-drafts submission dossiers for first-in-class device filings; opened a new non-pharma revenue channel",
     description:
       "AI assistant that mines global regulatory updates and auto-drafts submission dossiers; established a new non-pharma revenue channel.",
   },
