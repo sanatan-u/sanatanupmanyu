@@ -14,9 +14,9 @@ export const products: Product[] = [
     name: "Pipeline Alpha",
     stage: "Live",
     url: "https://pipelinealpha.com",
-    impact: "Clinical-trial outcome prediction feeding public-market investment signals",
+    impact: "Tracks ~10,000 clinical-trial drugs and AI-predicts the catalysts that move small-cap biotech stocks",
     description:
-      "Stock value analysis and clinical trial outcome prediction platform — data-driven investment and pharma pipeline intelligence.",
+      "Investment research platform for small/mid-cap NASDAQ biotechs where a single trial readout can move the stock 50%+. Syncs clinical-trial data (ClinicalTrials.gov, Clinical Navigator) with live stock and financials (Alpha Vantage), then runs LLM catalyst discovery and streaming AI predictions for upcoming readouts, PDUFA dates, partnerships, and conference events. Includes bulk catalyst briefings and an interactive research chat.",
   },
   {
     name: "QuriousRI",
