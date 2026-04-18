@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --bg: #ffffff;
   --bg-soft: #f7f6f3;
@@ -10,6 +12,20 @@
   --accent: #2f5d5a;
   --accent-ink: #1c3b39;
   --signal: #a13d1e;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0e1110;
+  --bg-soft: #181c1b;
+  --ink: #f2efe9;
+  --ink-2: #c9c6bf;
+  --ink-3: #8a8782;
+  --rule: #2a2d2c;
+  --accent: #7fb3ae;
+  --accent-ink: #a8cfcb;
+  --signal: #e28460;
+  color-scheme: dark;
 }
 
 @theme inline {

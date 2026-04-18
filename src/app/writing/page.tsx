@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "Writing",
   description:
     "Notes on AI, drug discovery, and building platforms in biomedicine.",
+  alternates: {
+    canonical: "/writing",
+    types: { "application/rss+xml": "/feed.xml" },
+  },
 };
 
 export default function WritingPage() {

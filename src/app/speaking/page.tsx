@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { MapPin } from "lucide-react";
 import { talks } from "@/content/speaking";
 
-export const metadata: Metadata = { title: "Speaking" };
+export const metadata: Metadata = {
+  title: "Speaking",
+  alternates: { canonical: "/speaking" },
+};
 
 function yearOf(date: string): string {
   const m = date.match(/\b(20\d{2})\b/);

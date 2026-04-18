@@ -24,12 +24,13 @@ export function SiteFooter() {
             ))}
           </ul>
         </div>
-        <nav className="flex flex-wrap gap-4 text-sm text-ink-2">
+        <nav aria-label="Footer" className="flex flex-wrap gap-4 text-sm text-ink-2">
           {site.nav.map((n) => (
             <Link key={n.href} href={n.href} className="hover:text-accent">
               {n.label}
             </Link>
           ))}
+          <a href="/feed.xml" className="hover:text-accent">rss</a>
         </nav>
       </div>
       <div className="mx-auto max-w-[1040px] px-6 md:px-12 pb-10 text-sm text-ink-3 flex flex-wrap justify-between gap-4">

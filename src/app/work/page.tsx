@@ -6,7 +6,10 @@ import type { Stage } from "@/content/platforms";
 import { products } from "@/content/products";
 import { servicePillars } from "@/content/services";
 
-export const metadata: Metadata = { title: "Work" };
+export const metadata: Metadata = {
+  title: "Work",
+  alternates: { canonical: "/work" },
+};
 
 type WorkItem = {
   name: string;

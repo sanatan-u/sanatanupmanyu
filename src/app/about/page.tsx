@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { experience, education } from "@/content/experience";
 
-export const metadata: Metadata = { title: "About" };
+export const metadata: Metadata = {
+  title: "About",
+  alternates: { canonical: "/about" },
+};
 
 export default function AboutPage() {
   return (

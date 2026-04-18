@@ -77,8 +77,16 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${fraunces.variable} ${interTight.variable}`}
+      suppressHydrationWarning
     >
-      <body className="min-h-screen flex flex-col">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem('theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='dark'||(!s&&m)){document.documentElement.classList.add('dark');}}catch(e){}})();`,
+          }}
+        />
+      </head>
+      <body className="min-h-screen flex flex-col bg-bg text-ink">
         <PersonJsonLd />
         <WebSiteJsonLd />
         <a

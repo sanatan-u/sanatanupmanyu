@@ -4,7 +4,10 @@ import { LinkedinIcon } from "@/components/brand-icons";
 import { ContactForm } from "@/components/contact-form";
 import { site } from "@/content/site";
 
-export const metadata: Metadata = { title: "Contact" };
+export const metadata: Metadata = {
+  title: "Contact",
+  alternates: { canonical: "/contact" },
+};
 
 export default function ContactPage() {
   return (
