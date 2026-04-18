@@ -79,3 +79,80 @@ button:focus-visible {
 .prose p:last-child {
   margin-bottom: 0;
 }
+
+.prose-post {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+.prose-post p {
+  margin: 0 0 1.3em;
+}
+.prose-post h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  font-size: 1.75rem;
+  color: var(--ink);
+  margin: 2em 0 0.6em;
+  line-height: 1.2;
+}
+.prose-post h3 {
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin: 1.8em 0 0.5em;
+}
+.prose-post a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.prose-post a:hover {
+  color: var(--accent-ink);
+}
+.prose-post ul,
+.prose-post ol {
+  padding-left: 1.25em;
+  margin: 0 0 1.3em;
+}
+.prose-post li {
+  margin-bottom: 0.4em;
+}
+.prose-post code {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--bg-soft);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+.prose-post pre {
+  background: var(--bg-soft);
+  padding: 1em 1.25em;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.9em;
+  line-height: 1.55;
+  margin: 0 0 1.3em;
+}
+.prose-post pre code {
+  background: transparent;
+  padding: 0;
+}
+.prose-post blockquote {
+  border-left: 2px solid var(--rule);
+  padding-left: 1em;
+  color: var(--ink-3);
+  font-style: italic;
+  margin: 1.3em 0;
+}
+.prose-post img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+.prose-post hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 2.5em 0;
+}
