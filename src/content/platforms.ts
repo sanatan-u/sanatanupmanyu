@@ -20,9 +20,10 @@ export const platforms: Platform[] = [
   {
     name: "Discovery Navigator",
     stage: "Early access",
+    impact: "Hypothesis landscaping compressed from weeks to hours, with traceable evidence at every step",
     url: "https://discovery.alphameld.com",
     description:
-      "Extension to AlphaMeld that goes beyond standard knowledge graphs — uses KG-driven hypothesis generation and project-based safety assessments in a detailed, complex manner.",
+      "Guided drug-discovery hypothesis-generation platform built on the AlphaMeld Knowledge Graph. Supports four starting points — disease-first, target-first, indication expansion, and combination therapy — through a step-by-step workflow (project → config → exploration → agent scoring → ranking → hypotheses). A project-aware Discovery Copilot accompanies every step. Multi-tenant SaaS with SSO, RBAC, and audit logging.",
   },
   {
     name: "ChatAlphaMeld Benchmark Suite",
@@ -49,6 +50,7 @@ export const platforms: Platform[] = [
   {
     name: "Clinical-Trial Digital Twins",
     stage: "Research",
+    impact: "In-silico placebo arms demonstrated for Phase II Type 2 Diabetes trials",
     description:
       "Conditional variational auto-encoder (CVAE) pipeline that synthesizes patient-level digital twins for Phase II Type 2 Diabetes trials. Generated matched placebo trajectories and predicted drug-response curves — proving feasibility of in-silico arms for protocol optimization and hypothesis testing.",
   },
