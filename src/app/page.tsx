@@ -45,13 +45,18 @@ export default function HomePage() {
             all work <ArrowRight size={14} strokeWidth={1.75} />
           </Link>
         </div>
-        <ul className="grid md:grid-cols-3 gap-10">
+        <ul
+          className="grid md:grid-cols-3 gap-x-10 gap-y-3"
+          style={{ gridTemplateRows: "auto auto 1fr" }}
+        >
           {featured.map((p) => (
-            <li key={p.name}>
-              <h3 className="font-medium text-lg mb-2">{p.name}</h3>
-              {p.impact ? (
-                <div className="text-sm text-signal mb-3">{p.impact}</div>
-              ) : null}
+            <li
+              key={p.name}
+              className="md:grid md:row-span-3"
+              style={{ gridTemplateRows: "subgrid" }}
+            >
+              <h3 className="font-medium text-lg">{p.name}</h3>
+              <div className="text-sm text-signal">{p.impact ?? ""}</div>
               <p className="text-[15px] text-ink-2 leading-relaxed">
                 {p.description}
               </p>
