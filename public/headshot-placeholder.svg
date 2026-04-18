@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <circle cx="80" cy="80" r="80" fill="#F7F6F3"/>
+  <circle cx="80" cy="68" r="26" fill="#E5E5E5"/>
+  <path d="M30 150c0-27.6 22.4-50 50-50s50 22.4 50 50" fill="#E5E5E5"/>
+  <text x="80" y="155" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6B6B6B">replace with headshot</text>
+</svg>
