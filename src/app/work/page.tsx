@@ -42,7 +42,7 @@ export default function WorkPage() {
   const items: WorkItem[] = [...platforms, ...products];
 
   return (
-    <div className="mx-auto max-w-[960px] px-6 md:px-12 pt-12 pb-8">
+    <div className="mx-auto max-w-[1040px] px-6 md:px-12 pt-12 pb-8">
       <h1 className="display text-[clamp(2rem,4.5vw,3.5rem)] mb-6">Work.</h1>
       <p className="text-[17px] leading-[1.65] text-ink-2 max-w-[62ch] mb-12">
         Production AI systems and commercial products I&rsquo;ve built or led

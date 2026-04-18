@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-[960px] px-6 md:px-12 pt-12 pb-8">
+    <div className="mx-auto max-w-[1040px] px-6 md:px-12 pt-12 pb-8">
       <section className="grid md:grid-cols-[1fr_280px] gap-10 md:gap-14 items-start">
         <div>
           <h1 className="display text-[clamp(2rem,4.5vw,3.5rem)] mb-8">
