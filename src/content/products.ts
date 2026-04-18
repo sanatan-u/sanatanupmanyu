@@ -1,5 +1,8 @@
+import type { Stage } from "./platforms";
+
 export type Product = {
   name: string;
+  stage?: Stage;
   url?: string;
   builtFor?: string;
   impact?: string;
@@ -9,12 +12,14 @@ export type Product = {
 export const products: Product[] = [
   {
     name: "Pipeline Alpha",
+    stage: "Live",
     url: "https://pipelinealpha.com",
     description:
       "Stock value analysis and clinical trial outcome prediction platform — data-driven investment and pharma pipeline intelligence.",
   },
   {
     name: "QuriousRI",
+    stage: "Live",
     url: "https://app.quriousri.com",
     builtFor: "Artixio Pvt Ltd",
     description:
@@ -22,16 +27,19 @@ export const products: Product[] = [
   },
   {
     name: "Secondary Research Automation",
+    stage: "Engagement",
     description:
       "Fully agent-orchestrated, multi-step LLM process. Input parameters, run a series of LLM processes to extract information from the web, compile, and store in a dashboard or export to Excel.",
   },
   {
     name: "Booking System Platform",
+    stage: "Engagement",
     description:
       "End-to-end booking and scheduling platform — custom-built to client specification with real-time availability, notifications, and management dashboard.",
   },
   {
     name: "Regulatory Intelligence for ArtiXio",
+    stage: "Live",
     impact: "Auto-drafts submission dossiers for first-in-class device filings; opened a new non-pharma revenue channel",
     description:
       "AI assistant that mines global regulatory updates and auto-drafts submission dossiers; established a new non-pharma revenue channel.",

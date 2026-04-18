@@ -1,6 +1,8 @@
+export type Stage = "Live" | "Early access" | "MVP" | "Research" | "Engagement";
+
 export type Platform = {
   name: string;
-  status?: "In development";
+  stage?: Stage;
   impact?: string;
   description: string;
   url?: string;
@@ -9,6 +11,7 @@ export type Platform = {
 export const platforms: Platform[] = [
   {
     name: "AlphaMeld® Operating System",
+    stage: "Live",
     impact: "Compresses hypothesis-to-insight cycles from months to weeks, varying by disease area",
     url: "https://alphameld.com",
     description:
@@ -16,12 +19,14 @@ export const platforms: Platform[] = [
   },
   {
     name: "Discovery Navigator",
-    status: "In development",
+    stage: "Early access",
+    url: "https://discovery.alphameld.com",
     description:
       "Extension to AlphaMeld that goes beyond standard knowledge graphs — uses KG-driven hypothesis generation and project-based safety assessments in a detailed, complex manner.",
   },
   {
     name: "ChatAlphaMeld Benchmark Suite",
+    stage: "Research",
     impact: "97.34% accuracy on 188-question ACM benchmark",
     url: "https://www.inveniai.com/press-detail.php?id=22",
     description:
@@ -29,18 +34,21 @@ export const platforms: Platform[] = [
   },
   {
     name: "SequenceFlow® ResearchNexus & Clinical Navigator",
+    stage: "Live",
     impact: "6+ integrated modules",
     description:
       "End-to-end AI stack combining Knowledge Graph, Clinical Trial Prediction, Literature Analysis, Patient Digital Twin, TPP, TOP with 12 ML models running on PostgreSQL + Neo4j and self-hosted GPT/Claude custom APIs.",
   },
   {
     name: "AlphaCompass Portfolio Intelligence",
+    stage: "Live",
     impact: "Standardized indication-prioritization across 200 active programs",
     description:
       "Clinical-trial–centric SaaS module on AlphaMeld® graph analytics; benchmarks pipeline assets and quantifies comparative risk. Adopted by two BD teams within six months, standardizing evidence-based indication-prioritization across 200 active programs.",
   },
   {
     name: "Clinical-Trial Digital Twins",
+    stage: "Research",
     description:
       "Conditional variational auto-encoder (CVAE) pipeline that synthesizes patient-level digital twins for Phase II Type 2 Diabetes trials. Generated matched placebo trajectories and predicted drug-response curves — proving feasibility of in-silico arms for protocol optimization and hypothesis testing.",
   },
