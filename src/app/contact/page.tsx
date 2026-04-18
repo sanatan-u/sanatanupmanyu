@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { LinkedinIcon } from "@/components/brand-icons";
 import { ContactForm } from "@/components/contact-form";
 import { site } from "@/content/site";
@@ -31,13 +31,6 @@ export default function ContactPage() {
               <a href={`mailto:${site.emails.work}`} className="block hover:text-accent text-ink-3 text-sm">
                 {site.emails.work}
               </a>
-            </div>
-          </div>
-          <div className="flex items-start gap-3">
-            <Phone size={18} strokeWidth={1.5} className="mt-1 text-ink-3 shrink-0" aria-hidden />
-            <div>
-              <div>{site.phones.ch} <span className="text-ink-3 text-sm">CH</span></div>
-              <div>{site.phones.us} <span className="text-ink-3 text-sm">US</span></div>
             </div>
           </div>
           <div className="flex items-start gap-3">
