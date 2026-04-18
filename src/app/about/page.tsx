@@ -45,25 +45,43 @@ export default function AboutPage() {
         Career
       </h2>
       <ol className="space-y-10">
-        {experience.map((r, i) => (
-          <li
-            key={`${r.company}-${i}`}
-            className="grid md:grid-cols-[200px_1fr] gap-3 md:gap-10"
-          >
-            <div className="text-sm text-ink-3 pt-1">{r.period}</div>
-            <div>
-              <div className="font-medium text-ink">{r.company}</div>
-              <div className="text-sm text-ink-3 mb-3">
-                {r.title} · {r.location}
+        {experience.map((r, i) => {
+          const current = r.period.includes("Present");
+          return (
+            <li
+              key={`${r.company}-${i}`}
+              className="grid md:grid-cols-[200px_1fr] gap-3 md:gap-10"
+            >
+              <div className="text-sm text-ink-3 pt-1 flex items-center gap-2">
+                {current ? (
+                  <span
+                    aria-hidden
+                    className="inline-block w-1.5 h-1.5 rounded-full bg-signal"
+                  />
+                ) : null}
+                <span>{r.period}</span>
               </div>
-              <ul className="space-y-1.5 text-[15px] text-ink-2 leading-relaxed">
-                {r.bullets.map((b, j) => (
-                  <li key={j}>— {b}</li>
-                ))}
-              </ul>
-            </div>
-          </li>
-        ))}
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-medium text-ink">{r.company}</span>
+                  {current ? (
+                    <span className="text-[11px] uppercase tracking-[0.12em] text-signal border border-signal/40 rounded-full px-2 py-[1px]">
+                      now
+                    </span>
+                  ) : null}
+                </div>
+                <div className="text-sm text-ink-3 mb-3">
+                  {r.title} · {r.location}
+                </div>
+                <ul className="space-y-1.5 text-[15px] text-ink-2 leading-relaxed">
+                  {r.bullets.map((b, j) => (
+                    <li key={j}>— {b}</li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          );
+        })}
       </ol>
 
       <h2 className="display text-[clamp(1.5rem,2.5vw,2rem)] mt-20 mb-6">
