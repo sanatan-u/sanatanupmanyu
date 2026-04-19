@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { site } from "@/content/site";
 import { SocialRow } from "@/components/social-row";
-import { HeroBackdrop } from "@/components/hero-backdrop";
+import { ParticlesBackdrop } from "@/components/particles-backdrop";
 import { SectionDivider } from "@/components/section-divider";
 import { platforms } from "@/content/platforms";
 import { products } from "@/content/products";
@@ -20,7 +20,7 @@ export default function HomePage() {
   return (
     <div className="mx-auto max-w-[1040px] px-6 md:px-12 pt-12 pb-8">
       <section className="relative isolate grid md:grid-cols-[1fr_320px] gap-10 md:gap-16 items-center py-8 md:py-12">
-        <HeroBackdrop />
+        <ParticlesBackdrop />
         <div className="order-2 md:order-1">
           <h1 className="display text-[clamp(2.75rem,6.5vw,5rem)] mb-6">
             Hi, I&rsquo;m <em>Sanatan</em>.
