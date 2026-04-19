@@ -9,11 +9,13 @@ imageAlt: Two panels — a patient HbA1c curve with a ±0.3% band and a consumer
 
 I have been building two digital twin prototypes in parallel, for very different settings. One simulates Type 2 diabetes trial patients to de-risk protocols before a single person is enrolled. The other models how consumers actually interact with nutraceuticals — protein, vitamins, the rest of the supplement aisle — day by day. Different problems, same backbone.
 
+Regulators are moving in the same direction. The EMA has already issued a qualification opinion for Unlearn's PROCOVA digital-twin methodology<Cite id="procova" n={1} />, and the FDA's January 2025 draft guidance on AI in regulatory decision-making<Cite id="fda-ai" n={2} /> sets out the credibility framework these tools now have to meet. The prototypes below were built with that bar in mind.
+
 Notes from both.
 
 ## 1. Patient digital twin — simulating Type 2 diabetes journeys
 
-The goal is tractable: generate synthetic patient trajectories that let a trial team pressure-test dose schedules and inclusion criteria *before* committing to a protocol. The engine is a conditional variational autoencoder, conditioned on demographics, baseline labs, trial parameters, and features distilled from the biomedical literature.
+The goal is tractable: generate synthetic patient trajectories that let a trial team pressure-test dose schedules and inclusion criteria *before* committing to a protocol. The engine is a conditional variational autoencoder<Cite id="cvae-pediatric" n={3} />, conditioned on demographics, baseline labs, trial parameters, and features distilled from the biomedical literature. Adjacent work — a generative simulator for Type 1 diabetes<Cite id="t1d-sim" n={4} /> and HbA1c trajectory clustering across 60k patients<Cite id="hba1c-clusters" n={5} /> — informed the conditioning variables and the validation strategy.
 
 <Callout variant="tip" title="What &#39;grounded&#39; actually meant here">
 We did not train a CVAE on claims data and call it a day. The conditioning variables were mapped to a validated mathematical model of the disease — the co-dependencies between demographics, labs, trial design and outcomes were structural, not learned from scratch. The CVAE generates *within* that structure.
@@ -29,7 +31,7 @@ A different problem with different data: reviews, click-streams, wearables, purc
 
 - **LLMs as structured ETL.** Reviews and support transcripts get embedded and normalised into a consistent schema. LLMs also help synthesise edge-case personas — the users who skip doses on weekends, the ones who buy in bulk and taper off by month three — that are real but rare in any given dataset.
 - **CVAE framework for day-by-day behaviour.** Same backbone as the patient twin, different conditioning. Output is a daily adherence trajectory per persona.
-- **Agent-based simulation on top.** To test promotions, packaging, bundle design — things where the question is "how does a cohort respond," not "how does an average user respond."
+- **Agent-based simulation on top.**<Cite id="abm" n={6} /> To test promotions, packaging, bundle design — things where the question is "how does a cohort respond," not "how does an average user respond."
 
 ## What the tech stack actually does
 
@@ -50,3 +52,12 @@ The usual honesty clauses:
 - **Cohort-mapping guardrails.** Synthetic data is only as trustworthy as the real cohort it claims to represent. The twin has to refuse to answer for populations it was not trained on.
 
 Both prototypes lean on open-source CVAE and LLM tooling — this is an independent exploration, not a productised system. The point is that the interesting work was never the model. It was the conditioning, the validation against real curves, and the discipline to let the twin say "I do not know" when the question drifts outside its training distribution.
+
+<References>
+  <Ref id="procova" url="https://www.unlearn.ai/">Unlearn.AI — PROCOVA / TwinRCTs methodology, qualified by the EMA for phase 2/3 trials with continuous outcomes.</Ref>
+  <Ref id="fda-ai" url="https://www.fda.gov/news-events/press-announcements/fda-proposes-framework-advance-credibility-ai-models-used-drug-and-biological-product-submissions">U.S. FDA (January 2025). Considerations for the Use of Artificial Intelligence to Support Regulatory Decision-Making for Drug and Biological Products — draft guidance.</Ref>
+  <Ref id="cvae-pediatric" url="https://www.medrxiv.org/content/10.64898/2026.01.21.26344442v1.full">Physiology-Informed Conditional Variational Autoencoder for Generating Pediatric Virtual Patients. medRxiv, 2026.</Ref>
+  <Ref id="t1d-sim" url="https://www.nature.com/articles/s43856-024-00476-0">Generative deep learning for the development of a type 1 diabetes simulator. Communications Medicine, 2024.</Ref>
+  <Ref id="hba1c-clusters" url="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0207096">Patient clusters based on HbA1c trajectories: a step toward individualised medicine in type 2 diabetes. PLOS One, 2018.</Ref>
+  <Ref id="abm" url="https://en.wikipedia.org/wiki/Agent-based_model">Agent-based modelling — overview of the simulation approach used to test cohort-level responses to interventions.</Ref>
+</References>

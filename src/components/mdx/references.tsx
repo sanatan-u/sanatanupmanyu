@@ -1,3 +1,4 @@
+import { Children, isValidElement } from "react";
 import { ArrowUp } from "lucide-react";
 
 export type Reference = {
@@ -6,7 +7,28 @@ export type Reference = {
   url?: string;
 };
 
-export function References({ items }: { items: Reference[] }) {
+type RefProps = { id: string; url?: string; children: React.ReactNode };
+
+export function Ref(_props: RefProps) {
+  return null;
+}
+
+export function References({
+  items,
+  children,
+}: {
+  items?: Reference[];
+  children?: React.ReactNode;
+}) {
+  const collected: Reference[] = items ?? [];
+  if (!items && children) {
+    Children.forEach(children, (child) => {
+      if (isValidElement<RefProps>(child)) {
+        const { id, url, children: inner } = child.props;
+        if (id) collected.push({ id, url, children: inner });
+      }
+    });
+  }
   return (
     <section aria-labelledby="references" className="mt-12 pt-8 border-t border-rule">
       <h2
@@ -16,7 +38,7 @@ export function References({ items }: { items: Reference[] }) {
         References
       </h2>
       <ol className="space-y-3 list-none pl-0">
-        {items.map((ref, i) => (
+        {collected.map((ref, i) => (
           <li
             key={ref.id}
             id={`ref-${ref.id}`}

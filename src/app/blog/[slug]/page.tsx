@@ -10,7 +10,7 @@ import "katex/dist/katex.min.css";
 import { getAllPostMeta, getPost } from "@/lib/blog";
 import { BlogPostingJsonLd } from "@/components/json-ld";
 import { site } from "@/content/site";
-import { Figure, Callout, References, Cite, Mermaid } from "@/components/mdx";
+import { Figure, Callout, References, Cite, Ref, Mermaid } from "@/components/mdx";
 
 type Params = { slug: string };
 
@@ -19,6 +19,7 @@ const mdxComponents = {
   Callout,
   References,
   Cite,
+  Ref,
   Mermaid,
 };
 
@@ -84,7 +85,7 @@ export default async function BlogPost({
   if (!post) notFound();
 
   return (
-    <article className="mx-auto max-w-[720px] px-6 md:px-12 pt-12 pb-8">
+    <article className="mx-auto max-w-[860px] px-6 md:px-12 pt-12 pb-8">
       <BlogPostingJsonLd
         title={post.title}
         description={post.excerpt}
@@ -108,7 +109,7 @@ export default async function BlogPost({
             src={post.image}
             alt={post.imageAlt ?? ""}
             fill
-            sizes="(max-width: 720px) 100vw, 720px"
+            sizes="(max-width: 860px) 100vw, 860px"
             priority
             className="object-cover"
           />
