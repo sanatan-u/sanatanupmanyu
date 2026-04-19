@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Patient and consumer digital twin panels with a rising curve">
+  <defs>
+    <linearGradient id="dt-bg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7f6f3"/>
+      <stop offset="1" stop-color="#eee6df"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#dt-bg)"/>
+  <line x1="600" y1="90" x2="600" y2="560" stroke="#3a3a3a" stroke-width="1" opacity="0.25"/>
+
+  <g transform="translate(120,140)">
+    <text font-family="Georgia, serif" font-size="22" fill="#1c3b39" font-style="italic">patient digital twin</text>
+    <g fill="none" stroke="#2f5d5a" stroke-width="2.5">
+      <path d="M 20 260 C 80 250 140 180 220 150 C 290 130 360 130 420 130"/>
+    </g>
+    <g stroke="#2f5d5a" stroke-width="1" opacity="0.35">
+      <line x1="20" y1="300" x2="420" y2="300"/>
+      <line x1="20" y1="60" x2="20" y2="300"/>
+    </g>
+    <g stroke="#a13d1e" stroke-width="1.5" stroke-dasharray="4 4" fill="none" opacity="0.75">
+      <path d="M 20 270 C 90 255 150 190 230 158 C 300 138 365 140 420 140"/>
+      <path d="M 20 250 C 85 240 135 170 215 145 C 285 125 360 120 420 120"/>
+    </g>
+    <text x="340" y="100" font-family="Georgia, serif" font-size="18" fill="#a13d1e">±0.3% HbA1c</text>
+  </g>
+
+  <g transform="translate(660,140)">
+    <text font-family="Georgia, serif" font-size="22" fill="#1c3b39" font-style="italic">consumer digital twin</text>
+    <g fill="none" stroke="#2f5d5a" stroke-width="1.5" opacity="0.55">
+      <circle cx="60" cy="160" r="14"/>
+      <circle cx="130" cy="110" r="14"/>
+      <circle cx="210" cy="170" r="14"/>
+      <circle cx="290" cy="130" r="14"/>
+      <circle cx="370" cy="180" r="14"/>
+      <line x1="74" y1="160" x2="116" y2="110"/>
+      <line x1="144" y1="110" x2="196" y2="170"/>
+      <line x1="224" y1="170" x2="276" y2="130"/>
+      <line x1="304" y1="130" x2="356" y2="180"/>
+    </g>
+    <g stroke="#2f5d5a" stroke-width="1" opacity="0.35">
+      <line x1="20" y1="300" x2="420" y2="300"/>
+    </g>
+    <g fill="#a13d1e" opacity="0.85">
+      <rect x="60" y="240" width="30" height="50"/>
+      <rect x="120" y="220" width="30" height="70"/>
+      <rect x="180" y="250" width="30" height="40"/>
+      <rect x="240" y="210" width="30" height="80"/>
+      <rect x="300" y="230" width="30" height="60"/>
+      <rect x="360" y="200" width="30" height="90"/>
+    </g>
+    <text x="0" y="260" font-family="Georgia, serif" font-size="14" fill="#1c3b39">A</text>
+    <text x="400" y="260" font-family="Georgia, serif" font-size="14" fill="#1c3b39">B</text>
+  </g>
+
+  <text x="600" y="60" text-anchor="middle" font-family="Georgia, serif" font-size="32" fill="#1c3b39" font-weight="600">two twins, two use cases</text>
+</svg>

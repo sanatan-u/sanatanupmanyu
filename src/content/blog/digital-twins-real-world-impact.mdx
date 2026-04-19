@@ -1,0 +1,52 @@
+---
+title: Advancing digital twins — real-world impact in patient care and consumer insights
+date: 2026-04-19
+excerpt: Two digital twin prototypes — one for de-risking Type 2 diabetes trials, one for modelling nutraceutical adherence — and what it took to make their outputs actually trustworthy.
+tags: [ai, digital-twins, clinical, cvae]
+image: /blog/digital-twins-real-world-impact.svg
+imageAlt: Two panels — a patient HbA1c curve with a ±0.3% band and a consumer adherence A/B chart
+---
+
+I have been building two digital twin prototypes in parallel, for very different settings. One simulates Type 2 diabetes trial patients to de-risk protocols before a single person is enrolled. The other models how consumers actually interact with nutraceuticals — protein, vitamins, the rest of the supplement aisle — day by day. Different problems, same backbone.
+
+Notes from both.
+
+## 1. Patient digital twin — simulating Type 2 diabetes journeys
+
+The goal is tractable: generate synthetic patient trajectories that let a trial team pressure-test dose schedules and inclusion criteria *before* committing to a protocol. The engine is a conditional variational autoencoder, conditioned on demographics, baseline labs, trial parameters, and features distilled from the biomedical literature.
+
+<Callout variant="tip" title="What &#39;grounded&#39; actually meant here">
+We did not train a CVAE on claims data and call it a day. The conditioning variables were mapped to a validated mathematical model of the disease — the co-dependencies between demographics, labs, trial design and outcomes were structural, not learned from scratch. The CVAE generates *within* that structure.
+</Callout>
+
+The headline number that matters: synthetic HbA1c trajectories track the real-world curves within **±0.3% over 56 weeks**. That is inside the noise floor of most trial endpoints, which is the bar for using this output to make go/no-go decisions about protocol design.
+
+Where this lands in practice: simulate a proposed inclusion criterion, see how the HbA1c distribution shifts, and catch the amendment risk before the protocol is finalised.
+
+## 2. Consumer digital twin — modelling nutraceutical adherence
+
+A different problem with different data: reviews, click-streams, wearables, purchase cadence. The stack:
+
+- **LLMs as structured ETL.** Reviews and support transcripts get embedded and normalised into a consistent schema. LLMs also help synthesise edge-case personas — the users who skip doses on weekends, the ones who buy in bulk and taper off by month three — that are real but rare in any given dataset.
+- **CVAE framework for day-by-day behaviour.** Same backbone as the patient twin, different conditioning. Output is a daily adherence trajectory per persona.
+- **Agent-based simulation on top.** To test promotions, packaging, bundle design — things where the question is "how does a cohort respond," not "how does an average user respond."
+
+## What the tech stack actually does
+
+A few pieces are worth naming because they are where the work is, not where the headlines are.
+
+**LLMs as smart ETL.** The real value of an LLM here is not generation — it is embedding, normalisation, and synthesising plausible edge cases that the training data undersamples. Treating the LLM as an infrastructure component, not the product, changes what you ask it to do.
+
+**Controllable CVAEs.** Because the conditioning variables are exposed, you can turn a knob — "simulate a 20% increase in missed doses" — and see the downstream trajectories update. This is what makes the output useful to non-modellers: they can interrogate the simulation in their own language.
+
+**Graph DBs for persona queries.** "Show me users who skip lunch and under-dose by 20% in weeks 4–8." Expressing that in SQL is painful; expressing it in a graph query is not.
+
+## What still needs to be true
+
+The usual honesty clauses:
+
+- **Reinforcement learning for packaging optimisation** is on the roadmap, not in the current build.
+- **Physiology add-ons** — linking HbA1c to kidney function, for instance — matter for any twin that will inform a decision beyond the endpoint it was trained on.
+- **Cohort-mapping guardrails.** Synthetic data is only as trustworthy as the real cohort it claims to represent. The twin has to refuse to answer for populations it was not trained on.
+
+Both prototypes lean on open-source CVAE and LLM tooling — this is an independent exploration, not a productised system. The point is that the interesting work was never the model. It was the conditioning, the validation against real curves, and the discipline to let the twin say "I do not know" when the question drifts outside its training distribution.
