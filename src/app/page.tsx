@@ -3,6 +3,8 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { site } from "@/content/site";
 import { SocialRow } from "@/components/social-row";
+import { HeroBackdrop } from "@/components/hero-backdrop";
+import { SectionDivider } from "@/components/section-divider";
 import { platforms } from "@/content/platforms";
 import { products } from "@/content/products";
 
@@ -17,7 +19,8 @@ export default function HomePage() {
   ];
   return (
     <div className="mx-auto max-w-[1040px] px-6 md:px-12 pt-12 pb-8">
-      <section className="grid md:grid-cols-[1fr_320px] gap-10 md:gap-16 items-center">
+      <section className="relative isolate grid md:grid-cols-[1fr_320px] gap-10 md:gap-16 items-center py-8 md:py-12">
+        <HeroBackdrop />
         <div className="order-2 md:order-1">
           <h1 className="display text-[clamp(2.75rem,6.5vw,5rem)] mb-6">
             Hi, I&rsquo;m <em>Sanatan</em>.
@@ -29,19 +32,24 @@ export default function HomePage() {
           <div className="text-sm text-ink-3 mb-7">{site.statsInline}</div>
           <SocialRow />
         </div>
-        <div className="order-1 md:order-2">
+        <div className="order-1 md:order-2 relative">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 rounded-[32px] ring-1 ring-accent/15 translate-x-3 translate-y-3"
+          />
           <Image
             src="/sanatan-square.jpg"
             alt="Sanatan Upmanyu"
             width={560}
             height={560}
             priority
-            className="w-full h-auto rounded-[28px] shadow-[0_2px_30px_rgba(0,0,0,0.08)]"
+            className="relative w-full h-auto rounded-[28px] shadow-[0_2px_30px_rgba(0,0,0,0.08)]"
           />
         </div>
       </section>
 
-      <section className="mt-28 pt-12 border-t border-rule">
+      <SectionDivider className="mt-24 mb-14" />
+      <section>
         <div className="flex items-baseline justify-between mb-10 flex-wrap gap-3">
           <h2 className="display text-[clamp(1.75rem,3vw,2.5rem)]">
             Selected <em>work</em>
@@ -68,7 +76,8 @@ export default function HomePage() {
         </ul>
       </section>
 
-      <section className="mt-28 pt-12 border-t border-rule">
+      <SectionDivider className="mt-24 mb-14" />
+      <section>
         <h2 className="display text-[clamp(1.75rem,3vw,2.5rem)] mb-5">
           Work <em>together</em>
         </h2>
