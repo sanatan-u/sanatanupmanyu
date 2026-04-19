@@ -60,6 +60,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+body {
+  overflow-x: clip;
+}
+
 ::selection {
   background: var(--accent);
   color: #fff;
