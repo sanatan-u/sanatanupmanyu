@@ -33,6 +33,7 @@ export const publications: Publication[] = [
       "Sheetal, K., Upmanyu, S., Sharma, H., & Nandabalan, K. (2015). Targeting immune checkpoints: using a big data approach for their identification, prioritization and application.",
     venue: "AACR 106th Annual Meeting, Philadelphia, PA",
     year: 2015,
+    url: "https://aacrjournals.org/cancerres/article/75/15_Supplement/64/604886/Abstract-64-Targeting-immune-checkpoints-using-a",
   },
   {
     citation:
