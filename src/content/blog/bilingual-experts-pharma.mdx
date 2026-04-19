@@ -1,43 +1,69 @@
 ---
 title: Pharma's complexity demands more than AI — it needs bilingual experts
 date: 2026-04-12
-excerpt: The most advanced algorithm can still be strategically irrelevant if it is built in isolation from the domain it serves. The translation layer matters more than the model.
+excerpt: The bottleneck in AI for drug development is no longer the model. It is the shortage of people who can hold the clinical, regulatory and computational picture in their head at the same time — and frame the question before anyone writes a line of code.
 tags: [ai, pharma, talent, strategy]
 image: /blog/bilingual-experts-pharma.svg
 imageAlt: A bridge labelled "bilingual expertise" connecting a data/AI pillar and a pharma/science pillar
 ---
 
-The potential of AI and ML to accelerate pharmaceutical R&D is not in doubt. Faster analysis, broader pattern recognition, better prediction — the tools are evolving quickly, and in the right hands they change what is possible.
+A decade of AI work in drug development has taught the industry an unromantic lesson: the model is almost never the hard part. The hard part is framing the question in a way that is simultaneously scientifically meaningful, clinically usable, and regulatorily defensible — and then building the pipeline so the answer survives contact with each of those audiences. That skill has a name now. The industry calls it *bilingual*.
 
-But let us ground ourselves in the reality of this industry. Pharma is not "big data." It is staggering, interconnected complexity, and innovation has to navigate all of it at once:
+The potential of AI and ML to accelerate pharmaceutical R&D is real. Faster analysis, broader pattern recognition, better prediction — the tools are evolving quickly, and in the right hands they change what is possible. The catch is that "the right hands" turn out to be the bottleneck, not the GPUs.
 
-- **Intricate biological systems.** Pathways rarely act in isolation. Off-target effects, feedback loops, and patient-level variability introduce layers of uncertainty beyond what most datasets directly capture.
-- **Multi-dimensional clinical trials.** Trial design spans hundreds of interconnected parameters — inclusion criteria, endpoints, operational logistics, ethical guardrails.
-- **Regulatory and compliance demands.** Meeting evolving requirements from global health authorities adds a non-negotiable layer of scrutiny that does not yield to clever modelling.
-- **Market and access dynamics.** Even a breakthrough therapy has to prove its value across diverse payer landscapes, with real-world evidence increasingly required to justify reimbursement.
+## Why pharma does not flatten into "big data"
 
-In this environment, even the most advanced algorithm can fall short if it is built in isolation from the domain it aims to serve. Without a working understanding of the biological, clinical, and regulatory interdependencies, you get solutions that are technically sound and strategically irrelevant. The FDA's 2025 draft guidance on AI in regulatory decision-making<Cite id="fda-ai" n={1} /> makes this explicit: credibility is context-of-use specific, and the context cannot be assessed without domain fluency.
+Treating pharma as a data problem is the mistake that keeps underwriting expensive AI programmes that go nowhere. The domain is not big data. It is staggering, interconnected complexity, and any credible solution has to navigate all of it at once:
+
+- **Intricate biological systems.** Pathways rarely act in isolation. Off-target effects, biological feedback loops, and patient-level variability introduce uncertainty that most datasets do not even try to capture.
+- **Multi-dimensional clinical trials.** Trial design spans hundreds of interconnected parameters — inclusion criteria, endpoints, titration schedules, site logistics, ethical guardrails — each of which can invalidate the others if moved without thinking.
+- **Regulatory and compliance demands.** Evolving requirements from the FDA, EMA, and other authorities add a layer of scrutiny that does not yield to clever modelling. The FDA's January 2025 draft guidance<Cite id="fda-ai" n={1} /> makes this explicit: credibility is assessed against a *context of use*, not a model card. The context cannot be described, let alone defended, without domain fluency.
+- **Market and access dynamics.** Even a breakthrough therapy has to justify its value across diverse payer landscapes, with real-world evidence increasingly required to secure reimbursement. A model that optimises for a statistical endpoint and ignores the payer story is a model that shipped into a commercial wall.
+
+In this environment, a technically brilliant algorithm built in isolation from the domain will reliably produce outputs that are statistically sound and strategically irrelevant. That is not a model quality problem. It is a framing problem.
 
 <Callout variant="note" title="The real gap">
-The gap is rarely "we don't have enough models." It is "the models we have were built without someone in the room who could have told us which question to ask."
+The gap is almost never "we don't have enough models." It is "the models we have were built without someone in the room who could have told us which question to ask — or which answer would not survive the first regulatory conversation."
 </Callout>
 
-That is why the demand for *bilingual* professionals keeps growing — people fluent in both data science and code, *and* in life sciences, medicine, or pharma operations. Academic programmes have started naming the same gap<Cite id="osu" n={2} />, and reviews of AI in drug discovery keep flagging domain expertise as the bottleneck that more compute does not fix<Cite id="ai-dd" n={3} />. Domain-specific language models like BioBERT and ClinicalBERT<Cite id="biobert" n={4} /> illustrate the point at a technical level: the useful variant of a general-purpose model is always the one that has absorbed the domain's vocabulary and norms.
+## What bilingual actually means
 
-They are the translation layer that turns pharma's complexity into tractable, high-impact AI problems. Concretely, they:
+The word gets thrown around. Here is what I mean by it, concretely.
 
-- Frame the right questions and define success metrics that are meaningful from both the scientific and the computational side.
-- Design pipelines that reflect clinical nuance, not just data architecture.
-- Interpret outputs for regulatory plausibility and therapeutic relevance, not only statistical validity.
-- Spot weak signals, push back on false confidence, and align tech-driven insights with the real-world constraints they will have to survive.
+A bilingual practitioner can hold two mental models at once: the computational view — what the model is doing, what it needs, where it fails — and the domain view — what the science says, what the clinic will accept, what the regulator will tolerate. They move between the two in the same meeting. They can explain to a data scientist why an endpoint choice changes the target variable, and to a clinical lead why a sampling decision changes the inference they are allowed to draw.
 
-The goal is not to automate processes. It is to elevate decision-making in a field where decisions have real human consequences. That demands more than good models — it demands context-aware, domain-embedded intelligence.
+Academic programmes have started naming the same gap<Cite id="osu" n={2} />, and reviews of AI in drug discovery<Cite id="ai-dd" n={3} /> keep flagging domain expertise as the constraint that more compute does not fix. The technical stack tells the same story: the useful variants of general-purpose language models in this space — BioBERT, ClinicalBERT<Cite id="biobert" n={4} /> — are the ones that have absorbed the vocabulary and norms of the domain they serve. The lesson scales up from models to teams.
 
-How is this need for bilingual expertise showing up in your work? What is working, and what is not, when it comes to cultivating this kind of hybrid talent?
+## What bilingual people actually do
+
+They are the translation layer between pharma's complexity and tractable AI problems. In practice:
+
+- **They frame the right questions.** "Predict response" is not a question. "Predict HbA1c trajectory over 56 weeks in patients who would be eligible for a phase 3 under criteria X, benchmarked against the cluster structure from published real-world cohorts" is a question. The difference is not pedantry. It is the difference between a model that ships and a model that dies in review.
+- **They define success metrics that hold up on both sides.** A metric that is defensible to a statistician and meaningful to a medical director is rare. Bilinguals are the people who can negotiate that metric before the work starts, not litigate it after.
+- **They design pipelines that reflect clinical nuance.** Missingness in EHRs is not random. Adherence is not independent of demographics. Trial populations are not representative of label populations. Bilinguals build these facts into the data architecture instead of discovering them in the error analysis.
+- **They interpret outputs for regulatory plausibility, not just statistical validity.** A p-value does not get a drug approved. A credible, documented, context-aware argument does. Bilinguals know the difference and can produce the second.
+- **They spot weak signals and push back on false confidence.** They are the ones who raise a hand when the model is confidently extrapolating into a subgroup it never saw — the subgroup where overconfidence becomes a safety issue.
+
+## What the hiring market is getting wrong
+
+Two patterns I keep seeing:
+
+1. **"We'll hire a data scientist and train them on pharma."** This produces someone who can describe the domain but cannot feel when a question is wrong. Domain feel is not an onboarding deliverable.
+2. **"We'll hire a clinician and train them on ML."** This produces someone who can vet a model's conclusions but cannot redesign its inputs. Without the computational side, they become reviewers, not builders.
+
+The bilingual ones are usually people who have spent serious time — years, not months — on both sides, and who have been rewarded for standing at the seam rather than retreating to one side. They are rare. They are also disproportionately the reason any given AI-in-pharma programme actually ships something that matters.
+
+## The real goal
+
+The goal of AI in drug development is not to automate processes. It is to elevate decision-making in a field where decisions have real human consequences. That demands more than good models — it demands context-aware, domain-embedded intelligence, held by people who can explain, defend, and revise the work on every axis that matters.
+
+If your AI strategy assumes domain fluency will arrive on its own once the infrastructure is in place, the strategy is already failing. It just has not produced the evidence yet.
+
+How is this need for bilingual expertise showing up in your world — and what is actually working to cultivate it, beyond the usual training-programme theatre?
 
 <References>
-  <Ref id="fda-ai" url="https://www.fda.gov/news-events/press-announcements/fda-proposes-framework-advance-credibility-ai-models-used-drug-and-biological-product-submissions">U.S. FDA (January 2025). Considerations for the Use of Artificial Intelligence to Support Regulatory Decision-Making for Drug and Biological Products — draft guidance.</Ref>
-  <Ref id="osu" url="https://online.osu.edu/content-hub/blogs/ai-in-drug-discovery-how-ohio-states-translational-pharmacology-program-prepares-future-leaders/">Ohio State — training bilingual graduates fluent in both translational pharmacology and AI.</Ref>
-  <Ref id="ai-dd" url="https://pmc.ncbi.nlm.nih.gov/articles/PMC11800368/">AI in Action: Redefining Drug Discovery and Development. PMC, 2025.</Ref>
+  <Ref id="fda-ai" url="https://www.fda.gov/news-events/press-announcements/fda-proposes-framework-advance-credibility-ai-models-used-drug-and-biological-product-submissions">U.S. FDA (January 2025). Considerations for the Use of Artificial Intelligence to Support Regulatory Decision-Making for Drug and Biological Products — draft guidance, including the risk-based credibility framework keyed to context of use.</Ref>
+  <Ref id="osu" url="https://online.osu.edu/content-hub/blogs/ai-in-drug-discovery-how-ohio-states-translational-pharmacology-program-prepares-future-leaders/">Ohio State Online — training "bilingual" graduates fluent in both translational pharmacology and AI.</Ref>
+  <Ref id="ai-dd" url="https://pmc.ncbi.nlm.nih.gov/articles/PMC11800368/">AI in Action: Redefining Drug Discovery and Development. PMC, 2025 — review flagging domain expertise as a persistent constraint.</Ref>
   <Ref id="biobert" url="https://pmc.ncbi.nlm.nih.gov/articles/PMC8604259/">AI-based language models powering drug discovery and development — BioBERT, ClinicalBERT, and the role of labelled biomedical data. PMC, 2021.</Ref>
 </References>

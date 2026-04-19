@@ -1,63 +1,75 @@
 ---
 title: Advancing digital twins — real-world impact in patient care and consumer insights
 date: 2026-04-19
-excerpt: Two digital twin prototypes — one for de-risking Type 2 diabetes trials, one for modelling nutraceutical adherence — and what it took to make their outputs actually trustworthy.
+excerpt: Two digital twin prototypes, two very different domains, one question — when does a synthetic trajectory earn the right to influence a decision? Notes on what it took to get to ±0.3% HbA1c over 56 weeks, and what the same backbone looks like in consumer behaviour.
 tags: [ai, digital-twins, clinical, cvae]
 image: /blog/digital-twins-real-world-impact.svg
 imageAlt: Two panels — a patient HbA1c curve with a ±0.3% band and a consumer adherence A/B chart
 ---
 
-I have been building two digital twin prototypes in parallel, for very different settings. One simulates Type 2 diabetes trial patients to de-risk protocols before a single person is enrolled. The other models how consumers actually interact with nutraceuticals — protein, vitamins, the rest of the supplement aisle — day by day. Different problems, same backbone.
+A digital twin is only as useful as the decision it is allowed to touch. That is the line I keep coming back to. The interesting work on these prototypes was never the model architecture — it was earning the right for a simulated trajectory to sit in a room where a protocol or a product decision is being made.
 
-Regulators are moving in the same direction. The EMA has already issued a qualification opinion for Unlearn's PROCOVA digital-twin methodology<Cite id="procova" n={1} />, and the FDA's January 2025 draft guidance on AI in regulatory decision-making<Cite id="fda-ai" n={2} /> sets out the credibility framework these tools now have to meet. The prototypes below were built with that bar in mind.
+I have been building two twins in parallel, in domains that look nothing alike. One simulates Type 2 diabetes patients so a trial team can pressure-test a protocol before enrolling a single person. The other models how consumers actually live with nutraceuticals — protein, vitamins, the whole supplement aisle — day by day, week by week. Different stakeholders, different data, different consequences. Same backbone, same discipline about what the twin is allowed to claim.
 
-Notes from both.
+Regulators are converging on the same discipline. The EMA has issued a qualification opinion for Unlearn's PROCOVA digital-twin methodology as a primary analysis in phase 2/3 trials with continuous outcomes<Cite id="procova" n={1} />, and the FDA's January 2025 draft guidance<Cite id="fda-ai" n={2} /> formalises a seven-step credibility framework keyed to the *context of use* — what the model is for, not what the model is. Both prototypes were built with that bar in mind.
 
 ## 1. Patient digital twin — simulating Type 2 diabetes journeys
 
-The goal is tractable: generate synthetic patient trajectories that let a trial team pressure-test dose schedules and inclusion criteria *before* committing to a protocol. The engine is a conditional variational autoencoder<Cite id="cvae-pediatric" n={3} />, conditioned on demographics, baseline labs, trial parameters, and features distilled from the biomedical literature. Adjacent work — a generative simulator for Type 1 diabetes<Cite id="t1d-sim" n={4} /> and HbA1c trajectory clustering across 60k patients<Cite id="hba1c-clusters" n={5} /> — informed the conditioning variables and the validation strategy.
+The use case is narrow on purpose: simulate patient trajectories well enough that a trial team can stress-test dose schedules and inclusion criteria *before* committing to a protocol. Narrow-and-validated beats broad-and-suggestive every time when the output has to withstand a statistical review.
+
+The engine is a conditional variational autoencoder<Cite id="cvae-pediatric" n={3} />, conditioned on demographics, baseline labs, trial parameters, and features distilled from the biomedical literature. Adjacent work pointed the way: a generative deep-learning simulator for Type 1 diabetes<Cite id="t1d-sim" n={4} /> showed what good looks like for glycaemic trajectories, and HbA1c trajectory clustering across 60,423 patients<Cite id="hba1c-clusters" n={5} /> surfaced the cluster structure the twin has to reproduce — stable, descending, and ascending trends — rather than collapse into a single average curve.
 
 <Callout variant="tip" title="What &#39;grounded&#39; actually meant here">
-We did not train a CVAE on claims data and call it a day. The conditioning variables were mapped to a validated mathematical model of the disease — the co-dependencies between demographics, labs, trial design and outcomes were structural, not learned from scratch. The CVAE generates *within* that structure.
+Training a CVAE on claims data and calling it a day is the easy path. We did not take it. The conditioning variables were mapped to a validated mathematical model of the disease — the co-dependencies between demographics, labs, trial design and outcomes are structural, not discovered from scratch by a network. The CVAE generates *within* that structure. When the twin refuses to extrapolate, it is because the structure said so, not because the network shrugged.
 </Callout>
 
-The headline number that matters: synthetic HbA1c trajectories track the real-world curves within **±0.3% over 56 weeks**. That is inside the noise floor of most trial endpoints, which is the bar for using this output to make go/no-go decisions about protocol design.
+The headline number that matters: synthetic HbA1c trajectories track real-world curves within **±0.3% over 56 weeks**. That is inside the noise floor of most T2D trial endpoints, which is the bar for letting this output influence a go/no-go on protocol design.
 
-Where this lands in practice: simulate a proposed inclusion criterion, see how the HbA1c distribution shifts, and catch the amendment risk before the protocol is finalised.
+In practice, that looks like this:
+
+- Propose an inclusion criterion. See how the HbA1c distribution shifts across the simulated cohort.
+- Move a dose titration schedule by two weeks. See the 26-week endpoint move with it.
+- Tighten the upper age bound. See which cluster of trajectories disappears, and whether the ones that remain still power the trial.
+
+Every one of those questions used to require a protocol amendment to answer with any confidence. Now it is a simulation run before the amendment is written.
 
 ## 2. Consumer digital twin — modelling nutraceutical adherence
 
-A different problem with different data: reviews, click-streams, wearables, purchase cadence. The stack:
+Different problem, different data: reviews, click-streams, wearables, purchase cadence, support transcripts. Same discipline. A consumer twin earns its place when a brand team can ask "what happens to adherence in weeks 4–8 if we move from a 30-day pack to a 90-day pack" and get an answer they are willing to act on.
 
-- **LLMs as structured ETL.** Reviews and support transcripts get embedded and normalised into a consistent schema. LLMs also help synthesise edge-case personas — the users who skip doses on weekends, the ones who buy in bulk and taper off by month three — that are real but rare in any given dataset.
-- **CVAE framework for day-by-day behaviour.** Same backbone as the patient twin, different conditioning. Output is a daily adherence trajectory per persona.
-- **Agent-based simulation on top.**<Cite id="abm" n={6} /> To test promotions, packaging, bundle design — things where the question is "how does a cohort respond," not "how does an average user respond."
+The stack, honestly described:
+
+- **LLMs as structured ETL.** Reviews and support transcripts get embedded and normalised into a consistent persona schema. The LLM is not writing anything end-user-facing — it is doing the boring, high-leverage work of turning heterogeneous text into features the downstream model can consume. It also fills in edge-case personas (weekend-skippers, bulk-buyers who taper by month three) that are real but sparse in any single dataset.
+- **CVAE framework for day-by-day behaviour.** Same backbone as the patient twin, conditioned on purchase cadence, wearable signals, and persona features. Output is a daily adherence trajectory per persona — not a single mean.
+- **Agent-based simulation on top.**<Cite id="abm" n={6} /> Because "how does a cohort respond to a 20%-off coupon in week 3" is not the same question as "how does the average user respond." ABM is where cohort-level interaction effects show up — bundle cannibalisation, social-proof flywheels, promotions that lift trial but tank retention.
 
 ## What the tech stack actually does
 
 A few pieces are worth naming because they are where the work is, not where the headlines are.
 
-**LLMs as smart ETL.** The real value of an LLM here is not generation — it is embedding, normalisation, and synthesising plausible edge cases that the training data undersamples. Treating the LLM as an infrastructure component, not the product, changes what you ask it to do.
+**LLMs as infrastructure, not product.** The high-value LLM work here is embedding, normalisation, and plausible synthesis of undersampled edge cases. Treating the LLM as an ETL component — boring, composable, replaceable — is what makes the rest of the system trustworthy. Treating it as a generator-of-answers is what blows it up.
 
-**Controllable CVAEs.** Because the conditioning variables are exposed, you can turn a knob — "simulate a 20% increase in missed doses" — and see the downstream trajectories update. This is what makes the output useful to non-modellers: they can interrogate the simulation in their own language.
+**Controllable CVAEs.** The conditioning variables are exposed as knobs. "Simulate a 20% increase in missed doses." "Shift the age distribution five years older." The downstream trajectories update in real time, and the output is interrogable by non-modellers — a trial lead or a brand manager can interact with the simulation in their own vocabulary, not in PyTorch.
 
-**Graph DBs for persona queries.** "Show me users who skip lunch and under-dose by 20% in weeks 4–8." Expressing that in SQL is painful; expressing it in a graph query is not.
+**Graph DBs for persona queries.** "Show me users who skip lunch and under-dose by 20% in weeks 4–8." In SQL that question is painful. In a graph query it is two lines. Asking better questions is usually rate-limited by how painful it is to express them.
 
 ## What still needs to be true
 
-The usual honesty clauses:
+The honesty clauses, because a twin that overclaims is worse than no twin:
 
-- **Reinforcement learning for packaging optimisation** is on the roadmap, not in the current build.
-- **Physiology add-ons** — linking HbA1c to kidney function, for instance — matter for any twin that will inform a decision beyond the endpoint it was trained on.
-- **Cohort-mapping guardrails.** Synthetic data is only as trustworthy as the real cohort it claims to represent. The twin has to refuse to answer for populations it was not trained on.
+- **Reinforcement learning for packaging optimisation** is on the roadmap, not in the current build. It is the natural next step once the CVAE + ABM layer is stable.
+- **Physiology add-ons** — linking HbA1c to kidney function, for instance — matter the moment the twin is asked a question beyond the endpoint it was trained on. Every extension needs its own validation against real curves.
+- **Cohort-mapping guardrails.** Synthetic data is only as trustworthy as the real cohort it claims to represent. The twin has to refuse to answer for populations it was not trained on, and the UI has to make that refusal legible rather than hide it behind a plausible-looking output.
 
-Both prototypes lean on open-source CVAE and LLM tooling — this is an independent exploration, not a productised system. The point is that the interesting work was never the model. It was the conditioning, the validation against real curves, and the discipline to let the twin say "I do not know" when the question drifts outside its training distribution.
+Both prototypes lean on open-source CVAE and LLM tooling — this is an independent exploration, not a productised system. The point was never to ship a twin. It was to work through, in a setting where I owned every choice, what it takes for a synthetic trajectory to earn the right to be in the room when a decision is made. The answer keeps being the same: conditioning that reflects domain structure, validation against real curves at the level of the endpoint that matters, and the discipline to let the twin say "I do not know" the moment the question drifts outside its training distribution.
+
+Everything else is window dressing.
 
 <References>
   <Ref id="procova" url="https://www.unlearn.ai/">Unlearn.AI — PROCOVA / TwinRCTs methodology, qualified by the EMA for phase 2/3 trials with continuous outcomes.</Ref>
-  <Ref id="fda-ai" url="https://www.fda.gov/news-events/press-announcements/fda-proposes-framework-advance-credibility-ai-models-used-drug-and-biological-product-submissions">U.S. FDA (January 2025). Considerations for the Use of Artificial Intelligence to Support Regulatory Decision-Making for Drug and Biological Products — draft guidance.</Ref>
+  <Ref id="fda-ai" url="https://www.fda.gov/news-events/press-announcements/fda-proposes-framework-advance-credibility-ai-models-used-drug-and-biological-product-submissions">U.S. FDA (January 2025). Considerations for the Use of Artificial Intelligence to Support Regulatory Decision-Making for Drug and Biological Products — draft guidance, including the seven-step credibility framework.</Ref>
   <Ref id="cvae-pediatric" url="https://www.medrxiv.org/content/10.64898/2026.01.21.26344442v1.full">Physiology-Informed Conditional Variational Autoencoder for Generating Pediatric Virtual Patients. medRxiv, 2026.</Ref>
   <Ref id="t1d-sim" url="https://www.nature.com/articles/s43856-024-00476-0">Generative deep learning for the development of a type 1 diabetes simulator. Communications Medicine, 2024.</Ref>
   <Ref id="hba1c-clusters" url="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0207096">Patient clusters based on HbA1c trajectories: a step toward individualised medicine in type 2 diabetes. PLOS One, 2018.</Ref>
-  <Ref id="abm" url="https://en.wikipedia.org/wiki/Agent-based_model">Agent-based modelling — overview of the simulation approach used to test cohort-level responses to interventions.</Ref>
+  <Ref id="abm" url="https://en.wikipedia.org/wiki/Agent-based_model">Agent-based modelling — the simulation approach used for cohort-level responses to interventions.</Ref>
 </References>
