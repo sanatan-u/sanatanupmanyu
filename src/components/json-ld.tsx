@@ -62,7 +62,7 @@ export function BlogPostingJsonLd({
   dateModified,
   tags,
 }: BlogPostingProps) {
-  const url = `${site.url}/writing/${slug}`;
+  const url = `${site.url}/blog/${slug}`;
   const data = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",

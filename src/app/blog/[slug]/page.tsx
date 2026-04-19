@@ -4,11 +4,23 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 import { getAllPostMeta, getPost } from "@/lib/blog";
 import { BlogPostingJsonLd } from "@/components/json-ld";
 import { site } from "@/content/site";
+import { Figure, Callout, References, Cite, Mermaid } from "@/components/mdx";
 
 type Params = { slug: string };
+
+const mdxComponents = {
+  Figure,
+  Callout,
+  References,
+  Cite,
+  Mermaid,
+};
 
 export function generateStaticParams(): Params[] {
   return getAllPostMeta().map((p) => ({ slug: p.slug }));
@@ -22,8 +34,10 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
-  const url = `/writing/${post.slug}`;
-  const images = post.image ? [{ url: post.image, alt: post.imageAlt ?? post.title }] : undefined;
+  const url = `/blog/${post.slug}`;
+  const images = post.image
+    ? [{ url: post.image, alt: post.imageAlt ?? post.title }]
+    : undefined;
   return {
     title: post.title,
     description: post.excerpt,
@@ -60,7 +74,7 @@ function formatDate(iso: string): string {
   });
 }
 
-export default async function WritingPost({
+export default async function BlogPost({
   params,
 }: {
   params: Promise<Params>;
@@ -80,10 +94,10 @@ export default async function WritingPost({
         tags={post.tags}
       />
       <Link
-        href="/writing"
+        href="/blog"
         className="inline-flex items-center gap-1.5 text-sm text-ink-3 hover:text-accent mb-10"
       >
-        <ArrowLeft size={14} strokeWidth={1.75} /> all writing
+        <ArrowLeft size={14} strokeWidth={1.75} /> all posts
       </Link>
       <h1 className="display text-[clamp(2rem,4.5vw,3.25rem)] mb-4">
         {post.title}
@@ -112,7 +126,16 @@ export default async function WritingPost({
         ) : null}
       </div>
       <div className="prose-post">
-        <MDXRemote source={post.body} />
+        <MDXRemote
+          source={post.body}
+          components={mdxComponents}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkMath],
+              rehypePlugins: [rehypeKatex],
+            },
+          }}
+        />
       </div>
     </article>
   );

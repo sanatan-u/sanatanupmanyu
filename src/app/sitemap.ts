@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : 0.7,
   }));
   const posts: MetadataRoute.Sitemap = getAllPostMeta().map((p) => ({
-    url: `${site.url}/writing/${p.slug}`,
+    url: `${site.url}/blog/${p.slug}`,
     lastModified: new Date(p.updated || p.date || now),
     changeFrequency: "yearly",
     priority: 0.6,

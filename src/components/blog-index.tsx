@@ -122,7 +122,7 @@ export function BlogIndex({ posts }: { posts: BlogMeta[] }) {
               {byYear[year].map((p) => (
                 <li key={p.slug} className="border-t border-rule pt-5">
                   <Link
-                    href={`/writing/${p.slug}`}
+                    href={`/blog/${p.slug}`}
                     className="group grid gap-4 md:grid-cols-[200px_1fr]"
                   >
                     {p.image ? (
