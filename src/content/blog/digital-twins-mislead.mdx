@@ -1,28 +1,44 @@
 ---
 title: Three places patient digital twins mislead
 date: 2026-03-28
-excerpt: Digital twins are useful. They are also confident in exactly the situations where a clinician would hedge. Here are three failure modes I keep seeing.
+excerpt: Digital twins are useful. They are also confident in exactly the situations where a clinician would hedge. Three failure modes that keep showing up, and what each one implies for how the twin should be designed.
 tags: [ai, digital-twins, clinical]
 image: /blog/digital-twins-mislead.svg
 imageAlt: Two patient silhouettes overlapping, one green and solid, one orange and dashed
 ---
 
-Patient digital twins are genuinely useful. They compress a messy medical history into something a model can reason over, they let you simulate counterfactuals, and they occasionally surface subgroups a trial was never powered to find.
+Patient digital twins are genuinely useful. They compress a messy medical history into something a model can reason over, they let you simulate counterfactuals, and they occasionally surface subgroups a trial was never powered to find. Used well, they shorten decisions. Used poorly, they shorten them in the wrong direction.
 
-They also fail — and they tend to fail with a straight face. Three patterns I keep running into:
+They also fail — and they tend to fail with a straight face. Three patterns I keep running into, each of which has a design implication that most teams skip.
 
-## 1. The twin looks nothing like the patient it's modeling
+## 1. The twin looks nothing like the patient it is modelling
 
-A twin built from registry data, claims, and a handful of lab values can look plausible on a dashboard and bear no resemblance to the person sitting in front of a clinician. Medication adherence is missing. Social determinants are missing. The last six months of deterioration are missing because the data lags. Any recommendation derived from this twin is a recommendation for a fictional patient who shares a zip code with the real one.
+A twin built from registry data, claims, and a handful of lab values can look plausible on a dashboard and bear no resemblance to the person sitting in front of a clinician. Medication adherence is missing. Social determinants are missing. The last six months of deterioration are missing because the data lags by a quarter. Any recommendation derived from this twin is a recommendation for a fictional patient who happens to share a zip code with the real one.
 
-The fix isn't more features. It's being honest in the UI about what the twin *is not* modeling, so the clinician can weight it accordingly.
+The fix is not more features — features will always be missing. The fix is being honest in the UI about what the twin *is not* modelling, so the clinician can weight its output accordingly. A twin that displays a confidence band without naming the blind spots is worse than no twin at all, because it replaces "I do not know" with "the model said so."
 
 ## 2. Distributional twins trained on who made it into the dataset
 
-If your twin population is built from patients who reached a tertiary care center and consented to research, your model has learned the physiology of a specific survivorship-biased cohort. Generalizing to primary care or under-represented populations is not a validation question — it's a first-principles problem that more validation data won't fix.
+If your twin population is built from patients who reached a tertiary care centre and consented to research, your model has learned the physiology of a specific survivorship-biased cohort<Cite id="survivor" n={1} />. Generalising to primary care, to under-represented populations, or to the patients who never made it into the registry at all is not a validation question — it is a first-principles problem that more validation data will not fix.
+
+This is now a first-class concern in the digital twin literature<Cite id="twin-bias" n={2} />: because twins are often built from trial-participant data, they inherit the generalisability limits of the trials they were trained on. A twin that looks accurate on in-distribution patients and is silent about where the distribution ends is a twin that will be used confidently in the exact places it should not be.
+
+The design implication: the twin has to refuse to answer for populations it was not trained on, and the refusal has to be visible. "No prediction available for this cohort" is a feature, not a bug report.
 
 ## 3. Counterfactuals that smuggle in the treatment effect you were trying to measure
 
-The most seductive failure. You build a twin, you simulate "what if we had given drug B instead of drug A," and the twin confidently predicts an outcome. But the features that drive the prediction are themselves correlated with whoever historically received drug A vs B — prescribers, disease severity, insurance — and the twin has silently encoded the old treatment allocation policy. You end up with a counterfactual that is really a restatement of clinical practice in 2019.
+The most seductive failure. You build a twin, you ask "what if we had given drug B instead of drug A," and the twin produces a confident number. But the features driving the prediction — prescriber network, disease severity at prescription, insurance tier — are themselves correlated with whoever historically received A versus B. The twin has silently encoded the old treatment allocation policy. Your counterfactual is a restatement of clinical practice in 2019, not a prediction about 2026.
 
-Digital twins that acknowledge their own boundaries — in the data they trained on, in the populations they represent, in the questions they can answer — are the ones clinicians actually use. Everything else gets politely ignored, which is the best-case outcome.
+Regulators have seen this one. The EMA's qualification of Unlearn's PROCOVA<Cite id="procova" n={3} /> is narrow on purpose — it treats the digital twin as a prognostic covariate in an RCT, not as a synthetic control arm that would let you skip the randomisation. The distinction matters. A twin that augments a properly randomised comparison is adding information. A twin that replaces randomisation is often confidently reproducing the bias it was supposed to help you see through.
+
+## What actually earns a clinician's trust
+
+The pattern across all three: the twins clinicians use are the ones that acknowledge their own boundaries — in the data they trained on, in the populations they represent, in the counterfactuals they are licensed to simulate. Everything else gets politely ignored, which is the best-case outcome. The worse case is that it gets used, confidently, in the situation where it was always going to be wrong.
+
+Digital twins are not going away. The question is whether they ship with the honesty architecture that lets them be useful — or whether they ship as confidence machines whose failures will, eventually, land on a patient.
+
+<References>
+  <Ref id="survivor" url="https://pubmed.ncbi.nlm.nih.gov/17100859/">Quantifying the impact of survivor treatment bias in observational studies. PubMed, 2006.</Ref>
+  <Ref id="twin-bias" url="https://www.nature.com/articles/s41540-025-00592-0">Enhancing randomized clinical trials with digital twins. npj Systems Biology and Applications, 2025 — explicit on how twins inherit the generalisability limits of their training cohort.</Ref>
+  <Ref id="procova" url="https://www.unlearn.ai/">Unlearn.AI — PROCOVA / TwinRCTs methodology, qualified by the EMA as a prognostic covariate in RCTs rather than as a synthetic control arm.</Ref>
+</References>

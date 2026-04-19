@@ -1,28 +1,52 @@
 ---
 title: Designing agentic workflows clinicians will actually trust
 date: 2026-04-12
-excerpt: Agents that act on behalf of clinicians need a different design budget than agents that suggest. Three principles I keep coming back to.
+excerpt: An agent that suggests is a search box with nicer prose. An agent that acts operates under a different contract. Three design principles that separate agentic systems clinicians keep using from the ones they quietly abandon.
 tags: [ai, agents, clinical]
 image: /blog/agentic-workflows-trust.svg
 imageAlt: Diagram of a linear workflow with plan, act, check, and ship stages, and human checkpoints in orange
 ---
 
-An agent that suggests is a search box with nicer prose. An agent that acts — queries a registry, drafts a protocol amendment, schedules a follow-up — operates under a different contract with the user. The design budget changes accordingly.
+An agent that *suggests* is a search box with nicer prose. An agent that *acts* — queries a registry, drafts a protocol amendment, schedules a follow-up, edits a record — operates under a different contract with the user, and the design budget has to change to match. Most teams I see skip that change. The demo survives it. Practice does not.
 
-Three principles I keep coming back to:
+Three principles that separate the clinical agentic systems still in use six months after launch from the ones quietly abandoned. None of this is novel. The novel thing is the commercial pressure to skip it, because demos look better without checkpoints and without stops.
 
 ## 1. Checkpoints over autonomy
 
-The temptation is to build one long autonomous chain and hope it doesn't drift. What actually gets trusted is the opposite: short segments of automation between human checkpoints, where the checkpoint is designed to be cheap for the human — small diffs, clear before/after, one-click revert. The goal is not to minimize human involvement; it's to make each human touch worth seconds instead of minutes.
+The temptation is to build one long autonomous chain and hope it does not drift. What actually earns trust is the opposite: short segments of automation between human checkpoints, where the checkpoint has been deliberately designed to be *cheap* for the human<Cite id="hitl" n={1} />.
+
+Cheap means small diffs, not wall-of-text summaries. It means clear before/after states. It means one-click revert. It means the checkpoint takes seconds, not minutes, because any checkpoint that costs the clinician real time will be skipped, tolerated, or routed around inside a month.
+
+The goal is not to minimise human involvement. It is to make each human touch worth the seconds it costs. An agent with ten cheap checkpoints clinicians actually use beats an agent with one expensive checkpoint they click through on autopilot. The first is a collaborator. The second is a liability that happens to have good manners.
 
 ## 2. Provenance down to the claim
 
-A clinician will not accept a recommendation they can't trace. That means every material claim an agent makes needs a pointer back to the source — the specific trial record, the specific guideline paragraph, the specific lab value. Not "based on recent literature." Not a bibliography dump. A claim-to-source map the user can hover.
+A clinician will not accept a recommendation they cannot trace. That means every material claim the agent makes needs a pointer back to its source — the specific trial record, the specific guideline paragraph, the specific lab value. Not "based on recent literature." Not a bibliography dump at the bottom. A claim-to-source map the user can hover, inspect, and disagree with inline.
 
-This is expensive to build. It's also the difference between a tool clinicians pilot and a tool they ignore.
+The FDA's 2025 draft guidance on AI in regulatory decision-making<Cite id="fda-ai" n={2} /> formalises this at the regulatory level: credibility is tied to a specific context of use, and the context has to be documented with evidence that ties outputs back to inputs. GxP-grade deployments<Cite id="gxp" n={3} /> take it further — every action, every decision, every override logged with complete provenance and an audit trail regulators can inspect.
+
+This is expensive to build. It is also the difference between a tool clinicians pilot and a tool they ignore. Pick any clinical AI product that survived past the enthusiasm phase, and I can show you the provenance layer that lets users trust it mid-workflow rather than trust it in principle.
 
 ## 3. Know when to stop
 
-Most agent failures I see in practice aren't wrong answers. They're confident answers when the agent should have said "I can't do this safely." Designing the "stop and escalate" path is the part most teams skip, because it feels like admitting the agent is incomplete. It isn't. Every system a clinician trusts has a clear handoff. The agent's job is to know the shape of its own competence, not to pretend to be complete.
+Most agent failures I see in practice are not wrong answers. They are confident answers when the agent should have said "I cannot do this safely." The "stop and escalate" path is the part most teams skip, because it feels like admitting the agent is incomplete.
 
-None of this is novel. What is novel is the pressure to skip it, because the demos look better without checkpoints and without stops. The systems that survive contact with actual practice have all three.
+It is not. Every clinical system that works has a clear handoff. Radiology has "insufficient study, recommend repeat imaging." Labs have "specimen rejected." Every well-engineered decision-support tool has a path out to a human. An agent without that path is not a more capable agent. It is a more dangerous one.
+
+The design move is to treat stopping as a first-class capability, not an error state:
+
+- **Competence boundaries are documented** — the agent knows the shape of what it can and cannot do, and the shape is legible to the user.
+- **Escalation is cheap** — the handoff comes with the context the human needs to pick up the work, not a "please retry" message.
+- **Stopping is measured** — stop rate is a product metric you track deliberately. An agent that never stops is either superhuman or overconfident, and the second is much more likely than the first.
+
+## Why this keeps getting skipped
+
+The pressure to build without checkpoints, without provenance, and without stops is not technical. It is commercial. Autonomous end-to-end demos win pitch meetings. The systems clinicians actually trust are less impressive in a ten-minute walkthrough because they are full of visible seams — by design.
+
+The seams are the product. The agent is the scaffolding around them.
+
+<References>
+  <Ref id="hitl" url="https://www.nature.com/articles/s41591-025-04033-7">For trustworthy AI, keep the human in the loop. Nature Medicine, 2025.</Ref>
+  <Ref id="fda-ai" url="https://www.fda.gov/news-events/press-announcements/fda-proposes-framework-advance-credibility-ai-models-used-drug-and-biological-product-submissions">U.S. FDA (January 2025). Considerations for the Use of Artificial Intelligence to Support Regulatory Decision-Making for Drug and Biological Products — draft guidance.</Ref>
+  <Ref id="gxp" url="https://aws.amazon.com/blogs/machine-learning/a-guide-to-building-ai-agents-in-gxp-environments/">A guide to building AI agents in GxP environments — audit trail, provenance, and human sign-off patterns that hold up under regulatory inspection.</Ref>
+</References>

@@ -1,30 +1,45 @@
 ---
 title: Four failure modes of knowledge graphs over messy literature
 date: 2026-03-10
-excerpt: Building knowledge graphs over biomedical literature looks clean on a slide. The failure modes only show up once a domain expert starts asking questions.
+excerpt: Knowledge graphs over biomedical literature look clean on a slide. The failure modes only show up once a domain expert starts asking sharp questions — and none of them are model problems.
 tags: [ai, knowledge-graphs, biomedicine]
 image: /blog/knowledge-graphs-failure-modes.svg
 imageAlt: Abstract network of nodes and edges in muted green, with two highlighted hubs in orange
 ---
 
-Knowledge graphs over biomedical literature look clean on a slide. A few million papers, a few entity types, a few relation types, some pretty force-directed visualization. Ship it.
+Knowledge graphs over biomedical literature look clean on a slide. A few million papers, a handful of entity types, a handful of relation types, a pretty force-directed visualisation. Ship it. Demo well.
 
-In practice, four failure modes bite every time. None of them are model problems — they are ontology, evidence, and workflow problems.
+They stop looking clean the moment a domain expert asks a sharp question. The failure modes that bite are not model problems — they are ontology, evidence, and workflow problems. Four that I keep hitting:
 
 ## 1. Synonymy, but also non-synonymy
 
-The first instinct is to collapse synonyms. *Gene X* and *Protein Y* and *Receptor Z* all get merged into the same node. Then a biologist asks a question where the protein matters but the gene doesn't, and your graph has already eaten the distinction. Every merge is a lossy compression step; every merge should be auditable and reversible at query time.
+The first instinct is to collapse synonyms. *Gene X*, *Protein Y*, and *Receptor Z* all get merged into one node, mapped to a UMLS or MeSH code, and the graph looks tidier for it. Then a biologist asks a question where the gene matters but the protein does not — or vice versa — and your graph has already eaten the distinction. Abbreviations make this worse: inside UMLS, "AD" can resolve to Alzheimer's Disease, Atopic Dermatitis, Actinomycin D, or Admitting Diagnosis<Cite id="bioel" n={1} />, and a naive merge across all of them produces answers that are confidently nonsensical.
+
+Every merge is a lossy compression step. Every merge should be auditable, reversible at query time, and scoped to a context where the merge was valid. "Collapse synonyms" is a sentence; it is not a design.
 
 ## 2. Evidence without strength
 
-A relation extracted from one sentence of one preprint gets the same edge as a relation supported by twenty review articles and a phase-3 trial. Unless edges carry a calibrated confidence — ideally tied to source type, recency, and contradiction — downstream reasoning will treat speculation as fact. This is where most "hallucination" in RAG-over-graphs actually comes from: the graph itself was never hedged.
+A relation extracted from one sentence of one preprint should not get the same edge weight as a relation supported by twenty review articles and a phase-3 trial. When edges do not carry calibrated confidence — ideally tied to source type, recency, and whether contradicting evidence exists in the graph — downstream reasoning will treat speculation as fact.
+
+This is where most "hallucination" in RAG-over-graphs actually comes from. The retrieval layer is fine. The graph itself was never hedged. By the time the LLM sees the context, the distinction between "a clinical trial said so" and "a 2014 abstract suggested so" has been quietly erased. Edges need provenance, source-type, recency, and a contradiction flag. Without those four, the graph is a confidence machine, not a knowledge base.
 
 ## 3. Temporal drift
 
-Biomedical consensus moves. A gene-disease association that was plausible in 2012 may have been refuted by 2020. If your graph is a timeless blob, you will surface retracted claims with confidence. Every edge needs a "as of" and ideally a "superseded by" pointer.
+Biomedical consensus moves. A gene-disease association plausible in 2012 may have been refuted by 2020. A drug mechanism proposed in an abstract may have been retracted — and the retraction may itself be invisible to your pipeline, because over 94% of post-retraction citations in biomedicine do not mention the retraction<Cite id="retractions" n={2} />. A timeless blob of edges will surface retracted claims with the same confidence as current ones.
 
-## 4. The question the graph can't answer
+Every edge needs an "as of" timestamp and, where applicable, a "superseded by" pointer. Retraction feeds should be first-class citizens in the ingestion pipeline, not an afterthought. If the graph cannot reason about *when* a claim was true, it cannot be trusted to reason about whether it is true now.
 
-The failure mode that hurts most is the one where a domain expert asks a question the graph *structurally* can't answer — because the relation type was never modeled, or the entity type never extracted. You discover this after you've invested in infrastructure. The fix is to start from the questions, not the papers: pick ten hard questions an expert would ask, and design the schema backwards from those.
+## 4. The question the graph structurally cannot answer
 
-None of this is a reason not to build graphs. But the graph is the floor, not the ceiling. What you build on top — ranking, hedging, provenance, and the workflows that let experts push back — is where the actual value lives.
+The failure mode that hurts most is the one where a domain expert asks a question the graph was never designed to answer — because the relation type was never modelled, or the entity type was never extracted. You discover this after the infrastructure is built, which is the most expensive place to discover it.
+
+The fix is to invert the design direction. Start from the questions, not the papers. Pick ten hard questions an expert would ask in their real workflow — the kind that make them reach for a paper, a colleague, and a whiteboard — and design the schema backwards from those. The graph that answers those ten questions cleanly is the graph worth building. The graph that answers every question adequately is the graph that will be ignored.
+
+---
+
+None of this is a reason not to build graphs. Biomedical knowledge graphs remain the only practical way to reason over literature at scale, and the normalisation and entity-linking work continues to improve<Cite id="bioel" n={1} />. But the graph is the floor of the system, not the ceiling. What you build on top — calibrated ranking, explicit hedging, traceable provenance, and the workflows that let experts push back in-line — is where the actual value lives. A graph without that scaffolding is just a prettier retrieval system with more ways to be confidently wrong.
+
+<References>
+  <Ref id="bioel" url="https://pmc.ncbi.nlm.nih.gov/articles/PMC11097978/">A Comprehensive Evaluation of Biomedical Entity Linking Models — PMC, 2024. Covers the ambiguity and synonymy challenges that drive the failures above.</Ref>
+  <Ref id="retractions" url="https://pmc.ncbi.nlm.nih.gov/articles/PMC10982619/">Reducing the residue of retractions in evidence synthesis — PMC, 2024. Quantifies how often retracted claims continue to propagate, and how rarely citations flag the retraction.</Ref>
+</References>
