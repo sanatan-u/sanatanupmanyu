@@ -8,27 +8,6 @@ export type Role = {
 
 export const experience: Role[] = [
   {
-    company: "Apxora GmbH",
-    location: "Basel, Switzerland",
-    title: "Co-Founder & AI/Data Science Head",
-    period: "Dec 2024 – Present",
-    bullets: [
-      "Drives development and deployment of the ResearchNexus and Clinical Navigator platforms.",
-      "Leads strategic AI/ML initiatives for detecting early innovation signals for emerging targets, novel therapeutics, and healthcare solutions.",
-      "Supports the Asset Lifecycle Manager and Portfolio Management platforms.",
-    ],
-  },
-  {
-    company: "RenaissThera Pvt Ltd",
-    location: "Gurgaon, India",
-    title: "Scientific Advisory Board",
-    period: "Sep 2024 – Present",
-    bullets: [
-      "Advising on AI-driven strategies for early-stage drug discovery and translational research.",
-      "Shaping the future of health through regulatory-aware innovation in digital and data sciences.",
-    ],
-  },
-  {
     company: "AlphaMeld GmbH (formerly InveniAI GmbH)",
     location: "Basel, Switzerland",
     title: "Head of Data Sciences – Site Head",
@@ -43,13 +22,47 @@ export const experience: Role[] = [
   },
   {
     company: "ArtiXio Pvt Ltd",
-    location: "Gurgaon, India",
-    title: "Board of Director & Technical Advisor",
+    location: "Remote",
+    title: "Chief Technology Officer",
     period: "Sep 2017 – Present",
     bullets: [
-      "Conceptualized, built, and executed regulatory-compliant solutions across the drug development lifecycle.",
-      "Directed enterprise-level data science and AI product development using Agile methodologies.",
-      "Strategic consulting on technology adoption, regulatory intelligence, and compliance-driven digital transformation.",
+      "Owns technology strategy, architecture, and delivery of Artixio's digital product portfolio — from concept to production.",
+      "Conceptualized and built QuriousRI, a secure role-based regulatory intelligence platform covering pharmaceuticals, biologics, biosimilars, and generics across 12+ agencies (FDA, EMA, PMDA, NMPA, Health Canada, MHRA, Swissmedic, and more), with AI-assisted document analysis (GPT-4, Claude).",
+      "Architected additional technology applications for the company, including an AI assistant that mines global regulatory updates and auto-drafts submission dossiers — opening a new non-pharma revenue channel.",
+      "Directs enterprise-level data science and AI product development using Agile methodologies, ensuring adherence to global regulatory standards (FDA, EMA, ICH) across the drug development lifecycle.",
+    ],
+  },
+  {
+    company: "Apxora GmbH",
+    location: "Basel, Switzerland",
+    title: "Co-Founder & AI/Data Science Head",
+    period: "Dec 2024 – Present",
+    bullets: [
+      "Drives development and deployment of the ResearchNexus and Clinical Navigator platforms.",
+      "Leads strategic AI/ML initiatives for detecting early innovation signals for emerging targets, novel therapeutics, and healthcare solutions.",
+      "Supports the Asset Lifecycle Manager and Portfolio Management platforms.",
+    ],
+  },
+  {
+    company: "RenaissThera Pvt Ltd",
+    location: "Remote",
+    title: "Scientific & AI Advisory Board",
+    period: "Sep 2024 – Present",
+    bullets: [
+      "Advising on AI-driven strategies for early-stage drug discovery and translational research.",
+      "Shaping the future of health through regulatory-aware innovation in digital and data sciences.",
+    ],
+  },
+  {
+    company: "Kstych Pvt Ltd",
+    location: "Gurgaon, India",
+    title: "Co-Founder | Director Data Sciences | Life Science Consultant",
+    period: "Jul 2012 – Aug 2023",
+    bullets: [
+      "Co-founded and led data sciences, applying statistical, mathematical, and predictive modeling to build algorithms for life-science research questions.",
+      "Advised pharma and biotech firms on de novo, reformulation, repurposing, and drug-rescue strategies using real-world data.",
+      "Built statistical predictive models using NLP and machine learning on RWD; led therapeutic target assessment and MOA analysis.",
+      "Hands-on expertise in Python, R, KNIME, MongoDB, Hadoop, MySQL/MariaDB, Tableau, Gephi, and Cytoscape.",
     ],
   },
   {
@@ -64,35 +77,25 @@ export const experience: Role[] = [
     ],
   },
   {
-    company: "EZ BioXcel Pvt Ltd",
-    location: "Hybrid Gurgaon IN / CT US",
-    title: "Director of Data Science",
-    period: "Apr 2014 – Aug 2017",
+    company: "BioXcel Corporation",
+    location: "Gurgaon, India",
+    title: "Director Data Sciences | Life Science Consultant",
+    period: "Nov 2010 – Jul 2017",
     bullets: [
       "Directed drug repurposing and novel target hypothesis generation using big data and statistical techniques.",
-      "Managed and mentored a team of data scientists.",
-      "Collaborated with US-based pharma and biotech clients.",
+      "Advised pharma and biotech firms on diverse scientific strategic projects, surveys, and future opportunity mapping (de novo, reformulation, repurposing, drug rescue) using real-world data.",
+      "Managed and mentored a team of data scientists; partnered closely with US-based pharma and biotech clients.",
+      "Led project management and strategy consulting efforts, providing scientific support to business development.",
     ],
   },
   {
-    company: "EZ BioXcel Pvt Ltd",
-    location: "Hybrid Gurgaon IN / CT US",
-    title: "Senior Analyst – Scientific Analytics",
-    period: "Nov 2010 – Apr 2014",
-    bullets: [
-      "Directed project management and strategy consulting efforts.",
-      "Provided scientific support to business development.",
-      "Partnered with US-based clients on data-driven insights.",
-    ],
-  },
-  {
-    company: "NDDR – Ranbaxy",
+    company: "Ranbaxy",
     location: "Gurgaon, India",
-    title: "Research Biologist / Fellowship",
-    period: "Feb 2008 – Aug 2010",
+    title: "Research Biologist",
+    period: "Jan 2008 – Nov 2010",
     bullets: [
       "Conducted siRNA targeted gene silencing for target-based drug discovery.",
-      "Cloning, expression, purification, and activity analysis of human kinases, cytochrome P450 proteins, GPCRs, and bacterial enzymes.",
+      "Cloning, expression, purification, and activity analysis of human kinases, cytochrome P450 proteins, GPCRs, and bacterial enzymes — supporting enzyme- and cell-based NCE screening assays.",
       "Managed experiments using mammalian, baculovirus, and Dictyostelium expression systems.",
     ],
   },
