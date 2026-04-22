@@ -85,7 +85,7 @@ export default async function BlogPost({
   if (!post) notFound();
 
   return (
-    <article className="mx-auto max-w-[860px] px-6 md:px-12 pt-12 pb-8">
+    <article className="mx-auto max-w-[1040px] px-6 md:px-12 pt-12 pb-8">
       <BlogPostingJsonLd
         title={post.title}
         description={post.excerpt}
@@ -109,7 +109,7 @@ export default async function BlogPost({
             src={post.image}
             alt={post.imageAlt ?? ""}
             fill
-            sizes="(max-width: 860px) 100vw, 860px"
+            sizes="(max-width: 1040px) 100vw, 1040px"
             priority
             className="object-cover"
           />
