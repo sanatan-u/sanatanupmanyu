@@ -54,7 +54,12 @@ export function PersonJsonLd() {
       {
         "@type": "EducationalOccupationalCredential",
         credentialCategory: "Patent",
-        name: "US Patent (AI-driven drug discovery methods)",
+        name: "US20180134771 — Novel Immunomodulatory Therapeutic Strategies Targeting Tumors in Cancer",
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        credentialCategory: "Patent",
+        name: "US20190008918 — Immunomodulation Therapies for Cancer",
       },
     ],
   };

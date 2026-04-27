@@ -14,12 +14,12 @@ export const site = {
   },
   linkedin: "https://linkedin.com/in/sanatan-upmanyu",
   github: "https://github.com/sanatan-u",
-  statsInline: "18y experience · 5+ platforms · 12+ ML models · 4 patents",
+  statsInline: "18y experience · 5+ platforms · 12+ ML models · 2 patents · 5 publications",
   stats: [
     { value: "18+", label: "Years Experience" },
     { value: "5+", label: "Platforms Built" },
-    { value: "12+", label: "ML Models" },
-    { value: "4", label: "Patents" },
+    { value: "5", label: "Publications" },
+    { value: "2", label: "Patents" },
   ],
   availability: "Open to consulting & advisory",
   techStack: [

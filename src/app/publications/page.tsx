@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Publications & Patents — Sanatan Upmanyu",
     description:
-      "Peer-reviewed research and 4 granted patents covering AI-driven drug discovery, target validation, and biomedical NLP.",
+      "5 peer-reviewed publications and 2 granted US patents covering AI-driven drug discovery, immuno-oncology, and biomedical NLP.",
   },
 };
 
