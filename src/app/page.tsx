@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { site } from "@/content/site";
 import { SocialRow } from "@/components/social-row";
@@ -7,7 +6,7 @@ import { ParticlesBackdrop } from "@/components/particles-backdrop";
 import { SectionDivider } from "@/components/section-divider";
 import { StatsBar } from "@/components/stats-bar";
 import { TechGrid } from "@/components/tech-grid";
-import { AtAGlance } from "@/components/at-a-glance";
+import { FlipCard } from "@/components/flip-card";
 import { Typewriter } from "@/components/typewriter";
 import { platforms } from "@/content/platforms";
 import { products } from "@/content/products";
@@ -59,35 +58,14 @@ export default function HomePage() {
           <SocialRow />
         </div>
 
-        <div className="order-1 md:order-2 flex flex-col gap-6 items-center md:items-stretch">
-          <div className="relative w-48 md:w-full">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 rounded-[32px] ring-1 ring-accent/15 translate-x-3 translate-y-3"
-            />
-            <Image
-              src="/sanatan-square.jpg"
-              alt="Sanatan Upmanyu"
-              width={560}
-              height={560}
-              priority
-              className="relative w-full h-auto rounded-[28px] shadow-[0_2px_30px_rgba(0,0,0,0.08)]"
-            />
-          </div>
-          <div className="hidden md:block">
-            <AtAGlance />
-          </div>
+        <div className="order-1 md:order-2 flex flex-col items-center md:items-stretch">
+          <FlipCard />
         </div>
       </section>
 
       {/* ── Stats ── */}
       <section className="mt-16 md:mt-20">
         <StatsBar />
-      </section>
-
-      {/* ── At a Glance (mobile) ── */}
-      <section className="mt-12 md:hidden">
-        <AtAGlance />
       </section>
 
       {/* ── Tech Stack ── */}
