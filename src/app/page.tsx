@@ -5,6 +5,9 @@ import { site } from "@/content/site";
 import { SocialRow } from "@/components/social-row";
 import { ParticlesBackdrop } from "@/components/particles-backdrop";
 import { SectionDivider } from "@/components/section-divider";
+import { StatsBar } from "@/components/stats-bar";
+import { TechGrid } from "@/components/tech-grid";
+import { AtAGlance } from "@/components/at-a-glance";
 import { platforms } from "@/content/platforms";
 import { products } from "@/content/products";
 
@@ -19,35 +22,86 @@ export default function HomePage() {
   ];
   return (
     <div className="mx-auto max-w-[1040px] px-6 md:px-12 pt-12 pb-8">
-      <section className="relative isolate grid md:grid-cols-[1fr_320px] gap-10 md:gap-16 items-center py-8 md:py-12">
+      {/* ── Hero ── */}
+      <section className="relative isolate grid md:grid-cols-[1fr_320px] gap-10 md:gap-16 items-start py-8 md:py-12">
         <ParticlesBackdrop />
         <div className="order-2 md:order-1">
+          <div className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/5 px-3 py-1 text-xs text-accent mb-6">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            </span>
+            {site.availability}
+          </div>
+
           <h1 className="display text-[clamp(2.75rem,6.5vw,5rem)] mb-6">
             Hi, I&rsquo;m <em>Sanatan</em>.
           </h1>
-          <div className="prose text-[18px] leading-[1.65] text-ink-2 max-w-[56ch] mb-6">
+          <div className="prose text-[18px] leading-[1.65] text-ink-2 max-w-[56ch] mb-8">
             <p>{site.tagline}</p>
             <p>{site.currently}</p>
           </div>
-          <div className="text-sm text-ink-3 mb-7">{site.statsInline}</div>
+
+          <div className="flex flex-wrap items-center gap-4 mb-8">
+            <Link
+              href="/work"
+              className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-ink"
+            >
+              Explore my work
+              <ArrowRight size={15} strokeWidth={2} />
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-lg border border-rule px-5 py-2.5 text-sm font-medium text-ink-2 transition-colors hover:border-accent hover:text-accent"
+            >
+              Get in touch
+            </Link>
+          </div>
+
           <SocialRow />
         </div>
-        <div className="order-1 md:order-2 relative">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-[32px] ring-1 ring-accent/15 translate-x-3 translate-y-3"
-          />
-          <Image
-            src="/sanatan-square.jpg"
-            alt="Sanatan Upmanyu"
-            width={560}
-            height={560}
-            priority
-            className="relative w-full h-auto rounded-[28px] shadow-[0_2px_30px_rgba(0,0,0,0.08)]"
-          />
+
+        <div className="order-1 md:order-2 flex flex-col gap-6">
+          <div className="relative">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 rounded-[32px] ring-1 ring-accent/15 translate-x-3 translate-y-3"
+            />
+            <Image
+              src="/sanatan-square.jpg"
+              alt="Sanatan Upmanyu"
+              width={560}
+              height={560}
+              priority
+              className="relative w-full h-auto rounded-[28px] shadow-[0_2px_30px_rgba(0,0,0,0.08)]"
+            />
+          </div>
+          <div className="hidden md:block">
+            <AtAGlance />
+          </div>
         </div>
       </section>
 
+      {/* ── Stats ── */}
+      <section className="mt-16 md:mt-20">
+        <StatsBar />
+      </section>
+
+      {/* ── At a Glance (mobile) ── */}
+      <section className="mt-12 md:hidden">
+        <AtAGlance />
+      </section>
+
+      {/* ── Tech Stack ── */}
+      <SectionDivider className="mt-20 mb-14" />
+      <section>
+        <h2 className="display text-[clamp(1.75rem,3vw,2.5rem)] mb-8">
+          Tech <em>stack</em>
+        </h2>
+        <TechGrid />
+      </section>
+
+      {/* ── Selected work ── */}
       <SectionDivider className="mt-24 mb-14" />
       <section>
         <div className="flex items-baseline justify-between mb-10 flex-wrap gap-3">
@@ -76,6 +130,7 @@ export default function HomePage() {
         </ul>
       </section>
 
+      {/* ── Work together ── */}
       <SectionDivider className="mt-24 mb-14" />
       <section>
         <h2 className="display text-[clamp(1.75rem,3vw,2.5rem)] mb-5">
