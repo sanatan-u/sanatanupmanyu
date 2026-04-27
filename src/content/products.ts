@@ -7,12 +7,14 @@ export type Product = {
   builtFor?: string;
   impact?: string;
   description: string;
+  tags?: string[];
 };
 
 export const products: Product[] = [
   {
     name: "Pipeline Alpha",
     stage: "Live",
+    tags: ["Full Stack", "AI/ML", "FinTech"],
     url: "https://pipelinealpha.com",
     impact: "Tracks ~10,000 clinical-trial drugs and AI-predicts the catalysts that move small-cap biotech stocks",
     description:
@@ -21,6 +23,7 @@ export const products: Product[] = [
   {
     name: "QuriousRI",
     stage: "Live",
+    tags: ["Full Stack", "Regulatory", "AI/ML"],
     url: "https://app.quriousri.com",
     builtFor: "Artixio Pvt Ltd",
     impact: "Drug & biologic regulatory intelligence spanning 12+ agencies — FDA, EMA, PMDA, NMPA, Health Canada, MHRA, Swissmedic, and more",
@@ -30,6 +33,7 @@ export const products: Product[] = [
   {
     name: "Secondary Research Automation",
     stage: "Engagement",
+    tags: ["Automation", "AI/ML", "NLP"],
     impact: "Agent-orchestrated multi-step research, delivered to dashboard or Excel",
     description:
       "Fully agent-orchestrated, multi-step LLM process. Input parameters, run a series of LLM processes to extract information from the web, compile, and store in a dashboard or export to Excel.",
@@ -37,6 +41,7 @@ export const products: Product[] = [
   {
     name: "Booking System Platform",
     stage: "Engagement",
+    tags: ["Full Stack", "SaaS"],
     impact: "Bespoke booking platform delivered end-to-end to client spec",
     description:
       "End-to-end booking and scheduling platform — custom-built to client specification with real-time availability, notifications, and management dashboard.",
@@ -44,6 +49,7 @@ export const products: Product[] = [
   {
     name: "Regulatory Intelligence for ArtiXio",
     stage: "Live",
+    tags: ["AI/ML", "Regulatory", "Automation"],
     impact: "Auto-drafts submission dossiers for first-in-class device filings; opened a new non-pharma revenue channel",
     description:
       "AI assistant that mines global regulatory updates and auto-drafts submission dossiers; established a new non-pharma revenue channel.",

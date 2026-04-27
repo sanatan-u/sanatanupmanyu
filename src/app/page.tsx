@@ -21,7 +21,7 @@ export default function HomePage() {
     byName(products, "Pipeline Alpha"),
   ];
   return (
-    <div className="mx-auto max-w-[1040px] px-6 md:px-12 pt-12 pb-8">
+    <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
       {/* ── Hero ── */}
       <section className="relative isolate grid md:grid-cols-[1fr_320px] gap-10 md:gap-16 items-start py-8 md:py-12">
         <ParticlesBackdrop />
@@ -43,17 +43,11 @@ export default function HomePage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4 mb-8">
-            <Link
-              href="/work"
-              className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-ink"
-            >
+            <Link href="/work" className="btn-primary">
               Explore my work
               <ArrowRight size={15} strokeWidth={2} />
             </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-lg border border-rule px-5 py-2.5 text-sm font-medium text-ink-2 transition-colors hover:border-accent hover:text-accent"
-            >
+            <Link href="/contact" className="btn-outline">
               Get in touch
             </Link>
           </div>
@@ -108,10 +102,7 @@ export default function HomePage() {
           <h2 className="display text-[clamp(1.75rem,3vw,2.5rem)]">
             Selected <em>work</em>
           </h2>
-          <Link
-            href="/work"
-            className="text-sm text-ink-2 hover:text-accent inline-flex items-center gap-1"
-          >
+          <Link href="/work" className="link-arrow text-sm">
             all work <ArrowRight size={14} strokeWidth={1.75} />
           </Link>
         </div>
@@ -140,10 +131,7 @@ export default function HomePage() {
           Advisory engagements, speaking invitations, and technical consulting
           for pharma, biotech, and consumer health.
         </p>
-        <Link
-          href="/contact"
-          className="inline-flex items-center gap-2 text-accent hover:text-accent-ink font-medium"
-        >
+        <Link href="/contact" className="link-arrow">
           Get in touch <ArrowRight size={16} strokeWidth={1.75} />
         </Link>
       </section>

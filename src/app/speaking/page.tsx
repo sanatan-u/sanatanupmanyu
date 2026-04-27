@@ -21,7 +21,7 @@ export default function SpeakingPage() {
   const years = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
 
   return (
-    <div className="mx-auto max-w-[1040px] px-6 md:px-12 pt-12 pb-8">
+    <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
       <h1 className="display text-[clamp(2rem,4.5vw,3.5rem)] mb-6">
         Speaking.
       </h1>

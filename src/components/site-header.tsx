@@ -10,7 +10,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   return (
     <header className="sticky top-0 z-50 w-full border-b border-rule/60 bg-bg/80 backdrop-blur supports-[backdrop-filter]:bg-bg/70">
-      <div className="mx-auto max-w-[1040px] px-6 md:px-12 py-4 flex items-center justify-between gap-6 flex-wrap">
+      <div className="mx-auto max-w-[1200px] px-6 md:px-12 py-4 flex items-center justify-between gap-6 flex-wrap">
         <Link href="/" className="flex items-center gap-3 group" aria-label={`${site.name} — home`}>
           <LogoMark size={28} />
           <span className="font-medium text-ink group-hover:text-accent transition-colors">

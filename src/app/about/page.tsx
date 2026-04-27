@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-[1040px] px-6 md:px-12 pt-12 pb-8">
+    <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
       <section className="grid md:grid-cols-[1fr_280px] gap-10 md:gap-14 items-start">
         <div>
           <h1 className="display text-[clamp(2rem,4.5vw,3.5rem)] mb-8">
@@ -22,7 +22,7 @@ export default function AboutPage() {
               and leadership across pharma, biotech, and consumer health.
             </p>
             <p>
-              I architected the AlphaMeld™ platform — an end-to-end AI stack
+              I architected the AlphaMeld&trade; platform &mdash; an end-to-end AI stack
               that accelerates target triage and indication selection for
               global drug-makers. My work covers clinical-trial design and
               enrollment prediction, digital-twin modelling, and large-scale
@@ -44,44 +44,56 @@ export default function AboutPage() {
         />
       </section>
 
-      <h2 className="display text-[clamp(1.5rem,2.5vw,2rem)] mt-24 mb-8">
+      <h2 className="display text-[clamp(1.5rem,2.5vw,2rem)] mt-24 mb-10">
         Career
       </h2>
-      <ol className="space-y-10">
+      <ol className="relative ml-4 border-l-2 border-rule space-y-0">
         {experience.map((r, i) => {
           const current = r.period.includes("Present");
           return (
-            <li
-              key={`${r.company}-${i}`}
-              className="grid md:grid-cols-[200px_1fr] gap-3 md:gap-10"
-            >
-              <div className="text-sm text-ink-3 pt-1 flex items-center gap-2">
+            <li key={`${r.company}-${i}`} className="relative pl-8 pb-12 last:pb-0">
+              {/* timeline dot */}
+              <span
+                aria-hidden
+                className={`absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2 ${
+                  current
+                    ? "bg-accent border-accent"
+                    : "bg-bg border-rule"
+                }`}
+              />
+
+              <div className="flex flex-wrap items-center gap-2 mb-1">
+                <span className="font-medium text-ink">{r.company}</span>
                 {current ? (
-                  <span
-                    aria-hidden
-                    className="inline-block w-1.5 h-1.5 rounded-full bg-signal"
-                  />
+                  <span className="text-[11px] uppercase tracking-[0.12em] text-signal bg-signal/10 border border-signal/30 rounded-full px-2 py-[1px]">
+                    now
+                  </span>
                 ) : null}
-                <span>{r.period}</span>
               </div>
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium text-ink">{r.company}</span>
-                  {current ? (
-                    <span className="text-[11px] uppercase tracking-[0.12em] text-signal border border-signal/40 rounded-full px-2 py-[1px]">
-                      now
+
+              <div className="text-sm text-ink-3 mb-1">
+                {r.title} &middot; {r.location}
+              </div>
+              <div className="text-sm text-ink-3 mb-3">{r.period}</div>
+
+              {r.skills && r.skills.length > 0 ? (
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  {r.skills.map((s) => (
+                    <span
+                      key={s}
+                      className="text-[11px] text-accent tracking-wide uppercase rounded-full bg-accent/8 border border-accent/20 px-2.5 py-0.5"
+                    >
+                      {s}
                     </span>
-                  ) : null}
-                </div>
-                <div className="text-sm text-ink-3 mb-3">
-                  {r.title} · {r.location}
-                </div>
-                <ul className="space-y-1.5 text-[15px] text-ink-2 leading-relaxed">
-                  {r.bullets.map((b, j) => (
-                    <li key={j}>— {b}</li>
                   ))}
-                </ul>
-              </div>
+                </div>
+              ) : null}
+
+              <ul className="space-y-1.5 text-[15px] text-ink-2 leading-relaxed">
+                {r.bullets.map((b, j) => (
+                  <li key={j}>&mdash; {b}</li>
+                ))}
+              </ul>
             </li>
           );
         })}
@@ -90,17 +102,19 @@ export default function AboutPage() {
       <h2 className="display text-[clamp(1.5rem,2.5vw,2rem)] mt-20 mb-6">
         Education
       </h2>
-      <ul className="space-y-3">
+      <ul className="relative ml-4 border-l-2 border-rule space-y-0">
         {education.map((e) => (
           <li
             key={e.institution}
-            className="grid md:grid-cols-[200px_1fr] gap-3 md:gap-10"
+            className="relative pl-8 pb-8 last:pb-0"
           >
+            <span
+              aria-hidden
+              className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2 bg-bg border-rule"
+            />
+            <div className="font-medium">{e.institution}</div>
+            <div className="text-sm text-ink-3">{e.degree}</div>
             <div className="text-sm text-ink-3">{e.year}</div>
-            <div>
-              <div className="font-medium">{e.institution}</div>
-              <div className="text-sm text-ink-3">{e.degree}</div>
-            </div>
           </li>
         ))}
       </ul>

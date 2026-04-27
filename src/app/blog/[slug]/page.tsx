@@ -85,7 +85,7 @@ export default async function BlogPost({
   if (!post) notFound();
 
   return (
-    <article className="mx-auto max-w-[1040px] px-6 md:px-12 pt-12 pb-8">
+    <article className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
       <BlogPostingJsonLd
         title={post.title}
         description={post.excerpt}
