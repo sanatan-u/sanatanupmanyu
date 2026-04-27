@@ -9,8 +9,8 @@
   --ink-2: #3a3a3a;
   --ink-3: #6b6b6b;
   --rule: #e5e5e5;
-  --accent: #2f5d5a;
-  --accent-ink: #1c3b39;
+  --accent: #1b7a6f;
+  --accent-ink: #155e56;
   --signal: #a13d1e;
   color-scheme: light;
 }
@@ -175,6 +175,16 @@ button:focus-visible {
   border: 0;
   border-top: 1px solid var(--rule);
   margin: 2.5em 0;
+}
+
+/* ── Typewriter cursor ── */
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.animate-blink {
+  animation: blink 0.8s step-end infinite;
 }
 
 /* ── Mobile utilities ── */

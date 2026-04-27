@@ -8,6 +8,7 @@ import { SectionDivider } from "@/components/section-divider";
 import { StatsBar } from "@/components/stats-bar";
 import { TechGrid } from "@/components/tech-grid";
 import { AtAGlance } from "@/components/at-a-glance";
+import { Typewriter } from "@/components/typewriter";
 import { platforms } from "@/content/platforms";
 import { products } from "@/content/products";
 
@@ -34,9 +35,12 @@ export default function HomePage() {
             {site.availability}
           </div>
 
-          <h1 className="display text-[clamp(2.75rem,6.5vw,5rem)] mb-6">
+          <h1 className="display text-[clamp(2.75rem,6.5vw,5rem)] mb-4">
             Hi, I&rsquo;m <em>Sanatan</em>.
           </h1>
+          <div className="mb-6">
+            <Typewriter />
+          </div>
           <div className="prose text-[18px] leading-[1.65] text-ink-2 max-w-[56ch] mb-8">
             <p>{site.tagline}</p>
             <p>{site.currently}</p>
