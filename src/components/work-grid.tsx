@@ -47,10 +47,10 @@ export function WorkGrid({
 
   return (
     <section>
-      <div className="flex flex-wrap gap-2 mb-10">
+      <div className="flex gap-2 mb-10 overflow-x-auto pb-2 -mx-6 px-6 md:mx-0 md:px-0 md:flex-wrap md:overflow-visible scrollbar-none">
         <button
           onClick={() => setActive(null)}
-          className={`rounded-full px-4 py-1.5 text-sm border transition-all duration-200 ${
+          className={`shrink-0 rounded-full px-4 py-2 text-sm border transition-all duration-200 ${
             active === null
               ? "bg-accent text-white border-accent"
               : "bg-transparent text-ink-2 border-rule hover:border-accent hover:text-accent"
@@ -62,7 +62,7 @@ export function WorkGrid({
           <button
             key={tag}
             onClick={() => setActive(active === tag ? null : tag)}
-            className={`rounded-full px-4 py-1.5 text-sm border transition-all duration-200 ${
+            className={`shrink-0 rounded-full px-4 py-2 text-sm border transition-all duration-200 ${
               active === tag
                 ? "bg-accent text-white border-accent"
                 : "bg-transparent text-ink-2 border-rule hover:border-accent hover:text-accent"
@@ -73,7 +73,7 @@ export function WorkGrid({
         ))}
       </div>
 
-      <ul className="grid md:grid-cols-2 gap-6">
+      <ul className="grid gap-5 md:grid-cols-2 md:gap-6">
         {filtered.map((p) => (
           <li
             key={p.name}

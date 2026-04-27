@@ -177,6 +177,16 @@ button:focus-visible {
   margin: 2.5em 0;
 }
 
+/* ── Mobile utilities ── */
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 /* ── Button & link animations ── */
 
 .btn-primary {

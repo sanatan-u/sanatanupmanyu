@@ -23,7 +23,7 @@ export default function HomePage() {
   return (
     <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
       {/* ── Hero ── */}
-      <section className="relative isolate grid md:grid-cols-[1fr_320px] gap-10 md:gap-16 items-start py-8 md:py-12">
+      <section className="relative isolate grid md:grid-cols-[1fr_320px] gap-8 md:gap-16 items-start py-6 md:py-12">
         <ParticlesBackdrop />
         <div className="order-2 md:order-1">
           <div className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/5 px-3 py-1 text-xs text-accent mb-6">
@@ -55,8 +55,8 @@ export default function HomePage() {
           <SocialRow />
         </div>
 
-        <div className="order-1 md:order-2 flex flex-col gap-6">
-          <div className="relative">
+        <div className="order-1 md:order-2 flex flex-col gap-6 items-center md:items-stretch">
+          <div className="relative w-48 md:w-full">
             <div
               aria-hidden
               className="pointer-events-none absolute inset-0 rounded-[32px] ring-1 ring-accent/15 translate-x-3 translate-y-3"

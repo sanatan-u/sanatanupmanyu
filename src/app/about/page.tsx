@@ -4,7 +4,15 @@ import { experience, education } from "@/content/experience";
 
 export const metadata: Metadata = {
   title: "About",
+  description:
+    "18+ years spanning wet-lab biology, AI/ML engineering, and leadership across pharma, biotech, and consumer health. Career timeline, skills, and education.",
   alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About — Sanatan Upmanyu",
+    description:
+      "Data-science executive with 18+ years in AI for biomedicine. Architect of the AlphaMeld platform. Based in Basel, Switzerland.",
+    type: "profile",
+  },
 };
 
 export default function AboutPage() {

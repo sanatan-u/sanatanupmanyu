@@ -72,7 +72,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="justify-self-start inline-flex items-center gap-2 bg-ink text-white rounded-full px-5 py-2.5 text-sm hover:bg-accent transition-colors disabled:opacity-50"
+        className="btn-primary justify-self-start rounded-full disabled:opacity-50"
       >
         {status === "submitting" ? "Sending…" : "Send message"}
         <ArrowRight size={16} strokeWidth={1.75} />

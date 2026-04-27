@@ -8,7 +8,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import { getAllPostMeta, getPost } from "@/lib/blog";
-import { BlogPostingJsonLd } from "@/components/json-ld";
+import { BlogPostingJsonLd, BreadcrumbJsonLd } from "@/components/json-ld";
 import { site } from "@/content/site";
 import { Figure, Callout, References, Cite, Ref, Mermaid } from "@/components/mdx";
 
@@ -77,15 +77,22 @@ function formatDate(iso: string): string {
 
 export default async function BlogPost({
   params,
-}: {
+}: Readonly<{
   params: Promise<Params>;
-}) {
+}>) {
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) notFound();
 
   return (
-    <article className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
+    <article className="mx-auto max-w-[780px] px-6 md:px-12 pt-12 pb-8">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Blog", href: "/blog" },
+          { name: post.title, href: `/blog/${post.slug}` },
+        ]}
+      />
       <BlogPostingJsonLd
         title={post.title}
         description={post.excerpt}
@@ -109,7 +116,7 @@ export default async function BlogPost({
             src={post.image}
             alt={post.imageAlt ?? ""}
             fill
-            sizes="(max-width: 1040px) 100vw, 1040px"
+            sizes="(max-width: 780px) 100vw, 780px"
             priority
             className="object-cover"
           />

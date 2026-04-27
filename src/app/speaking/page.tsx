@@ -4,7 +4,14 @@ import { talks } from "@/content/speaking";
 
 export const metadata: Metadata = {
   title: "Speaking",
+  description:
+    "Keynotes, panels, and workshops at Web Summit, Microsoft AI Tour, GlobalBioIndia, and industry meetups on AI, drug discovery, and digital health.",
   alternates: { canonical: "/speaking" },
+  openGraph: {
+    title: "Speaking — Sanatan Upmanyu",
+    description:
+      "Conference talks and panels on AI for biomedicine, reaching thousands of attendees in pharma and deep-tech.",
+  },
 };
 
 function yearOf(date: string): string {

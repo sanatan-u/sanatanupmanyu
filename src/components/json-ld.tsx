@@ -13,13 +13,49 @@ export function PersonJsonLd() {
     address: {
       "@type": "PostalAddress",
       addressLocality: "Basel",
+      addressRegion: "Basel-Stadt",
       addressCountry: "CH",
     },
     sameAs: [site.linkedin, site.github],
     worksFor: [
-      { "@type": "Organization", name: "Apxora" },
-      { "@type": "Organization", name: "AlphaMeld GmbH" },
+      {
+        "@type": "Organization",
+        name: "Apxora GmbH",
+        url: "https://apxora.com",
+      },
+      {
+        "@type": "Organization",
+        name: "AlphaMeld GmbH",
+        url: "https://alphameld.com",
+      },
       { "@type": "Organization", name: "Artixio" },
+    ],
+    alumniOf: {
+      "@type": "EducationalOrganization",
+      name: "University of Rajasthan",
+    },
+    knowsAbout: [
+      "Artificial Intelligence",
+      "Machine Learning",
+      "Drug Discovery",
+      "Clinical Trial Design",
+      "Knowledge Graphs",
+      "Natural Language Processing",
+      "Digital Twins",
+      "Regulatory Intelligence",
+      "Python",
+      "TypeScript",
+      "React",
+      "Neo4j",
+      "PostgreSQL",
+      "AWS",
+    ],
+    hasCredential: [
+      {
+        "@type": "EducationalOccupationalCredential",
+        credentialCategory: "Patent",
+        name: "US Patent (AI-driven drug discovery methods)",
+      },
     ],
   };
   return (
@@ -36,6 +72,30 @@ export function WebSiteJsonLd() {
     "@type": "WebSite",
     name: site.name,
     url: site.url,
+    description: site.tagline,
+    author: { "@type": "Person", name: site.name, url: site.url },
+    inLanguage: "en",
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+export function BreadcrumbJsonLd({
+  items,
+}: Readonly<{ items: { name: string; href: string }[] }>) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: `${site.url}${item.href}`,
+    })),
   };
   return (
     <script
@@ -61,7 +121,7 @@ export function BlogPostingJsonLd({
   datePublished,
   dateModified,
   tags,
-}: BlogPostingProps) {
+}: Readonly<BlogPostingProps>) {
   const url = `${site.url}/blog/${slug}`;
   const data = {
     "@context": "https://schema.org",
@@ -77,7 +137,13 @@ export function BlogPostingJsonLd({
       name: site.name,
       url: site.url,
     },
+    publisher: {
+      "@type": "Person",
+      name: site.name,
+      url: site.url,
+    },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    inLanguage: "en",
   };
   return (
     <script

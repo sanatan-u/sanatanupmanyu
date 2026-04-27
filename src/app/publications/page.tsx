@@ -4,7 +4,14 @@ import { publications, patents } from "@/content/publications";
 
 export const metadata: Metadata = {
   title: "Publications & Patents",
+  description:
+    "Peer-reviewed papers and granted patents in AI for drug discovery, immuno-oncology, knowledge graphs, and molecular biology.",
   alternates: { canonical: "/publications" },
+  openGraph: {
+    title: "Publications & Patents — Sanatan Upmanyu",
+    description:
+      "Peer-reviewed research and 4 granted patents covering AI-driven drug discovery, target validation, and biomedical NLP.",
+  },
 };
 
 export default function PublicationsPage() {

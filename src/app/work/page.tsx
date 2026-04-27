@@ -8,7 +8,14 @@ import { WorkGrid } from "@/components/work-grid";
 
 export const metadata: Metadata = {
   title: "Work",
+  description:
+    "Production AI systems and commercial products — AlphaMeld, Discovery Navigator, QuriousRI, Pipeline Alpha, and more. Target discovery, clinical-trial intelligence, and regulatory automation.",
   alternates: { canonical: "/work" },
+  openGraph: {
+    title: "Work — Sanatan Upmanyu",
+    description:
+      "AI platforms and products built for pharma, biotech, and life sciences — spanning drug discovery, clinical trials, and portfolio intelligence.",
+  },
 };
 
 export default function WorkPage() {
