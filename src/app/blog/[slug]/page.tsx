@@ -152,8 +152,8 @@ export default async function BlogPost({
         </div>
       ) : null}
 
-      {/* Prose — constrained for readability */}
-      <div className="prose-post max-w-[720px]">
+      {/* Prose body */}
+      <div className="prose-post">
         <MDXRemote
           source={post.body}
           components={mdxComponents}
