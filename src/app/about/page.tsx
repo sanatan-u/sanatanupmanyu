@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
-      <section className="max-w-[68ch]">
+      <section>
         <h1 className="display text-[clamp(2rem,4.5vw,3.5rem)] mb-8">
           About.
         </h1>

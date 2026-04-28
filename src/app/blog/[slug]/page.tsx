@@ -110,56 +110,60 @@ export default async function BlogPost({
         <ArrowLeft size={14} strokeWidth={1.75} /> all posts
       </Link>
 
-      {/* Constrain prose to readable width while keeping outer container at 1200px */}
-      <div className="max-w-[720px]">
-        <h1 className="display text-[clamp(2rem,4.5vw,3.25rem)] mb-4">
-          {post.title}
-        </h1>
-        {post.image ? (
-          <div className="relative mt-6 mb-10 aspect-[1200/630] overflow-hidden rounded-lg border border-rule bg-bg-soft">
-            <Image
-              src={post.image}
-              alt={post.imageAlt ?? ""}
-              fill
-              sizes="(max-width: 720px) 100vw, 720px"
-              priority
-              className="object-cover"
-            />
-          </div>
+      {/* Title — full container width */}
+      <h1 className="display text-[clamp(2rem,4.5vw,3.25rem)] mb-4 max-w-[900px]">
+        {post.title}
+      </h1>
+
+      {/* Meta row */}
+      <div className="text-sm text-ink-3 mb-8 flex flex-wrap gap-x-3 gap-y-1 items-center">
+        <span>{formatDate(post.date)}</span>
+        <span>·</span>
+        <span>{post.readingTimeMin} min read</span>
+        {post.tags.length > 0 ? (
+          <>
+            <span>·</span>
+            <span className="flex flex-wrap gap-1.5">
+              {post.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/blog?tag=${encodeURIComponent(tag)}`}
+                  className="text-xs px-2 py-0.5 rounded-full border border-rule text-ink-3 hover:border-accent hover:text-accent transition-colors"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </span>
+          </>
         ) : null}
-        <div className="text-sm text-ink-3 mb-10 flex flex-wrap gap-x-3 gap-y-1 items-center">
-          <span>{formatDate(post.date)}</span>
-          <span>·</span>
-          <span>{post.readingTimeMin} min read</span>
-          {post.tags.length > 0 ? (
-            <>
-              <span>·</span>
-              <span className="flex flex-wrap gap-1.5">
-                {post.tags.map((tag) => (
-                  <Link
-                    key={tag}
-                    href={`/blog?tag=${encodeURIComponent(tag)}`}
-                    className="text-xs px-2 py-0.5 rounded-full border border-rule text-ink-3 hover:border-accent hover:text-accent transition-colors"
-                  >
-                    {tag}
-                  </Link>
-                ))}
-              </span>
-            </>
-          ) : null}
-        </div>
-        <div className="prose-post">
-          <MDXRemote
-            source={post.body}
-            components={mdxComponents}
-            options={{
-              mdxOptions: {
-                remarkPlugins: [remarkMath],
-                rehypePlugins: [rehypeKatex],
-              },
-            }}
+      </div>
+
+      {/* Hero image — full container width */}
+      {post.image ? (
+        <div className="relative mb-12 aspect-[1200/500] overflow-hidden rounded-xl border border-rule bg-bg-soft">
+          <Image
+            src={post.image}
+            alt={post.imageAlt ?? ""}
+            fill
+            sizes="(max-width: 768px) 100vw, 1200px"
+            priority
+            className="object-cover"
           />
         </div>
+      ) : null}
+
+      {/* Prose — constrained for readability */}
+      <div className="prose-post max-w-[720px]">
+        <MDXRemote
+          source={post.body}
+          components={mdxComponents}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkMath],
+              rehypePlugins: [rehypeKatex],
+            },
+          }}
+        />
       </div>
     </article>
   );
