@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Mail } from "lucide-react";
+import { LinkedinIcon, GithubIcon } from "@/components/brand-icons";
 import { site } from "@/content/site";
 
 const techStack = [
@@ -32,6 +34,33 @@ export function SiteFooter() {
           ))}
           <a href="/feed.xml" className="hover:text-accent">rss</a>
         </nav>
+      </div>
+      <div className="mx-auto max-w-[1200px] px-6 md:px-12 pb-3 flex flex-wrap items-center gap-5">
+        <a
+          href={`mailto:${site.emails.personal}`}
+          aria-label="Email"
+          className="text-ink-3 hover:text-accent transition-colors"
+        >
+          <Mail size={18} strokeWidth={1.5} aria-hidden />
+        </a>
+        <a
+          href={site.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+          className="text-ink-3 hover:text-accent transition-colors"
+        >
+          <LinkedinIcon size={18} />
+        </a>
+        <a
+          href={site.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+          className="text-ink-3 hover:text-accent transition-colors"
+        >
+          <GithubIcon size={18} />
+        </a>
       </div>
       <div className="mx-auto max-w-[1200px] px-6 md:px-12 pb-10 text-sm text-ink-3 flex flex-wrap justify-between gap-4">
         <span>© {new Date().getFullYear()} {site.name}</span>

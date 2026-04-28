@@ -77,7 +77,7 @@ export function WorkGrid({
         {filtered.map((p) => (
           <li
             key={p.name}
-            className="card-lift rounded-xl border border-rule bg-bg-soft/30 p-6 flex flex-col"
+            className="card-lift rounded-xl border border-rule bg-bg-soft p-6 flex flex-col"
           >
             <div className="flex items-start justify-between gap-3 mb-3">
               <h3 className="font-medium text-lg leading-snug">{p.name}</h3>

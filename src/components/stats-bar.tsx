@@ -6,7 +6,7 @@ export function StatsBar() {
       {site.stats.map((s) => (
         <li
           key={s.label}
-          className="rounded-xl border border-rule bg-bg-soft/60 px-5 py-4 text-center"
+          className="rounded-xl border border-rule bg-bg-soft px-5 py-4 text-center"
         >
           <div className="display text-[clamp(1.5rem,3vw,2rem)] text-accent">
             {s.value}

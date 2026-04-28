@@ -8,6 +8,7 @@ import { StatsBar } from "@/components/stats-bar";
 import { TechGrid } from "@/components/tech-grid";
 import { FlipCard } from "@/components/flip-card";
 import { Typewriter } from "@/components/typewriter";
+import { FadeUp } from "@/components/fade-up";
 import { platforms } from "@/content/platforms";
 import { products } from "@/content/products";
 
@@ -64,48 +65,52 @@ export default function HomePage() {
       </section>
 
       {/* ── Stats ── */}
-      <section className="mt-16 md:mt-20">
+      <FadeUp className="mt-16 md:mt-20">
         <StatsBar />
-      </section>
+      </FadeUp>
 
       {/* ── Tech Stack ── */}
       <SectionDivider className="mt-20 mb-14" />
-      <section>
+      <FadeUp>
         <h2 className="display text-[clamp(1.75rem,3vw,2.5rem)] mb-8">
           Tech <em>stack</em>
         </h2>
         <TechGrid />
-      </section>
+      </FadeUp>
 
       {/* ── Selected work ── */}
       <SectionDivider className="mt-24 mb-14" />
       <section>
-        <div className="flex items-baseline justify-between mb-10 flex-wrap gap-3">
-          <h2 className="display text-[clamp(1.75rem,3vw,2.5rem)]">
-            Selected <em>work</em>
-          </h2>
-          <Link href="/work" className="link-arrow text-sm">
-            all work <ArrowRight size={14} strokeWidth={1.75} />
-          </Link>
-        </div>
+        <FadeUp>
+          <div className="flex items-baseline justify-between mb-10 flex-wrap gap-3">
+            <h2 className="display text-[clamp(1.75rem,3vw,2.5rem)]">
+              Selected <em>work</em>
+            </h2>
+            <Link href="/work" className="link-arrow text-sm">
+              all work <ArrowRight size={14} strokeWidth={1.75} />
+            </Link>
+          </div>
+        </FadeUp>
         <ul className="grid md:grid-cols-2 gap-x-10 gap-y-12">
-          {featured.map((p) => (
-            <li key={p.name} className="flex flex-col">
-              <h3 className="font-medium text-lg mb-2">{p.name}</h3>
-              <div className="text-sm text-signal mb-3 min-h-[3em]">
-                {p.impact ?? ""}
-              </div>
-              <p className="text-[15px] text-ink-2 leading-relaxed">
-                {p.description}
-              </p>
-            </li>
+          {featured.map((p, i) => (
+            <FadeUp key={p.name} delay={i * 80}>
+              <li className="flex flex-col">
+                <h3 className="font-medium text-lg mb-2">{p.name}</h3>
+                <div className="text-sm text-signal mb-3 min-h-[3em]">
+                  {p.impact ?? ""}
+                </div>
+                <p className="text-[15px] text-ink-2 leading-relaxed">
+                  {p.description}
+                </p>
+              </li>
+            </FadeUp>
           ))}
         </ul>
       </section>
 
       {/* ── Work together ── */}
       <SectionDivider className="mt-24 mb-14" />
-      <section>
+      <FadeUp>
         <h2 className="display text-[clamp(1.75rem,3vw,2.5rem)] mb-5">
           Work <em>together</em>
         </h2>
@@ -116,7 +121,7 @@ export default function HomePage() {
         <Link href="/contact" className="link-arrow">
           Get in touch <ArrowRight size={16} strokeWidth={1.75} />
         </Link>
-      </section>
+      </FadeUp>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import { getAllPostMeta, getPost } from "@/lib/blog";
 import { BlogPostingJsonLd, BreadcrumbJsonLd } from "@/components/json-ld";
+import { ReadingProgress } from "@/components/reading-progress";
 import { site } from "@/content/site";
 import { Figure, Callout, References, Cite, Ref, Mermaid } from "@/components/mdx";
 
@@ -85,7 +86,8 @@ export default async function BlogPost({
   if (!post) notFound();
 
   return (
-    <article className="mx-auto max-w-[780px] px-6 md:px-12 pt-12 pb-8">
+    <article className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
+      <ReadingProgress />
       <BreadcrumbJsonLd
         items={[
           { name: "Home", href: "/" },
@@ -107,43 +109,57 @@ export default async function BlogPost({
       >
         <ArrowLeft size={14} strokeWidth={1.75} /> all posts
       </Link>
-      <h1 className="display text-[clamp(2rem,4.5vw,3.25rem)] mb-4">
-        {post.title}
-      </h1>
-      {post.image ? (
-        <div className="relative mt-6 mb-10 aspect-[1200/630] overflow-hidden rounded-lg border border-rule bg-bg-soft">
-          <Image
-            src={post.image}
-            alt={post.imageAlt ?? ""}
-            fill
-            sizes="(max-width: 780px) 100vw, 780px"
-            priority
-            className="object-cover"
+
+      {/* Constrain prose to readable width while keeping outer container at 1200px */}
+      <div className="max-w-[720px]">
+        <h1 className="display text-[clamp(2rem,4.5vw,3.25rem)] mb-4">
+          {post.title}
+        </h1>
+        {post.image ? (
+          <div className="relative mt-6 mb-10 aspect-[1200/630] overflow-hidden rounded-lg border border-rule bg-bg-soft">
+            <Image
+              src={post.image}
+              alt={post.imageAlt ?? ""}
+              fill
+              sizes="(max-width: 720px) 100vw, 720px"
+              priority
+              className="object-cover"
+            />
+          </div>
+        ) : null}
+        <div className="text-sm text-ink-3 mb-10 flex flex-wrap gap-x-3 gap-y-1 items-center">
+          <span>{formatDate(post.date)}</span>
+          <span>·</span>
+          <span>{post.readingTimeMin} min read</span>
+          {post.tags.length > 0 ? (
+            <>
+              <span>·</span>
+              <span className="flex flex-wrap gap-1.5">
+                {post.tags.map((tag) => (
+                  <Link
+                    key={tag}
+                    href={`/blog?tag=${encodeURIComponent(tag)}`}
+                    className="text-xs px-2 py-0.5 rounded-full border border-rule text-ink-3 hover:border-accent hover:text-accent transition-colors"
+                  >
+                    {tag}
+                  </Link>
+                ))}
+              </span>
+            </>
+          ) : null}
+        </div>
+        <div className="prose-post">
+          <MDXRemote
+            source={post.body}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkMath],
+                rehypePlugins: [rehypeKatex],
+              },
+            }}
           />
         </div>
-      ) : null}
-      <div className="text-sm text-ink-3 mb-10 flex flex-wrap gap-x-3 gap-y-1">
-        <span>{formatDate(post.date)}</span>
-        <span>·</span>
-        <span>{post.readingTimeMin} min read</span>
-        {post.tags.length > 0 ? (
-          <>
-            <span>·</span>
-            <span>{post.tags.join(", ")}</span>
-          </>
-        ) : null}
-      </div>
-      <div className="prose-post">
-        <MDXRemote
-          source={post.body}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkMath],
-              rehypePlugins: [rehypeKatex],
-            },
-          }}
-        />
       </div>
     </article>
   );

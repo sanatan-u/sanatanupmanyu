@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { MapPin } from "lucide-react";
+import { MapPin, Mic } from "lucide-react";
 import { talks } from "@/content/speaking";
+import { FadeUp } from "@/components/fade-up";
 
 export const metadata: Metadata = {
   title: "Speaking",
@@ -12,6 +13,16 @@ export const metadata: Metadata = {
     description:
       "Conference talks and panels on AI for biomedicine, reaching thousands of attendees in pharma and deep-tech.",
   },
+};
+
+const roleBadge: Record<string, string> = {
+  Keynote: "text-accent-ink bg-accent/10 border-accent/30",
+  Panelist: "text-signal bg-signal/10 border-signal/30",
+  "Startup Showcase": "text-signal bg-signal/10 border-signal/30",
+  "Startup Pitch Presenter": "text-signal bg-signal/10 border-signal/30",
+  "Invited Speaker": "text-accent-ink bg-accent/10 border-accent/30",
+  Speaker: "text-accent-ink bg-accent/10 border-accent/30",
+  "Workshop Presenter": "text-ink-2 bg-bg-soft border-rule",
 };
 
 function yearOf(date: string): string {
@@ -37,24 +48,51 @@ export default function SpeakingPage() {
         GlobalBioIndia, and industry meetups — reaching thousands of attendees
         in pharma, biotech, and deep-tech. Open to 2026 invitations.
       </p>
+
       {years.map((year) => (
-        <section key={year} className="mb-14">
-          <h2 className="display text-2xl mb-4 text-ink-3">{year}</h2>
-          <ul className="space-y-6">
-            {grouped[year].map((t, i) => (
-              <li key={i} className="border-t border-rule pt-4">
-                <div className="font-medium">{t.event}</div>
-                <div className="text-[15px] text-ink-2 mt-1">{t.topic}</div>
-                <div className="text-sm text-ink-3 mt-2 flex flex-wrap gap-x-4 gap-y-1">
-                  <span>{t.role}</span>
-                  <span className="inline-flex items-center gap-1">
-                    <MapPin size={13} strokeWidth={1.75} aria-hidden />
-                    {t.location}
-                  </span>
-                  <span>{t.date}</span>
-                </div>
-              </li>
-            ))}
+        <section key={year} className="mb-16">
+          <FadeUp>
+            <h2 className="display text-2xl mb-6 text-ink-3">{year}</h2>
+          </FadeUp>
+          <ul className="grid md:grid-cols-2 gap-5">
+            {grouped[year].map((t, i) => {
+              const badgeClass =
+                roleBadge[t.role] ?? "text-ink-2 bg-bg-soft border-rule";
+              return (
+                <FadeUp key={i} delay={i * 60}>
+                  <li className="card-lift rounded-xl border border-rule bg-bg-soft p-5 flex flex-col gap-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div
+                        className={`text-[11px] uppercase tracking-[0.12em] rounded-full px-2.5 py-0.5 border ${badgeClass} shrink-0`}
+                      >
+                        {t.role}
+                      </div>
+                      <Mic
+                        size={15}
+                        strokeWidth={1.5}
+                        className="text-ink-3 shrink-0 mt-0.5"
+                        aria-hidden
+                      />
+                    </div>
+                    <div>
+                      <div className="font-medium text-ink leading-snug">
+                        {t.event}
+                      </div>
+                      <div className="text-[15px] text-ink-2 mt-1.5 leading-snug">
+                        {t.topic}
+                      </div>
+                    </div>
+                    <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-ink-3 pt-2 border-t border-rule">
+                      <span className="inline-flex items-center gap-1">
+                        <MapPin size={12} strokeWidth={1.75} aria-hidden />
+                        {t.location}
+                      </span>
+                      <span>{t.date}</span>
+                    </div>
+                  </li>
+                </FadeUp>
+              );
+            })}
           </ul>
         </section>
       ))}

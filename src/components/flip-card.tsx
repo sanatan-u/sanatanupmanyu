@@ -16,7 +16,7 @@ export function FlipCard() {
       <div className={`flip-card-inner ${flipped ? "flip-card-flipped" : ""}`}>
 
         {/* ── Front ── */}
-        <div className="flip-card-face flip-card-front rounded-[28px] border border-rule bg-bg-soft/40 shadow-[0_2px_30px_rgba(0,0,0,0.06)] overflow-hidden">
+        <div className="flip-card-face flip-card-front rounded-[28px] border border-rule bg-bg-soft shadow-[0_2px_30px_rgba(0,0,0,0.06)] overflow-hidden">
           <button
             type="button"
             className="w-full cursor-pointer group"

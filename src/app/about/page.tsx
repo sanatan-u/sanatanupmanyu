@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { experience, education } from "@/content/experience";
 
 export const metadata: Metadata = {
@@ -18,38 +17,29 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
-      <section className="grid md:grid-cols-[1fr_280px] gap-10 md:gap-14 items-start">
-        <div>
-          <h1 className="display text-[clamp(2rem,4.5vw,3.5rem)] mb-8">
-            About.
-          </h1>
-          <div className="prose text-[17px] leading-[1.7] text-ink-2 max-w-[62ch]">
-            <p>
-              I&rsquo;m a data-science executive with 18+ years spanning
-              wet-lab biology, AI/ML engineering, HPC/cloud infrastructure,
-              and leadership across pharma, biotech, and consumer health.
-            </p>
-            <p>
-              I architected the AlphaMeld&trade; platform &mdash; an end-to-end AI stack
-              that accelerates target triage and indication selection for
-              global drug-makers. My work covers clinical-trial design and
-              enrollment prediction, digital-twin modelling, and large-scale
-              knowledge-graph analytics.
-            </p>
-            <p>
-              I care about converting multimodal data into real business
-              value, scaling cross-site teams, and forging the kind of
-              partnerships that redefine R&amp;D.
-            </p>
-          </div>
+      <section className="max-w-[68ch]">
+        <h1 className="display text-[clamp(2rem,4.5vw,3.5rem)] mb-8">
+          About.
+        </h1>
+        <div className="prose text-[17px] leading-[1.7] text-ink-2">
+          <p>
+            I&rsquo;m a data-science executive with 18+ years spanning
+            wet-lab biology, AI/ML engineering, HPC/cloud infrastructure,
+            and leadership across pharma, biotech, and consumer health.
+          </p>
+          <p>
+            I architected the AlphaMeld&trade; platform &mdash; an end-to-end AI stack
+            that accelerates target triage and indication selection for
+            global drug-makers. My work covers clinical-trial design and
+            enrollment prediction, digital-twin modelling, and large-scale
+            knowledge-graph analytics.
+          </p>
+          <p>
+            I care about converting multimodal data into real business
+            value, scaling cross-site teams, and forging the kind of
+            partnerships that redefine R&amp;D.
+          </p>
         </div>
-        <Image
-          src="/sanatan-portrait.jpg"
-          alt="Sanatan Upmanyu"
-          width={640}
-          height={800}
-          className="w-full h-auto rounded-2xl shadow-[0_2px_30px_rgba(0,0,0,0.08)]"
-        />
       </section>
 
       <h2 className="display text-[clamp(1.5rem,2.5vw,2rem)] mt-24 mb-10">

@@ -12,7 +12,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tag?: string }>;
+}) {
+  const { tag } = await searchParams;
   const posts = getAllPostMeta();
   return (
     <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
@@ -23,7 +28,7 @@ export default function BlogPage() {
         Notes on AI, drug discovery, and building platforms in biomedicine.
         Short posts. No listicles. Occasional diagrams.
       </p>
-      <BlogIndex posts={posts} />
+      <BlogIndex posts={posts} initialTag={tag} />
     </div>
   );
 }
