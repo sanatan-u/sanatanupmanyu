@@ -8,8 +8,11 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import { getAllPostMeta, getPost } from "@/lib/blog";
+import { extractToc, slugify } from "@/lib/toc";
+import type { ReactNode } from "react";
 import { BlogPostingJsonLd, BreadcrumbJsonLd } from "@/components/json-ld";
 import { ReadingProgress } from "@/components/reading-progress";
+import { PostToc } from "@/components/post-toc";
 import { site } from "@/content/site";
 import { Figure, Callout, References, Cite, Ref, Mermaid, Comparison, Col, Row } from "@/components/mdx";
 
@@ -26,7 +29,18 @@ function buildCiteMap(body: string): Map<string, number> {
   return map;
 }
 
+function nodeText(node: ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(nodeText).join("");
+  if (typeof node === "object" && "props" in node) {
+    return nodeText((node as { props: { children?: ReactNode } }).props.children);
+  }
+  return "";
+}
+
 function buildMdxComponents(citeMap: Map<string, number>) {
+  const seen = new Map<string, number>();
   return {
     Figure,
     Callout,
@@ -39,6 +53,13 @@ function buildMdxComponents(citeMap: Map<string, number>) {
     Cite: ({ id, n }: { id: string; n?: number }) => {
       const resolved = n ?? citeMap.get(id) ?? 0;
       return <Cite id={id} n={resolved} />;
+    },
+    h2: ({ children, ...rest }: { children?: ReactNode } & React.HTMLAttributes<HTMLHeadingElement>) => {
+      const base = slugify(nodeText(children));
+      const count = seen.get(base) ?? 0;
+      seen.set(base, count + 1);
+      const id = base ? (count === 0 ? base : `${base}-${count}`) : undefined;
+      return <h2 id={id} {...rest}>{children}</h2>;
     },
   };
 }
@@ -106,6 +127,7 @@ export default async function BlogPost({
 
   const citeMap = buildCiteMap(post.body);
   const mdxComponents = buildMdxComponents(citeMap);
+  const toc = extractToc(post.body);
 
   return (
     <article className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
@@ -162,7 +184,7 @@ export default async function BlogPost({
 
       {/* Hero image — full container width */}
       {post.image ? (
-        <div className="relative mb-12 aspect-[1200/500] overflow-hidden rounded-xl border border-rule bg-bg-soft">
+        <div className="relative mb-12 aspect-[1200/630] overflow-hidden rounded-xl border border-rule bg-bg-soft">
           <Image
             src={post.image}
             alt={post.imageAlt ?? ""}
@@ -174,18 +196,21 @@ export default async function BlogPost({
         </div>
       ) : null}
 
-      {/* Prose body */}
-      <div className="prose-post">
-        <MDXRemote
-          source={post.body}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkMath],
-              rehypePlugins: [rehypeKatex],
-            },
-          }}
-        />
+      {/* Prose body + TOC */}
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_220px] lg:gap-12">
+        <div className="prose-post min-w-0">
+          <MDXRemote
+            source={post.body}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkMath],
+                rehypePlugins: [rehypeKatex],
+              },
+            }}
+          />
+        </div>
+        <PostToc items={toc} />
       </div>
     </article>
   );

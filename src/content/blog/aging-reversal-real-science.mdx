@@ -33,13 +33,14 @@ This isn't theoretical. It's measurable. It happens billions of times across the
 
 <Mermaid
   chart={`flowchart LR
-    A[Oocyte<br/>~35 years of biological age] --> B[Fertilization]
-    B --> C[Zygote<br/>methylation age ~ 0]
+    A[Oocyte<br/>roughly 35 years of biological age] --> B[Fertilization]
+    B --> C[Zygote<br/>methylation age near zero]
     C --> D[Embryo]
     D --> E[New organism<br/>fresh age count]
-    style A fill:#e57373,stroke:#b71c1c,color:#000
-    style C fill:#81c784,stroke:#1b5e20,color:#000
-    style E fill:#81c784,stroke:#1b5e20,color:#000`}
+    classDef aged fill:#e57373,stroke:#b71c1c,color:#000
+    classDef young fill:#81c784,stroke:#1b5e20,color:#000
+    class A aged
+    class C,E young`}
   caption="Every generation, biology takes a measurably aged cell and resets its molecular age to near zero."
 />
 

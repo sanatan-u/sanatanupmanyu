@@ -144,7 +144,7 @@ export function BlogIndex({
           className="group block mb-14 rounded-2xl border border-rule bg-bg-soft overflow-hidden card-lift"
         >
           {featuredPost.image ? (
-            <div className="relative w-full aspect-[1200/420] overflow-hidden">
+            <div className="relative w-full aspect-[1200/630] overflow-hidden">
               <Image
                 src={featuredPost.image}
                 alt={featuredPost.imageAlt ?? ""}

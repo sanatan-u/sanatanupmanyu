@@ -117,12 +117,14 @@ button:focus-visible {
   color: var(--ink);
   margin: 2em 0 0.6em;
   line-height: 1.2;
+  scroll-margin-top: 6rem;
 }
 .prose-post h3 {
   font-weight: 600;
   font-size: 1.15rem;
   color: var(--ink);
   margin: 1.8em 0 0.5em;
+  scroll-margin-top: 6rem;
 }
 .prose-post a {
   color: var(--accent);
