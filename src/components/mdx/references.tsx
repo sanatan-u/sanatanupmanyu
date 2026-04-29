@@ -42,7 +42,7 @@ export function References({
           <li
             key={ref.id}
             id={`ref-${ref.id}`}
-            className="text-[14px] text-ink-2 leading-relaxed grid grid-cols-[2ch_1fr] gap-2"
+            className="ref-item text-[14px] text-ink-2 leading-relaxed grid grid-cols-[2ch_1fr] gap-2 scroll-mt-24 rounded-md px-2 py-1 -mx-2 transition-colors target:bg-accent/10 target:ring-1 target:ring-accent/40"
           >
             <span className="text-ink-3 tabular-nums">{i + 1}.</span>
             <span>
@@ -81,7 +81,10 @@ export function Cite({
   n: number;
 }) {
   return (
-    <sup id={`cite-${id}`} className="ml-0.5">
+    <sup
+      id={`cite-${id}`}
+      className="ml-0.5 scroll-mt-24 rounded px-0.5 transition-colors target:bg-accent/10 target:ring-1 target:ring-accent/40"
+    >
       <a
         href={`#ref-${id}`}
         className="text-accent hover:text-accent-ink no-underline tabular-nums"

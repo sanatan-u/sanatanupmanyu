@@ -17,7 +17,7 @@ Treating pharma as a data problem is the mistake that keeps underwriting expensi
 
 - **Intricate biological systems.** Pathways rarely act in isolation. Off-target effects, biological feedback loops, and patient-level variability introduce uncertainty that most datasets do not even try to capture.
 - **Multi-dimensional clinical trials.** Trial design spans hundreds of interconnected parameters — inclusion criteria, endpoints, titration schedules, site logistics, ethical guardrails — each of which can invalidate the others if moved without thinking.
-- **Regulatory and compliance demands.** Evolving requirements from the FDA, EMA, and other authorities add a layer of scrutiny that does not yield to clever modelling. The FDA's January 2025 draft guidance<Cite id="fda-ai" n={1} /> makes this explicit: credibility is assessed against a *context of use*, not a model card. The context cannot be described, let alone defended, without domain fluency.
+- **Regulatory and compliance demands.** Evolving requirements from the FDA, EMA, and other authorities add a layer of scrutiny that does not yield to clever modelling. The FDA's January 2025 draft guidance<Cite id="fda-ai" /> makes this explicit: credibility is assessed against a *context of use*, not a model card. The context cannot be described, let alone defended, without domain fluency.
 - **Market and access dynamics.** Even a breakthrough therapy has to justify its value across diverse payer landscapes, with real-world evidence increasingly required to secure reimbursement. A model that optimises for a statistical endpoint and ignores the payer story is a model that shipped into a commercial wall.
 
 In this environment, a technically brilliant algorithm built in isolation from the domain will reliably produce outputs that are statistically sound and strategically irrelevant. That is not a model quality problem. It is a framing problem.
@@ -26,13 +26,42 @@ In this environment, a technically brilliant algorithm built in isolation from t
 The gap is almost never "we don't have enough models." It is "the models we have were built without someone in the room who could have told us which question to ask — or which answer would not survive the first regulatory conversation."
 </Callout>
 
+<Comparison caption="Same model, same data — different question framing produces fundamentally different outputs.">
+  <Col heading="Trial endpoint selection">
+    <Row label="What ML alone produces">The endpoint with the cleanest signal-to-noise.</Row>
+    <Row label="What domain fluency adds">The endpoint regulators will accept and clinicians can act on.</Row>
+    <Row label="Net outcome">A trial that ships, not a trial that re-runs.</Row>
+  </Col>
+  <Col heading="Cohort definition">
+    <Row>Whatever rows have complete data.</Row>
+    <Row>The eligible population for the indication, with missingness modelled honestly.</Row>
+    <Row>Inferences that survive label review.</Row>
+  </Col>
+  <Col heading="Model evaluation">
+    <Row>AUC on a held-out split.</Row>
+    <Row>Calibration in the subgroups the drug will actually be used in.</Row>
+    <Row>A model that is safe to deploy, not just safe to publish.</Row>
+  </Col>
+</Comparison>
+
 ## What bilingual actually means
 
 The word gets thrown around. Here is what I mean by it, concretely.
 
 A bilingual practitioner can hold two mental models at once: the computational view — what the model is doing, what it needs, where it fails — and the domain view — what the science says, what the clinic will accept, what the regulator will tolerate. They move between the two in the same meeting. They can explain to a data scientist why an endpoint choice changes the target variable, and to a clinical lead why a sampling decision changes the inference they are allowed to draw.
 
-Academic programmes have started naming the same gap<Cite id="osu" n={2} />, and reviews of AI in drug discovery<Cite id="ai-dd" n={3} /> keep flagging domain expertise as the constraint that more compute does not fix. The technical stack tells the same story: the useful variants of general-purpose language models in this space — BioBERT, ClinicalBERT<Cite id="biobert" n={4} /> — are the ones that have absorbed the vocabulary and norms of the domain they serve. The lesson scales up from models to teams.
+Academic programmes have started naming the same gap<Cite id="osu" />, and reviews of AI in drug discovery<Cite id="ai-dd" /> keep flagging domain expertise as the constraint that more compute does not fix. The technical stack tells the same story: the useful variants of general-purpose language models in this space — BioBERT, ClinicalBERT<Cite id="biobert" /> — are the ones that have absorbed the vocabulary and norms of the domain they serve. The lesson scales up from models to teams.
+
+<Mermaid
+  chart={`flowchart LR
+    A[Domain expert<br/>clinical / regulatory] -- frames --> C{Bilingual translator}
+    B[ML engineer<br/>modelling / data] -- builds --> C
+    C -- right question --> D[Tractable problem]
+    D --> E[Model that ships]
+    classDef bridge fill:#64b5f6,stroke:#0d47a1,color:#000
+    class C bridge`}
+  caption="The bilingual role sits at the seam — neither side gets to ignore the other's constraints."
+/>
 
 ## What bilingual people actually do
 

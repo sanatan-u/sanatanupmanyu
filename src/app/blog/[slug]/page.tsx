@@ -11,18 +11,37 @@ import { getAllPostMeta, getPost } from "@/lib/blog";
 import { BlogPostingJsonLd, BreadcrumbJsonLd } from "@/components/json-ld";
 import { ReadingProgress } from "@/components/reading-progress";
 import { site } from "@/content/site";
-import { Figure, Callout, References, Cite, Ref, Mermaid } from "@/components/mdx";
+import { Figure, Callout, References, Cite, Ref, Mermaid, Comparison, Col, Row } from "@/components/mdx";
 
 type Params = { slug: string };
 
-const mdxComponents = {
-  Figure,
-  Callout,
-  References,
-  Cite,
-  Ref,
-  Mermaid,
-};
+function buildCiteMap(body: string): Map<string, number> {
+  const map = new Map<string, number>();
+  const re = /<Cite\s+[^>]*id\s*=\s*["']([^"']+)["']/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(body)) !== null) {
+    const id = m[1];
+    if (!map.has(id)) map.set(id, map.size + 1);
+  }
+  return map;
+}
+
+function buildMdxComponents(citeMap: Map<string, number>) {
+  return {
+    Figure,
+    Callout,
+    References,
+    Ref,
+    Mermaid,
+    Comparison,
+    Col,
+    Row,
+    Cite: ({ id, n }: { id: string; n?: number }) => {
+      const resolved = n ?? citeMap.get(id) ?? 0;
+      return <Cite id={id} n={resolved} />;
+    },
+  };
+}
 
 export function generateStaticParams(): Params[] {
   return getAllPostMeta().map((p) => ({ slug: p.slug }));
@@ -84,6 +103,9 @@ export default async function BlogPost({
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) notFound();
+
+  const citeMap = buildCiteMap(post.body);
+  const mdxComponents = buildMdxComponents(citeMap);
 
   return (
     <article className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">

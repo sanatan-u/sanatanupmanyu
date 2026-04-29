@@ -11,21 +11,56 @@ An agent that *suggests* is a search box with nicer prose. An agent that *acts* 
 
 Three principles that separate the clinical agentic systems still in use six months after launch from the ones quietly abandoned. None of this is novel. The novel thing is the commercial pressure to skip it, because demos look better without checkpoints and without stops.
 
+<Mermaid
+  chart={`flowchart LR
+    A[Plan] --> B{Human check}
+    B -->|approve| C[Act]
+    C --> D{Human check}
+    D -->|approve| E[Verify]
+    E --> F{Human check}
+    F -->|approve| G[Ship]
+    B -.->|reject| A
+    D -.->|reject| A
+    F -.->|reject| A
+    classDef human fill:#ffb74d,stroke:#e65100,color:#000
+    class B,D,F human`}
+  caption="Short segments of automation between human checkpoints — the inverse of long autonomous chains."
+/>
+
 ## 1. Checkpoints over autonomy
 
-The temptation is to build one long autonomous chain and hope it does not drift. What actually earns trust is the opposite: short segments of automation between human checkpoints, where the checkpoint has been deliberately designed to be *cheap* for the human<Cite id="hitl" n={1} />.
+The temptation is to build one long autonomous chain and hope it does not drift. What actually earns trust is the opposite: short segments of automation between human checkpoints, where the checkpoint has been deliberately designed to be *cheap* for the human<Cite id="hitl" />.
 
 Cheap means small diffs, not wall-of-text summaries. It means clear before/after states. It means one-click revert. It means the checkpoint takes seconds, not minutes, because any checkpoint that costs the clinician real time will be skipped, tolerated, or routed around inside a month.
 
 The goal is not to minimise human involvement. It is to make each human touch worth the seconds it costs. An agent with ten cheap checkpoints clinicians actually use beats an agent with one expensive checkpoint they click through on autopilot. The first is a collaborator. The second is a liability that happens to have good manners.
 
+<Comparison caption="Two architectures, two different month-three outcomes.">
+  <Col heading="Long-chain autonomy">
+    <Row label="Failure mode">Silent drift — the agent compounds small errors across steps and surfaces only the final answer.</Row>
+    <Row label="Audit trail">End-of-run summary; reconstruction requires log archaeology.</Row>
+    <Row label="User cost">One expensive review at the end, usually skimmed.</Row>
+    <Row label="What happens at month 3">Clinicians stop opening it; it becomes shelfware.</Row>
+  </Col>
+  <Col heading="Checkpointed automation">
+    <Row>Errors caught at the segment they originate in, before they propagate.</Row>
+    <Row>Per-step diff with provenance — regulator-inspectable.</Row>
+    <Row>Many cheap touches, each worth the seconds it costs.</Row>
+    <Row>Clinicians treat it as a tool they use mid-workflow.</Row>
+  </Col>
+</Comparison>
+
 ## 2. Provenance down to the claim
 
 A clinician will not accept a recommendation they cannot trace. That means every material claim the agent makes needs a pointer back to its source — the specific trial record, the specific guideline paragraph, the specific lab value. Not "based on recent literature." Not a bibliography dump at the bottom. A claim-to-source map the user can hover, inspect, and disagree with inline.
 
-The FDA's 2025 draft guidance on AI in regulatory decision-making<Cite id="fda-ai" n={2} /> formalises this at the regulatory level: credibility is tied to a specific context of use, and the context has to be documented with evidence that ties outputs back to inputs. GxP-grade deployments<Cite id="gxp" n={3} /> take it further — every action, every decision, every override logged with complete provenance and an audit trail regulators can inspect.
+The FDA's 2025 draft guidance on AI in regulatory decision-making<Cite id="fda-ai" /> formalises this at the regulatory level: credibility is tied to a specific context of use, and the context has to be documented with evidence that ties outputs back to inputs. GxP-grade deployments<Cite id="gxp" /> take it further — every action, every decision, every override logged with complete provenance and an audit trail regulators can inspect.
 
 This is expensive to build. It is also the difference between a tool clinicians pilot and a tool they ignore. Pick any clinical AI product that survived past the enthusiasm phase, and I can show you the provenance layer that lets users trust it mid-workflow rather than trust it in principle.
+
+<Callout variant="tip" title="What 'cheap for the human' actually looks like">
+  A checkpoint passes the cheapness test if a clinician can resolve it in under ten seconds without leaving the workflow. The diff fits on screen. The before/after states are explicit. Revert is one click. If your checkpoint requires reading three paragraphs to figure out what changed, you have built a meeting, not a checkpoint.
+</Callout>
 
 ## 3. Know when to stop
 

@@ -11,6 +11,21 @@ Patient digital twins are genuinely useful. They compress a messy medical histor
 
 They also fail — and they tend to fail with a straight face. Three patterns I keep running into, each of which has a design implication that most teams skip.
 
+<Mermaid
+  chart={`flowchart LR
+    A[Source data<br/>registry / EHR / trial cohort] -->|cohort selection| B[Training set]
+    B -->|missing features| C[Twin model]
+    C -->|in-distribution| D{Use case}
+    D -->|same cohort| E[Reasonable]
+    D -->|new population| F[Confident wrong answer]
+    D -->|counterfactual| G[Reproduces old policy]
+    classDef bad fill:#ef9a9a,stroke:#b71c1c,color:#000
+    classDef ok fill:#a5d6a7,stroke:#1b5e20,color:#000
+    class E ok
+    class F,G bad`}
+  caption="Three places bias enters the twin pipeline. Each one of the next three sections is one of these failure modes."
+/>
+
 ## 1. The twin looks nothing like the patient it is modelling
 
 A twin built from registry data, claims, and a handful of lab values can look plausible on a dashboard and bear no resemblance to the person sitting in front of a clinician. Medication adherence is missing. Social determinants are missing. The last six months of deterioration are missing because the data lags by a quarter. Any recommendation derived from this twin is a recommendation for a fictional patient who happens to share a zip code with the real one.
@@ -19,9 +34,9 @@ The fix is not more features — features will always be missing. The fix is bei
 
 ## 2. Distributional twins trained on who made it into the dataset
 
-If your twin population is built from patients who reached a tertiary care centre and consented to research, your model has learned the physiology of a specific survivorship-biased cohort<Cite id="survivor" n={1} />. Generalising to primary care, to under-represented populations, or to the patients who never made it into the registry at all is not a validation question — it is a first-principles problem that more validation data will not fix.
+If your twin population is built from patients who reached a tertiary care centre and consented to research, your model has learned the physiology of a specific survivorship-biased cohort<Cite id="survivor" />. Generalising to primary care, to under-represented populations, or to the patients who never made it into the registry at all is not a validation question — it is a first-principles problem that more validation data will not fix.
 
-This is now a first-class concern in the digital twin literature<Cite id="twin-bias" n={2} />: because twins are often built from trial-participant data, they inherit the generalisability limits of the trials they were trained on. A twin that looks accurate on in-distribution patients and is silent about where the distribution ends is a twin that will be used confidently in the exact places it should not be.
+This is now a first-class concern in the digital twin literature<Cite id="twin-bias" />: because twins are often built from trial-participant data, they inherit the generalisability limits of the trials they were trained on. A twin that looks accurate on in-distribution patients and is silent about where the distribution ends is a twin that will be used confidently in the exact places it should not be.
 
 The design implication: the twin has to refuse to answer for populations it was not trained on, and the refusal has to be visible. "No prediction available for this cohort" is a feature, not a bug report.
 
@@ -29,9 +44,31 @@ The design implication: the twin has to refuse to answer for populations it was 
 
 The most seductive failure. You build a twin, you ask "what if we had given drug B instead of drug A," and the twin produces a confident number. But the features driving the prediction — prescriber network, disease severity at prescription, insurance tier — are themselves correlated with whoever historically received A versus B. The twin has silently encoded the old treatment allocation policy. Your counterfactual is a restatement of clinical practice in 2019, not a prediction about 2026.
 
-Regulators have seen this one. The EMA's qualification of Unlearn's PROCOVA<Cite id="procova" n={3} /> is narrow on purpose — it treats the digital twin as a prognostic covariate in an RCT, not as a synthetic control arm that would let you skip the randomisation. The distinction matters. A twin that augments a properly randomised comparison is adding information. A twin that replaces randomisation is often confidently reproducing the bias it was supposed to help you see through.
+Regulators have seen this one. The EMA's qualification of Unlearn's PROCOVA<Cite id="procova" /> is narrow on purpose — it treats the digital twin as a prognostic covariate in an RCT, not as a synthetic control arm that would let you skip the randomisation. The distinction matters. A twin that augments a properly randomised comparison is adding information. A twin that replaces randomisation is often confidently reproducing the bias it was supposed to help you see through.
+
+<Callout variant="warn" title="The narrow PROCOVA scope is the point">
+  The EMA didn't qualify PROCOVA as a synthetic control arm. It qualified it as a prognostic covariate inside a properly randomised trial. That distinction is the difference between adding information and dressing up an old policy as a forecast — read the qualification scope carefully before extending it.
+</Callout>
 
 ## What actually earns a clinician's trust
+
+<Comparison caption="Each failure mode has a specific UX or methodological fix. The fix is never 'more data.'">
+  <Col heading="Wrong patient">
+    <Row label="Failure mode">Twin built from features that exclude adherence, social context, recent deterioration</Row>
+    <Row label="Where it bites">When the clinician maps it onto the real person in front of them</Row>
+    <Row label="Design fix">Surface the unmodelled axes; do not display a confidence band over them</Row>
+  </Col>
+  <Col heading="Wrong population">
+    <Row>Trained on tertiary-care, consented, in-trial cohorts</Row>
+    <Row>When deployed to primary care or under-represented patients</Row>
+    <Row>Refuse to predict out of distribution; make the refusal visible</Row>
+  </Col>
+  <Col heading="Wrong counterfactual">
+    <Row>Features encode the historical treatment-allocation policy</Row>
+    <Row>When asked "what if we had given drug B instead"</Row>
+    <Row>Use as a prognostic covariate in an RCT, not as a synthetic control</Row>
+  </Col>
+</Comparison>
 
 The pattern across all three: the twins clinicians use are the ones that acknowledge their own boundaries — in the data they trained on, in the populations they represent, in the counterfactuals they are licensed to simulate. Everything else gets politely ignored, which is the best-case outcome. The worse case is that it gets used, confidently, in the situation where it was always going to be wrong.
 

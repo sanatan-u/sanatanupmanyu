@@ -11,9 +11,25 @@ Knowledge graphs over biomedical literature look clean on a slide. A few million
 
 They stop looking clean the moment a domain expert asks a sharp question. The failure modes that bite are not model problems — they are ontology, evidence, and workflow problems. Four that I keep hitting:
 
+<Mermaid
+  chart={`flowchart TD
+    Q[Expert question] --> G{Knowledge graph}
+    G --> F1[Synonymy collapse<br/>'AD' = AD or AD or AD?]
+    G --> F2[Edges without weight<br/>preprint = trial?]
+    G --> F3[Temporal drift<br/>retracted claims still alive]
+    G --> F4[Schema misses the question<br/>relation never modelled]
+    F1 --> X[Confidently wrong answer]
+    F2 --> X
+    F3 --> X
+    F4 --> X
+    classDef bad fill:#ef9a9a,stroke:#b71c1c,color:#000
+    class X bad`}
+  caption="Four ways a clean-looking graph produces confidently wrong answers — the rest of this post is one section per failure mode."
+/>
+
 ## 1. Synonymy, but also non-synonymy
 
-The first instinct is to collapse synonyms. *Gene X*, *Protein Y*, and *Receptor Z* all get merged into one node, mapped to a UMLS or MeSH code, and the graph looks tidier for it. Then a biologist asks a question where the gene matters but the protein does not — or vice versa — and your graph has already eaten the distinction. Abbreviations make this worse: inside UMLS, "AD" can resolve to Alzheimer's Disease, Atopic Dermatitis, Actinomycin D, or Admitting Diagnosis<Cite id="bioel" n={1} />, and a naive merge across all of them produces answers that are confidently nonsensical.
+The first instinct is to collapse synonyms. *Gene X*, *Protein Y*, and *Receptor Z* all get merged into one node, mapped to a UMLS or MeSH code, and the graph looks tidier for it. Then a biologist asks a question where the gene matters but the protein does not — or vice versa — and your graph has already eaten the distinction. Abbreviations make this worse: inside UMLS, "AD" can resolve to Alzheimer's Disease, Atopic Dermatitis, Actinomycin D, or Admitting Diagnosis<Cite id="bioel" />, and a naive merge across all of them produces answers that are confidently nonsensical.
 
 Every merge is a lossy compression step. Every merge should be auditable, reversible at query time, and scoped to a context where the merge was valid. "Collapse synonyms" is a sentence; it is not a design.
 
@@ -25,9 +41,13 @@ This is where most "hallucination" in RAG-over-graphs actually comes from. The r
 
 ## 3. Temporal drift
 
-Biomedical consensus moves. A gene-disease association plausible in 2012 may have been refuted by 2020. A drug mechanism proposed in an abstract may have been retracted — and the retraction may itself be invisible to your pipeline, because over 94% of post-retraction citations in biomedicine do not mention the retraction<Cite id="retractions" n={2} />. A timeless blob of edges will surface retracted claims with the same confidence as current ones.
+Biomedical consensus moves. A gene-disease association plausible in 2012 may have been refuted by 2020. A drug mechanism proposed in an abstract may have been retracted — and the retraction may itself be invisible to your pipeline, because over 94% of post-retraction citations in biomedicine do not mention the retraction<Cite id="retractions" />. A timeless blob of edges will surface retracted claims with the same confidence as current ones.
 
 Every edge needs an "as of" timestamp and, where applicable, a "superseded by" pointer. Retraction feeds should be first-class citizens in the ingestion pipeline, not an afterthought. If the graph cannot reason about *when* a claim was true, it cannot be trusted to reason about whether it is true now.
+
+<Callout variant="warn" title="The 94% number is the whole problem">
+  Over 94% of post-retraction citations in biomedicine never mention the retraction. Whatever pipeline you build, assume the upstream literature is leaking retracted claims at that rate, and treat retraction-aware ingestion as load-bearing — not a nice-to-have.
+</Callout>
 
 ## 4. The question the graph structurally cannot answer
 
@@ -37,7 +57,30 @@ The fix is to invert the design direction. Start from the questions, not the pap
 
 ---
 
-None of this is a reason not to build graphs. Biomedical knowledge graphs remain the only practical way to reason over literature at scale, and the normalisation and entity-linking work continues to improve<Cite id="bioel" n={1} />. But the graph is the floor of the system, not the ceiling. What you build on top — calibrated ranking, explicit hedging, traceable provenance, and the workflows that let experts push back in-line — is where the actual value lives. A graph without that scaffolding is just a prettier retrieval system with more ways to be confidently wrong.
+<Comparison caption="Each failure has a specific mitigation. None of them is a model problem.">
+  <Col heading="Synonymy collapse">
+    <Row label="Symptom">Distinct entities merged behind one ID</Row>
+    <Row label="Where it comes from">Naive UMLS/MeSH normalisation</Row>
+    <Row label="What to build instead">Auditable, reversible, context-scoped merges</Row>
+  </Col>
+  <Col heading="Flat edge weights">
+    <Row>Speculation treated as fact downstream</Row>
+    <Row>Edges without source-type, recency, contradiction flag</Row>
+    <Row>Calibrated edges with provenance metadata</Row>
+  </Col>
+  <Col heading="Stale edges">
+    <Row>Retracted or superseded claims still surface</Row>
+    <Row>No 'as of' timestamps; retraction feeds ignored</Row>
+    <Row>Temporal edges + retraction-aware ingestion</Row>
+  </Col>
+  <Col heading="Unanswerable questions">
+    <Row>Schema cannot express what the expert needs to ask</Row>
+    <Row>Designed from papers, not from real questions</Row>
+    <Row>Schema designed backwards from ten hard expert questions</Row>
+  </Col>
+</Comparison>
+
+None of this is a reason not to build graphs. Biomedical knowledge graphs remain the only practical way to reason over literature at scale, and the normalisation and entity-linking work continues to improve<Cite id="bioel" />. But the graph is the floor of the system, not the ceiling. What you build on top — calibrated ranking, explicit hedging, traceable provenance, and the workflows that let experts push back in-line — is where the actual value lives. A graph without that scaffolding is just a prettier retrieval system with more ways to be confidently wrong.
 
 <References>
   <Ref id="bioel" url="https://pmc.ncbi.nlm.nih.gov/articles/PMC11097978/">A Comprehensive Evaluation of Biomedical Entity Linking Models — PMC, 2024. Covers the ambiguity and synonymy challenges that drive the failures above.</Ref>

@@ -11,13 +11,13 @@ A digital twin is only as useful as the decision it is allowed to touch. That is
 
 I have been building two twins in parallel, in domains that look nothing alike. One simulates Type 2 diabetes patients so a trial team can pressure-test a protocol before enrolling a single person. The other models how consumers actually live with nutraceuticals — protein, vitamins, the whole supplement aisle — day by day, week by week. Different stakeholders, different data, different consequences. Same backbone, same discipline about what the twin is allowed to claim.
 
-Regulators are converging on the same discipline. The EMA has issued a qualification opinion for Unlearn's PROCOVA digital-twin methodology as a primary analysis in phase 2/3 trials with continuous outcomes<Cite id="procova" n={1} />, and the FDA's January 2025 draft guidance<Cite id="fda-ai" n={2} /> formalises a seven-step credibility framework keyed to the *context of use* — what the model is for, not what the model is. Both prototypes were built with that bar in mind.
+Regulators are converging on the same discipline. The EMA has issued a qualification opinion for Unlearn's PROCOVA digital-twin methodology as a primary analysis in phase 2/3 trials with continuous outcomes<Cite id="procova" />, and the FDA's January 2025 draft guidance<Cite id="fda-ai" /> formalises a seven-step credibility framework keyed to the *context of use* — what the model is for, not what the model is. Both prototypes were built with that bar in mind.
 
 ## 1. Patient digital twin — simulating Type 2 diabetes journeys
 
 The use case is narrow on purpose: simulate patient trajectories well enough that a trial team can stress-test dose schedules and inclusion criteria *before* committing to a protocol. Narrow-and-validated beats broad-and-suggestive every time when the output has to withstand a statistical review.
 
-The engine is a conditional variational autoencoder<Cite id="cvae-pediatric" n={3} />, conditioned on demographics, baseline labs, trial parameters, and features distilled from the biomedical literature. Adjacent work pointed the way: a generative deep-learning simulator for Type 1 diabetes<Cite id="t1d-sim" n={4} /> showed what good looks like for glycaemic trajectories, and HbA1c trajectory clustering across 60,423 patients<Cite id="hba1c-clusters" n={5} /> surfaced the cluster structure the twin has to reproduce — stable, descending, and ascending trends — rather than collapse into a single average curve.
+The engine is a conditional variational autoencoder<Cite id="cvae-pediatric" />, conditioned on demographics, baseline labs, trial parameters, and features distilled from the biomedical literature. Adjacent work pointed the way: a generative deep-learning simulator for Type 1 diabetes<Cite id="t1d-sim" /> showed what good looks like for glycaemic trajectories, and HbA1c trajectory clustering across 60,423 patients<Cite id="hba1c-clusters" /> surfaced the cluster structure the twin has to reproduce — stable, descending, and ascending trends — rather than collapse into a single average curve.
 
 <Callout variant="tip" title="What &#39;grounded&#39; actually meant here">
 Training a CVAE on claims data and calling it a day is the easy path. We did not take it. The conditioning variables were mapped to a validated mathematical model of the disease — the co-dependencies between demographics, labs, trial design and outcomes are structural, not discovered from scratch by a network. The CVAE generates *within* that structure. When the twin refuses to extrapolate, it is because the structure said so, not because the network shrugged.
@@ -33,6 +33,22 @@ In practice, that looks like this:
 
 Every one of those questions used to require a protocol amendment to answer with any confidence. Now it is a simulation run before the amendment is written.
 
+<Mermaid
+  chart={`flowchart LR
+    A[Demographics<br/>baseline labs<br/>trial parameters] --> B[Validated disease model<br/>structural co-dependencies]
+    B --> C[CVAE conditioning]
+    C --> D[Generated trajectories<br/>HbA1c, weight, BP]
+    D --> E[Cluster check<br/>stable / descending / ascending]
+    E --> F{Inside ±0.3%<br/>over 56 weeks?}
+    F -->|yes| G[Use to stress-test protocol]
+    F -->|no| H[Refuse — out of distribution]
+    classDef ok fill:#a5d6a7,stroke:#1b5e20,color:#000
+    classDef warn fill:#ef9a9a,stroke:#b71c1c,color:#000
+    class G ok
+    class H warn`}
+  caption="The patient twin pipeline. Conditioning sits inside a validated structural model — the CVAE generates within that scaffold, not from scratch."
+/>
+
 ## 2. Consumer digital twin — modelling nutraceutical adherence
 
 Different problem, different data: reviews, click-streams, wearables, purchase cadence, support transcripts. Same discipline. A consumer twin earns its place when a brand team can ask "what happens to adherence in weeks 4–8 if we move from a 30-day pack to a 90-day pack" and get an answer they are willing to act on.
@@ -41,7 +57,22 @@ The stack, honestly described:
 
 - **LLMs as structured ETL.** Reviews and support transcripts get embedded and normalised into a consistent persona schema. The LLM is not writing anything end-user-facing — it is doing the boring, high-leverage work of turning heterogeneous text into features the downstream model can consume. It also fills in edge-case personas (weekend-skippers, bulk-buyers who taper by month three) that are real but sparse in any single dataset.
 - **CVAE framework for day-by-day behaviour.** Same backbone as the patient twin, conditioned on purchase cadence, wearable signals, and persona features. Output is a daily adherence trajectory per persona — not a single mean.
-- **Agent-based simulation on top.**<Cite id="abm" n={6} /> Because "how does a cohort respond to a 20%-off coupon in week 3" is not the same question as "how does the average user respond." ABM is where cohort-level interaction effects show up — bundle cannibalisation, social-proof flywheels, promotions that lift trial but tank retention.
+- **Agent-based simulation on top.**<Cite id="abm" /> Because "how does a cohort respond to a 20%-off coupon in week 3" is not the same question as "how does the average user respond." ABM is where cohort-level interaction effects show up — bundle cannibalisation, social-proof flywheels, promotions that lift trial but tank retention.
+
+<Comparison caption="Same backbone, different evidence base, different bar. Both have to refuse to extrapolate the moment the question drifts out of distribution.">
+  <Col heading="Patient twin (T2D)">
+    <Row label="Domain">Clinical / regulatory</Row>
+    <Row label="Conditioning inputs">Demographics, labs, trial parameters, literature features</Row>
+    <Row label="Output">HbA1c trajectory + endpoint distribution</Row>
+    <Row label="Bar to clear">±0.3% over 56 weeks vs. real-world curves</Row>
+  </Col>
+  <Col heading="Consumer twin (nutraceuticals)">
+    <Row>Brand / product</Row>
+    <Row>Reviews, click-streams, wearables, purchase cadence, persona schema</Row>
+    <Row>Daily adherence trajectory + cohort interactions (ABM)</Row>
+    <Row>Recover known cohort effects in held-out promotions</Row>
+  </Col>
+</Comparison>
 
 ## What the tech stack actually does
 

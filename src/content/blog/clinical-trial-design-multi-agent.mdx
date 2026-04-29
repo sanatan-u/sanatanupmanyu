@@ -7,7 +7,7 @@ image: /blog/clinical-trial-design-multi-agent.png
 imageAlt: Pipeline of six specialized AI agents — Drug Intelligence, Disease Landscape, Analogous Trials, Protocol Design, Biostatistics, and Eligibility — flowing into a complete protocol document
 ---
 
-Clinical trial design is a $2.6 billion problem per approved drug<Cite id="dimasi" n={1} />, and the industry's instinct has been to throw AI at individual pieces of it. One tool parses your protocol synopsis. Another runs Monte Carlo simulations. A third drafts eligibility criteria from templates. A fourth calculates sample size if you already know what test to use.
+Clinical trial design is a $2.6 billion problem per approved drug<Cite id="dimasi" />, and the industry's instinct has been to throw AI at individual pieces of it. One tool parses your protocol synopsis. Another runs Monte Carlo simulations. A third drafts eligibility criteria from templates. A fourth calculates sample size if you already know what test to use.
 
 Each of these solves a real problem. None of them solves *the* problem — which is that clinical trial design is not a collection of independent tasks. It is a chain of dependent reasoning where the drug's mechanism shapes the disease model, the disease model shapes the comparator logic, the comparator logic shapes the statistical framework, and the statistical framework shapes the sample size. Break that chain and you get a protocol that looks assembled rather than designed.
 
@@ -19,17 +19,40 @@ This post explains the architecture, the reasoning behind it, and why the curren
 
 To understand why we built what we built, look at what already exists and where it stops.
 
-**Operational feasibility tools** like Medidata's Protocol Optimization<Cite id="medidata" n={2} /> evaluate whether your protocol is *executable* — can you enrol patients, will sites perform, how many amendments will you need. This is valuable, but it starts *after* you already have a protocol. The design decisions are already baked in.
+**Operational feasibility tools** like Medidata's Protocol Optimization<Cite id="medidata" /> evaluate whether your protocol is *executable* — can you enrol patients, will sites perform, how many amendments will you need. This is valuable, but it starts *after* you already have a protocol. The design decisions are already baked in.
 
-**Upstream planning workspaces** like Unlearn's TrialPioneer<Cite id="unlearn" n={3} /> help clinical development teams compare design scenarios — endpoints, eligibility criteria, sample size — against historical benchmarks and digital twins. The workspace is excellent for human decision-making. But it depends on the human to connect the dots between drug pharmacology, disease pathophysiology, analogous trial outcomes, and statistical methodology. The system organises evidence. It does not reason over it.
+**Upstream planning workspaces** like Unlearn's TrialPioneer<Cite id="unlearn" /> help clinical development teams compare design scenarios — endpoints, eligibility criteria, sample size — against historical benchmarks and digital twins. The workspace is excellent for human decision-making. But it depends on the human to connect the dots between drug pharmacology, disease pathophysiology, analogous trial outcomes, and statistical methodology. The system organises evidence. It does not reason over it.
 
-**Protocol drafting tools** like Saama's AI-Powered Document Generator and Biorce's Aika<Cite id="saama" n={4} /> accelerate the *writing* of protocol documents. They cross-reference historical trials, suggest template sections, reduce manual effort. But generating a document is not the same as designing a trial. The scientific reasoning — why this endpoint, why this comparator, why this sample size with this correction method — still happens in someone's head.
+**Protocol drafting tools** like Saama's AI-Powered Document Generator and Biorce's Aika<Cite id="saama" /> accelerate the *writing* of protocol documents. They cross-reference historical trials, suggest template sections, reduce manual effort. But generating a document is not the same as designing a trial. The scientific reasoning — why this endpoint, why this comparator, why this sample size with this correction method — still happens in someone's head.
 
-**Simulation engines** like TrialForge<Cite id="trialforge" n={5} /> parse a protocol synopsis, run power curves and Monte Carlo simulations, and tell you whether your design holds up under various scenarios. Useful once you have a design. But where did the design come from?
+**Simulation engines** like TrialForge<Cite id="trialforge" /> parse a protocol synopsis, run power curves and Monte Carlo simulations, and tell you whether your design holds up under various scenarios. Useful once you have a design. But where did the design come from?
 
-**Academic multi-agent systems** are closer to the right idea. ClinicalReTrial<Cite id="clinicalretrial" n={6} /> uses a multi-agent pipeline to *redesign failed trials* — diagnosing failure, proposing modifications, evaluating candidates. EmulatRx<Cite id="emulatrx" n={7} /> builds a knowledge graph and coordinates specialised agents (Trialist, Informatician, Statistician, Clinician) for target trial emulation. N-Power AI<Cite id="npower" n={8} /> uses three agents to automate sample size and power calculations. These are serious research efforts. They also address fragments: redesigning *existing* protocols, emulating *historical* trials, or computing *one statistical parameter*. None of them generates a de novo protocol from a drug-indication pair.
+**Academic multi-agent systems** are closer to the right idea. ClinicalReTrial<Cite id="clinicalretrial" /> uses a multi-agent pipeline to *redesign failed trials* — diagnosing failure, proposing modifications, evaluating candidates. EmulatRx<Cite id="emulatrx" /> builds a knowledge graph and coordinates specialised agents (Trialist, Informatician, Statistician, Clinician) for target trial emulation. N-Power AI<Cite id="npower" /> uses three agents to automate sample size and power calculations. These are serious research efforts. They also address fragments: redesigning *existing* protocols, emulating *historical* trials, or computing *one statistical parameter*. None of them generates a de novo protocol from a drug-indication pair.
 
 The gap is not another tool. The gap is a system that reasons from drug intelligence through to a statistically powered protocol — the way a clinical development team does, except the team takes months and the system takes minutes.
+
+<Comparison caption="Each tool category solves a slice. Trial design is a chain — and the chain is where most systems stop.">
+  <Col heading="Operational tools (Medidata)">
+    <Row label="Where it operates">After the protocol exists</Row>
+    <Row label="What it solves">Will the protocol enrol? Will sites perform?</Row>
+    <Row label="What it leaves to the human">Every design decision upstream</Row>
+  </Col>
+  <Col heading="Planning workspaces (Unlearn)">
+    <Row>Before the protocol</Row>
+    <Row>Surface evidence and benchmarks</Row>
+    <Row>Connecting drug → disease → comparator → stats</Row>
+  </Col>
+  <Col heading="Drafting tools (Saama, Aika)">
+    <Row>During document writing</Row>
+    <Row>Faster authoring of an existing design</Row>
+    <Row>The scientific reasoning behind the design</Row>
+  </Col>
+  <Col heading="Multi-agent design system">
+    <Row>From drug profile to powered protocol</Row>
+    <Row>End-to-end dependent reasoning chain</Row>
+    <Row>Judgment calls under genuine uncertainty</Row>
+  </Col>
+</Comparison>
 
 ## The architecture: agents that mirror a clinical development team
 
@@ -38,6 +61,24 @@ The core insight is structural. A clinical development team does not design a tr
 These roles exist because the reasoning is *different* at each stage — different knowledge bases, different constraints, different failure modes. A single LLM, no matter how capable, cannot hold all of this in context simultaneously without losing fidelity. And prompt-engineering a monolithic chain-of-thought to replicate this entire workflow produces fragile, unauditable output that no regulatory team would trust.
 
 So we decomposed the problem the way the industry already decomposes it — into specialised agents with defined inputs, outputs, and knowledge access:
+
+<Mermaid
+  chart={`flowchart TD
+    DI[Drug Intelligence Agent<br/>mechanism, PK, safety signals] --> DL[Disease Landscape Agent<br/>pathophysiology, SoC, biomarkers]
+    DL --> AT[Analogous Trial Agent<br/>multi-dim alignment + transferability]
+    AT --> PD[Protocol Design Agent<br/>arms, dosing, masking, schedule]
+    DI --> EC[Eligibility Criteria Agent<br/>per-criterion justification]
+    PD --> EP[Endpoints Agent<br/>primary/secondary + regulatory precedent]
+    PD --> BS[Biostatistics Agent<br/>test family, alpha, power, N]
+    EP --> BS
+    BS --> OUT[Complete protocol with<br/>traced provenance]
+    EC --> OUT
+    classDef agent fill:#90caf9,stroke:#0d47a1,color:#000
+    classDef out fill:#a5d6a7,stroke:#1b5e20,color:#000
+    class DI,DL,AT,PD,EC,EP,BS agent
+    class OUT out`}
+  caption="Specialised agents with typed interfaces. Information flows through the chain the way it does in a clinical development team."
+/>
 
 **Drug Intelligence Agent.** Ingests the compound's mechanism of action, target profile, selectivity data, pharmacokinetics, known safety signals, prior efficacy data, and drug-drug interaction risks from structured knowledge graphs. This is not a literature search. It is a structured extraction from curated drug intelligence that distinguishes primary targets from secondary ones, quantifies selectivity ratios, and maps safety signals to specific monitoring requirements. The output is a machine-readable drug profile that downstream agents consume.
 
@@ -72,7 +113,11 @@ The same applies in the other direction. When the Analogous Trial Agent identifi
 
 Here is an uncomfortable truth about AI in clinical trials: most systems punt on statistics.
 
-The reason is understandable. LLMs are unreliable at arithmetic. Ask GPT-4 to calculate a sample size for a four-arm trial with a Dunnett correction and 15% attrition, and you will get a confident, well-formatted, wrong answer more often than you would like. The N-Power AI team demonstrated this directly — they tested six frontier LLMs on sample size calculations and found that direct LLM calls produced unreliable results, particularly for complex multi-arm designs<Cite id="npower" n={8} />.
+The reason is understandable. LLMs are unreliable at arithmetic. Ask GPT-4 to calculate a sample size for a four-arm trial with a Dunnett correction and 15% attrition, and you will get a confident, well-formatted, wrong answer more often than you would like. The N-Power AI team demonstrated this directly — they tested six frontier LLMs on sample size calculations and found that direct LLM calls produced unreliable results, particularly for complex multi-arm designs<Cite id="npower" />.
+
+<Callout variant="warn" title="Reasoning vs. computation">
+  The fix isn't a smarter LLM. It's separating the two jobs: the LLM decides *what* to compute (which test family, which correction, which effect-size assumption); a deterministic statistical engine does the actual computation. Conflating the two is what produces confident, wrong sample sizes.
+</Callout>
 
 The solution is not to avoid computation. It is to separate reasoning from calculation. Our Biostatistics Agent *reasons* about which statistical framework to apply — two-sample t-test for a continuous endpoint, Cochran-Mantel-Haenszel for a stratified binary endpoint, Dunnett correction for multiple treatment arms against a single control — and then *executes* the computation through validated statistical engines. The LLM decides *what* to compute. The computation itself is deterministic.
 
