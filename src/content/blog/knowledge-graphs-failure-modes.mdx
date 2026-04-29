@@ -12,7 +12,7 @@ Knowledge graphs over biomedical literature look clean on a slide. A few million
 They stop looking clean the moment a domain expert asks a sharp question. The failure modes that bite are not model problems — they are ontology, evidence, and workflow problems. Four that I keep hitting:
 
 <Mermaid
-  chart={`flowchart TD
+  chart="flowchart TD
     Q[Expert question] --> G{Knowledge graph}
     G --> F1[Synonymy collapse<br/>'AD' = AD or AD or AD?]
     G --> F2[Edges without weight<br/>preprint = trial?]
@@ -23,7 +23,7 @@ They stop looking clean the moment a domain expert asks a sharp question. The fa
     F3 --> X
     F4 --> X
     classDef bad fill:#ef9a9a,stroke:#b71c1c,color:#000
-    class X bad`}
+    class X bad"
   caption="Four ways a clean-looking graph produces confidently wrong answers — the rest of this post is one section per failure mode."
 />
 

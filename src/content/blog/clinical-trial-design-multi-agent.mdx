@@ -63,7 +63,7 @@ These roles exist because the reasoning is *different* at each stage — differe
 So we decomposed the problem the way the industry already decomposes it — into specialised agents with defined inputs, outputs, and knowledge access:
 
 <Mermaid
-  chart={`flowchart TD
+  chart="flowchart TD
     DI[Drug Intelligence Agent<br/>mechanism, PK, safety signals] --> DL[Disease Landscape Agent<br/>pathophysiology, SoC, biomarkers]
     DL --> AT[Analogous Trial Agent<br/>multi-dim alignment + transferability]
     AT --> PD[Protocol Design Agent<br/>arms, dosing, masking, schedule]
@@ -76,7 +76,7 @@ So we decomposed the problem the way the industry already decomposes it — into
     classDef agent fill:#90caf9,stroke:#0d47a1,color:#000
     classDef out fill:#a5d6a7,stroke:#1b5e20,color:#000
     class DI,DL,AT,PD,EC,EP,BS agent
-    class OUT out`}
+    class OUT out"
   caption="Specialised agents with typed interfaces. Information flows through the chain the way it does in a clinical development team."
 />
 

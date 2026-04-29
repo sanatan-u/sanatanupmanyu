@@ -12,7 +12,7 @@ Patient digital twins are genuinely useful. They compress a messy medical histor
 They also fail — and they tend to fail with a straight face. Three patterns I keep running into, each of which has a design implication that most teams skip.
 
 <Mermaid
-  chart={`flowchart LR
+  chart="flowchart LR
     A[Source data<br/>registry / EHR / trial cohort] -->|cohort selection| B[Training set]
     B -->|missing features| C[Twin model]
     C -->|in-distribution| D{Use case}
@@ -22,7 +22,7 @@ They also fail — and they tend to fail with a straight face. Three patterns I 
     classDef bad fill:#ef9a9a,stroke:#b71c1c,color:#000
     classDef ok fill:#a5d6a7,stroke:#1b5e20,color:#000
     class E ok
-    class F,G bad`}
+    class F,G bad"
   caption="Three places bias enters the twin pipeline. Each one of the next three sections is one of these failure modes."
 />
 

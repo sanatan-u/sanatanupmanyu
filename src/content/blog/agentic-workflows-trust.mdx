@@ -12,7 +12,7 @@ An agent that *suggests* is a search box with nicer prose. An agent that *acts* 
 Three principles that separate the clinical agentic systems still in use six months after launch from the ones quietly abandoned. None of this is novel. The novel thing is the commercial pressure to skip it, because demos look better without checkpoints and without stops.
 
 <Mermaid
-  chart={`flowchart LR
+  chart="flowchart LR
     A[Plan] --> B{Human check}
     B -->|approve| C[Act]
     C --> D{Human check}
@@ -23,7 +23,7 @@ Three principles that separate the clinical agentic systems still in use six mon
     D -.->|reject| A
     F -.->|reject| A
     classDef human fill:#ffb74d,stroke:#e65100,color:#000
-    class B,D,F human`}
+    class B,D,F human"
   caption="Short segments of automation between human checkpoints — the inverse of long autonomous chains."
 />
 

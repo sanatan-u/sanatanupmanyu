@@ -53,13 +53,13 @@ A bilingual practitioner can hold two mental models at once: the computational v
 Academic programmes have started naming the same gap<Cite id="osu" />, and reviews of AI in drug discovery<Cite id="ai-dd" /> keep flagging domain expertise as the constraint that more compute does not fix. The technical stack tells the same story: the useful variants of general-purpose language models in this space — BioBERT, ClinicalBERT<Cite id="biobert" /> — are the ones that have absorbed the vocabulary and norms of the domain they serve. The lesson scales up from models to teams.
 
 <Mermaid
-  chart={`flowchart LR
+  chart="flowchart LR
     A[Domain expert<br/>clinical / regulatory] -- frames --> C{Bilingual translator}
     B[ML engineer<br/>modelling / data] -- builds --> C
     C -- right question --> D[Tractable problem]
     D --> E[Model that ships]
     classDef bridge fill:#64b5f6,stroke:#0d47a1,color:#000
-    class C bridge`}
+    class C bridge"
   caption="The bilingual role sits at the seam — neither side gets to ignore the other's constraints."
 />
 

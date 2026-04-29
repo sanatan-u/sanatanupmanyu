@@ -34,7 +34,7 @@ In practice, that looks like this:
 Every one of those questions used to require a protocol amendment to answer with any confidence. Now it is a simulation run before the amendment is written.
 
 <Mermaid
-  chart={`flowchart LR
+  chart="flowchart LR
     A[Demographics<br/>baseline labs<br/>trial parameters] --> B[Validated disease model<br/>structural co-dependencies]
     B --> C[CVAE conditioning]
     C --> D[Generated trajectories<br/>HbA1c, weight, BP]
@@ -45,7 +45,7 @@ Every one of those questions used to require a protocol amendment to answer with
     classDef ok fill:#a5d6a7,stroke:#1b5e20,color:#000
     classDef warn fill:#ef9a9a,stroke:#b71c1c,color:#000
     class G ok
-    class H warn`}
+    class H warn"
   caption="The patient twin pipeline. Conditioning sits inside a validated structural model — the CVAE generates within that scaffold, not from scratch."
 />
 
