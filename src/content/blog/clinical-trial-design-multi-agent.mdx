@@ -113,7 +113,7 @@ The same applies in the other direction. When the Analogous Trial Agent identifi
 
 Here is an uncomfortable truth about AI in clinical trials: most systems punt on statistics.
 
-The reason is understandable. LLMs are unreliable at arithmetic. Ask GPT-4 to calculate a sample size for a four-arm trial with a Dunnett correction and 15% attrition, and you will get a confident, well-formatted, wrong answer more often than you would like. The N-Power AI team demonstrated this directly — they tested six frontier LLMs on sample size calculations and found that direct LLM calls produced unreliable results, particularly for complex multi-arm designs<Cite id="npower" />.
+The reason is understandable. LLMs are unreliable at arithmetic. Ask a frontier LLM to calculate a sample size for a four-arm trial with a Dunnett correction and 15% attrition, and you will get a confident, well-formatted, wrong answer more often than you would like. The N-Power AI team demonstrated this directly — they tested six frontier LLMs on sample size calculations and found that direct LLM calls produced unreliable results, particularly for complex multi-arm designs<Cite id="npower" />.
 
 <Callout variant="warn" title="Reasoning vs. computation">
   The fix isn't a smarter LLM. It's separating the two jobs: the LLM decides *what* to compute (which test family, which correction, which effect-size assumption); a deterministic statistical engine does the actual computation. Conflating the two is what produces confident, wrong sample sizes.

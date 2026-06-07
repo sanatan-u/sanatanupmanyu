@@ -28,7 +28,7 @@ export const products: Product[] = [
     builtFor: "Artixio Pvt Ltd",
     impact: "Drug & biologic regulatory intelligence spanning 12+ agencies — FDA, EMA, PMDA, NMPA, Health Canada, MHRA, Swissmedic, and more",
     description:
-      "Secure, role-based platform for pharma/biotech regulatory affairs teams to search, analyze, compare, and manage global drug and biologic approvals. Covers pharmaceuticals, biologics, biosimilars, and generics across 12+ regulators. Combines role-based dashboards, pathway and classification guides, dossier preparation support, a centralized guidelines library, Q&A with expert responses, and AI-assisted document analysis (GPT-4, Claude).",
+      "Secure, role-based platform for pharma/biotech regulatory affairs teams to search, analyze, compare, and manage global drug and biologic approvals. Covers pharmaceuticals, biologics, biosimilars, and generics across 12+ regulators. Combines role-based dashboards, pathway and classification guides, dossier preparation support, a centralized guidelines library, Q&A with expert responses, and LLM-powered document analysis.",
   },
   {
     name: "Secondary Research Automation",

@@ -32,7 +32,7 @@ export const talks: Talk[] = [
   {
     event: "Basel Data Science & AI Meetup",
     role: "Invited Speaker",
-    topic: "Effects & Impact of KnowledgeGraft in Drug Discovery",
+    topic: "Effects & Impact of Knowledge Graphs in Drug Discovery",
     location: "Basel",
     date: "11 Dec 2024",
   },

@@ -17,7 +17,7 @@ export const platforms: Platform[] = [
     impact: "Compresses hypothesis-to-insight cycles from months to weeks, varying by disease area",
     url: "https://alphameld.com",
     description:
-      "End-to-end AI stack combining a custom UI layer (Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis, AlphaClinMeld) with 12 ML models — including NER, RE, evidence scoring, digital-twin CT predictors and landscape assessment — running on PostgreSQL + Neo4j and self-hosted GPT/Claude custom APIs.",
+      "End-to-end AI stack combining a custom UI layer (Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis, AlphaClinMeld) with 12 ML models — including NER, RE, evidence scoring, digital-twin CT predictors and landscape assessment — running on PostgreSQL + Neo4j and self-hosted LLM APIs.",
   },
   {
     name: "Discovery Navigator",
@@ -35,7 +35,7 @@ export const platforms: Platform[] = [
     impact: "97.34% accuracy on 188-question ACM benchmark",
     url: "https://www.inveniai.com/press-detail.php?id=22",
     description:
-      "Two agentic workflow engines fine-tuned on biomedical tasks; outperformed GPT-4o, GPT-4o-mini, and o3-mini variants; delivered richer step-by-step rationales critical for complex clinical questions.",
+      "Two agentic workflow engines fine-tuned on biomedical tasks; outperformed leading general-purpose frontier LLMs; delivered richer step-by-step rationales critical for complex clinical questions.",
   },
   {
     name: "SequenceFlow® ResearchNexus & Clinical Navigator",
@@ -43,7 +43,7 @@ export const platforms: Platform[] = [
     tags: ["AI/ML", "Full Stack", "Clinical Trials"],
     impact: "6+ integrated modules",
     description:
-      "End-to-end AI stack combining Knowledge Graph, Clinical Trial Prediction, Literature Analysis, Patient Digital Twin, TPP, TOP with 12 ML models running on PostgreSQL + Neo4j and self-hosted GPT/Claude custom APIs.",
+      "End-to-end AI stack combining Knowledge Graph, Clinical Trial Prediction, Literature Analysis, Patient Digital Twin, TPP, TOP with 12 ML models running on PostgreSQL + Neo4j and self-hosted LLM APIs.",
   },
   {
     name: "AlphaCompass Portfolio Intelligence",

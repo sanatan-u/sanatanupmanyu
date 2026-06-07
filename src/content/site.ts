@@ -14,7 +14,7 @@ export const site = {
   },
   linkedin: "https://linkedin.com/in/sanatan-upmanyu",
   github: "https://github.com/sanatan-u",
-  statsInline: "18y experience · 5+ platforms · 12+ ML models · 2 patents · 5 publications",
+  statsInline: "18+ years experience · 5+ platforms · 12+ ML models · 2 patents · 5 publications",
   stats: [
     { value: "18+", label: "Years Experience" },
     { value: "5+", label: "Platforms Built" },

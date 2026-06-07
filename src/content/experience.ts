@@ -9,33 +9,6 @@ export type Role = {
 
 export const experience: Role[] = [
   {
-    company: "AlphaMeld GmbH (formerly InveniAI GmbH)",
-    location: "Basel, Switzerland",
-    title: "Head of Data Sciences – Site Head",
-    period: "Dec 2020 – Present",
-    skills: ["Python", "Neo4j", "AWS", "React", "LLMs", "Knowledge Graphs"],
-    bullets: [
-      "Leads development and deployment of the AlphaMeld Platform.",
-      "Spearheads strategic AI/ML initiatives to enhance AlphaMeld/AlphaCompass capacity.",
-      "Advises pharma/biotech companies on leveraging data science methodologies.",
-      "Applied deep molecular biology expertise for MOA analyses and therapeutic target viability.",
-      "Manages a data science team of 5 members.",
-    ],
-  },
-  {
-    company: "ArtiXio Pvt Ltd",
-    location: "Remote",
-    title: "Chief Technology Officer",
-    period: "Sep 2017 – Present",
-    skills: ["React", "Next.js", "TypeScript", "GPT-4", "Claude", "PostgreSQL"],
-    bullets: [
-      "Owns technology strategy, architecture, and delivery of Artixio's digital product portfolio — from concept to production.",
-      "Conceptualized and built QuriousRI, a secure role-based regulatory intelligence platform covering pharmaceuticals, biologics, biosimilars, and generics across 12+ agencies (FDA, EMA, PMDA, NMPA, Health Canada, MHRA, Swissmedic, and more), with AI-assisted document analysis (GPT-4, Claude).",
-      "Architected additional technology applications for the company, including an AI assistant that mines global regulatory updates and auto-drafts submission dossiers — opening a new non-pharma revenue channel.",
-      "Directs enterprise-level data science and AI product development using Agile methodologies, ensuring adherence to global regulatory standards (FDA, EMA, ICH) across the drug development lifecycle.",
-    ],
-  },
-  {
     company: "Apxora GmbH",
     location: "Basel, Switzerland",
     title: "Co-Founder & AI/Data Science Head",
@@ -56,6 +29,33 @@ export const experience: Role[] = [
     bullets: [
       "Advising on AI-driven strategies for early-stage drug discovery and translational research.",
       "Shaping the future of health through regulatory-aware innovation in digital and data sciences.",
+    ],
+  },
+  {
+    company: "AlphaMeld GmbH (formerly InveniAI GmbH)",
+    location: "Basel, Switzerland",
+    title: "Head of Data Sciences – Site Head",
+    period: "Dec 2020 – Present",
+    skills: ["Python", "Neo4j", "AWS", "React", "LLMs", "Knowledge Graphs"],
+    bullets: [
+      "Leads development and deployment of the AlphaMeld Platform.",
+      "Spearheads strategic AI/ML initiatives to enhance AlphaMeld/AlphaCompass capacity.",
+      "Advises pharma/biotech companies on leveraging data science methodologies.",
+      "Applied deep molecular biology expertise for MOA analyses and therapeutic target viability.",
+      "Manages a data science team of 5 members.",
+    ],
+  },
+  {
+    company: "ArtiXio Pvt Ltd",
+    location: "Remote",
+    title: "Chief Technology Officer",
+    period: "Sep 2017 – Present",
+    skills: ["React", "Next.js", "TypeScript", "LLMs", "Agentic AI", "PostgreSQL"],
+    bullets: [
+      "Owns technology strategy, architecture, and delivery of Artixio's digital product portfolio — from concept to production.",
+      "Conceptualized and built QuriousRI, a secure role-based regulatory intelligence platform covering pharmaceuticals, biologics, biosimilars, and generics across 12+ agencies (FDA, EMA, PMDA, NMPA, Health Canada, MHRA, Swissmedic, and more), with LLM-powered document analysis.",
+      "Architected additional technology applications for the company, including an AI assistant that mines global regulatory updates and auto-drafts submission dossiers — opening a new non-pharma revenue channel.",
+      "Directs enterprise-level data science and AI product development using Agile methodologies, ensuring adherence to global regulatory standards (FDA, EMA, ICH) across the drug development lifecycle.",
     ],
   },
   {
