@@ -38,7 +38,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 
 export default function ResumePage() {
   return (
-    <div className="resume-doc mx-auto max-w-[920px] px-6 md:px-12 pt-12 pb-16">
+    <div className="resume-doc mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-16">
       {/* ── Header ── */}
       <header className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between mb-10">
         <div>
