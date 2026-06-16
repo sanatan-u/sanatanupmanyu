@@ -1,9 +1,11 @@
+import { createRequire } from "node:module";
 import {
   Document,
   Page,
   View,
   Text,
   Link,
+  Font,
   StyleSheet,
   renderToBuffer,
 } from "@react-pdf/renderer";
@@ -20,11 +22,58 @@ import {
   talks,
 } from "@/content/resume";
 
+// ── Fonts ───────────────────────────────────────────────────────────────────
+// On-brand with the website: Fraunces (the serif used for site headings) for
+// the name and section titles, Inter Tight (the site body sans) for everything
+// else. These are real embedded fonts shipped by @fontsource (.woff), so the
+// text layer stays fully selectable/extractable — ATS-safe. require.resolve
+// gives absolute paths and lets Next trace the files into the server bundle.
+const req = createRequire(import.meta.url);
+
+Font.register({
+  family: "Inter Tight",
+  fonts: [
+    {
+      src: req.resolve(
+        "@fontsource/inter-tight/files/inter-tight-latin-400-normal.woff",
+      ),
+      fontWeight: 400,
+    },
+    {
+      src: req.resolve(
+        "@fontsource/inter-tight/files/inter-tight-latin-600-normal.woff",
+      ),
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: "Fraunces",
+  fonts: [
+    {
+      src: req.resolve(
+        "@fontsource/fraunces/files/fraunces-latin-400-normal.woff",
+      ),
+      fontWeight: 400,
+    },
+    {
+      src: req.resolve(
+        "@fontsource/fraunces/files/fraunces-latin-600-normal.woff",
+      ),
+      fontWeight: 600,
+    },
+  ],
+});
+
+// Keep long words intact (no hyphenation) for clean line breaks.
+Font.registerHyphenationCallback((word) => [word]);
+
 // ── ATS-friendliness notes ─────────────────────────────────────────────────
 // This PDF is built to parse cleanly in Applicant Tracking Systems:
 //   • Single column, top-to-bottom reading order (no multi-column layout).
-//   • Real, selectable text in the standard Helvetica font (always extractable,
-//     never rasterised to an image).
+//   • Real, selectable text in embedded fonts (always extractable, never
+//     rasterised to an image).
 //   • Plain section headings ATS parsers recognise (Summary, Experience, Skills,
 //     Education, Publications…).
 //   • Simple hyphen/bullet markers and a parseable date format.
@@ -57,14 +106,15 @@ const styles = StyleSheet.create({
     paddingTop: 38,
     paddingBottom: 40,
     paddingHorizontal: 44,
-    fontFamily: "Helvetica",
+    fontFamily: "Inter Tight",
     fontSize: 9.3,
     lineHeight: 1.4,
     color: C.ink2,
   },
   name: {
-    fontFamily: "Helvetica-Bold",
-    fontSize: 21,
+    fontFamily: "Fraunces",
+    fontWeight: 600,
+    fontSize: 23,
     color: C.ink,
     lineHeight: 1.1,
     marginBottom: 5,
@@ -74,8 +124,9 @@ const styles = StyleSheet.create({
   link: { color: C.ink2, textDecoration: "none" },
 
   sectionTitle: {
-    fontFamily: "Helvetica-Bold",
-    fontSize: 9.5,
+    fontFamily: "Fraunces",
+    fontWeight: 600,
+    fontSize: 10,
     color: C.accent,
     textTransform: "uppercase",
     letterSpacing: 0.6,
@@ -94,7 +145,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-end",
   },
-  company: { fontFamily: "Helvetica-Bold", fontSize: 10, color: C.ink },
+  company: {
+    fontFamily: "Inter Tight",
+    fontWeight: 600,
+    fontSize: 10,
+    color: C.ink,
+  },
   period: { fontSize: 8.4, color: C.ink3 },
   roleLine: { fontSize: 8.8, color: C.ink3, marginBottom: 2, marginTop: 0.5 },
 
@@ -103,16 +159,31 @@ const styles = StyleSheet.create({
   bulletText: { flex: 1, fontSize: 9, color: C.ink2 },
 
   skillsLine: { fontSize: 8.2, color: C.ink3, marginTop: 2.5 },
-  skillsLabel: { fontFamily: "Helvetica-Bold", color: C.ink2 },
+  skillsLabel: { fontFamily: "Inter Tight", fontWeight: 600, color: C.ink2 },
 
   compRow: { marginBottom: 2.5 },
-  compLabel: { fontFamily: "Helvetica-Bold", fontSize: 9, color: C.ink },
+  compLabel: {
+    fontFamily: "Inter Tight",
+    fontWeight: 600,
+    fontSize: 9,
+    color: C.ink,
+  },
 
-  platformName: { fontFamily: "Helvetica-Bold", fontSize: 9.3, color: C.ink },
+  platformName: {
+    fontFamily: "Inter Tight",
+    fontWeight: 600,
+    fontSize: 9.3,
+    color: C.ink,
+  },
   platformImpact: { fontSize: 8.8, color: C.accent },
   platformDesc: { fontSize: 8.6, color: C.ink2, marginTop: 0.5 },
 
-  eduInst: { fontFamily: "Helvetica-Bold", fontSize: 9.3, color: C.ink },
+  eduInst: {
+    fontFamily: "Inter Tight",
+    fontWeight: 600,
+    fontSize: 9.3,
+    color: C.ink,
+  },
   small: { fontSize: 8.6, color: C.ink2 },
   smaller: { fontSize: 8.2, color: C.ink2, marginBottom: 2.5 },
 });
