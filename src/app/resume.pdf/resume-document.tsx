@@ -1,4 +1,4 @@
-import { createRequire } from "node:module";
+import path from "node:path";
 import {
   Document,
   Page,
@@ -26,21 +26,26 @@ import {
 // On-brand with the website: Fraunces (the serif used for site headings) for
 // the name and section titles, Inter Tight (the site body sans) for everything
 // else. These are real embedded fonts shipped by @fontsource (.woff), so the
-// text layer stays fully selectable/extractable — ATS-safe. require.resolve
-// gives absolute paths and lets Next trace the files into the server bundle.
-const req = createRequire(import.meta.url);
+// text layer stays fully selectable/extractable — ATS-safe.
+//
+// Paths are built at runtime from process.cwd() rather than imported, so the
+// bundler treats them as plain filesystem strings (not modules — importing a
+// .woff fails Turbopack with "Unknown module type"). @react-pdf/renderer is an
+// external server package, so it reads these files with native fs at render.
+const fontPath = (rel: string) =>
+  path.join(process.cwd(), "node_modules", rel);
 
 Font.register({
   family: "Inter Tight",
   fonts: [
     {
-      src: req.resolve(
+      src: fontPath(
         "@fontsource/inter-tight/files/inter-tight-latin-400-normal.woff",
       ),
       fontWeight: 400,
     },
     {
-      src: req.resolve(
+      src: fontPath(
         "@fontsource/inter-tight/files/inter-tight-latin-600-normal.woff",
       ),
       fontWeight: 600,
@@ -52,15 +57,11 @@ Font.register({
   family: "Fraunces",
   fonts: [
     {
-      src: req.resolve(
-        "@fontsource/fraunces/files/fraunces-latin-400-normal.woff",
-      ),
+      src: fontPath("@fontsource/fraunces/files/fraunces-latin-400-normal.woff"),
       fontWeight: 400,
     },
     {
-      src: req.resolve(
-        "@fontsource/fraunces/files/fraunces-latin-600-normal.woff",
-      ),
+      src: fontPath("@fontsource/fraunces/files/fraunces-latin-600-normal.woff"),
       fontWeight: 600,
     },
   ],
