@@ -12,6 +12,24 @@ export type Product = {
 
 export const products: Product[] = [
   {
+    name: "Neurological Biomarker Intelligence Platform",
+    stage: "Engagement",
+    tags: ["AI/ML", "Automation", "Full Stack"],
+    builtFor: "Global pharmaceutical company",
+    impact: "Multi-agent pipeline aggregating pricing, availability, and distributor intelligence for diagnostic kits across global markets",
+    description:
+      "Full-stack platform that collects, validates, and structures biomarker market intelligence — pricing, availability, and distributors — for neurological diagnostic kits worldwide. A six-layer, event-driven multi-agent pipeline pairs deep web research with schema-enforced LLM synthesis; every data point carries source lineage, a credibility rating, and a stated-vs-extrapolated confidence flag. Vision-first PDF extraction, resumable checkpointing, and a canonical-run batch model keep large refreshes auditable. Built on Next.js, Drizzle/PostgreSQL, and Inngest for event-driven orchestration.",
+  },
+  {
+    name: "Rare-Disease Asset Screening (AlphaProspect Scout)",
+    stage: "MVP",
+    tags: ["AI/ML", "Full Stack", "Drug Discovery"],
+    builtFor: "Specialty pharmaceutical company",
+    impact: "Narrows a ~9,000-disease rare-disease universe to a ranked longlist and a provenance-backed asset shortlist",
+    description:
+      "External-innovation asset-screening dashboard on the AlphaMeld platform. A disease-first funnel narrows the ~9,000-disease rare-disease universe into a ranked longlist and a focused asset shortlist, with provenance on every score, gate, and number — deterministic and computed values kept visibly distinct from LLM-proposed-then-confirmed ones. A React 19 + TypeScript front end runs over a Hono API and PostgreSQL + pgvector for similarity search and entity resolution. Demonstrated on synthetic, illustrative data.",
+  },
+  {
     name: "Pipeline Alpha",
     stage: "Live",
     tags: ["Full Stack", "AI/ML", "FinTech"],

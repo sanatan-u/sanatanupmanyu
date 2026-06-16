@@ -310,3 +310,56 @@ button:focus-visible {
   box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 8%, transparent);
   border-color: var(--accent);
 }
+
+/* ── Résumé print styles ── */
+/* Drives the browser's "Save as PDF". The generated /resume.pdf is a separate
+   path (route handler) — this only affects printing the web page. */
+
+@media print {
+  /* Strip site chrome so only the résumé prints. */
+  body > header,
+  body > footer {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  /* Force a clean light palette regardless of the active theme. */
+  :root,
+  .dark {
+    --bg: #ffffff;
+    --bg-soft: #f4f4f2;
+    --ink: #000000;
+    --ink-2: #1c1c1c;
+    --ink-3: #555555;
+    --rule: #cccccc;
+    --accent: #155e56;
+    --accent-ink: #0f4a44;
+    --signal: #a13d1e;
+    color-scheme: light;
+  }
+
+  .resume-doc {
+    max-width: none !important;
+    padding: 0 !important;
+    font-size: 10.5pt;
+  }
+
+  .resume-doc a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  /* Keep colored chips legible in print. */
+  .resume-tag {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    margin: 14mm;
+  }
+}

@@ -54,6 +54,14 @@ export const platforms: Platform[] = [
       "Clinical-trial–centric SaaS module on AlphaMeld® graph analytics; benchmarks pipeline assets and quantifies comparative risk. Adopted by two BD teams within six months, standardizing evidence-based indication-prioritization across 200 active programs.",
   },
   {
+    name: "Digital Twins for Systemic Sclerosis (EUSTAR)",
+    stage: "Research",
+    tags: ["AI/ML", "Clinical Trials", "Deep Learning"],
+    impact: "In-silico control arms over a 23,000+ patient, 200+ center systemic sclerosis registry",
+    description:
+      "Outcome-focused digital-twin framework built on the EUSTAR systemic sclerosis registry — longitudinal records for 23,000+ patients across 200+ centers. A PyTorch deep/generative stack (a mask- and time-aware GRU-D sequence forecaster plus a conditional sequence-VAE twin generator) produces prognostic scores and synthetic placebo trajectories for organ-specific and composite clinical outcomes. Designed as an ML-generated digital control arm — a PROCOVA/ANCOVA covariate that lifts trial power and cuts sample size — aligned with FDA digital-twin and EMA/ICH MIDD guidance.",
+  },
+  {
     name: "Clinical-Trial Digital Twins",
     stage: "Research",
     tags: ["AI/ML", "Clinical Trials", "Deep Learning"],
