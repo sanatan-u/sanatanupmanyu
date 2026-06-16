@@ -17,7 +17,7 @@ export const resumeContact = {
   label:
     "AI for Biomedicine — Hypothesis to Patient · GenAI · LLM-RAG · Knowledge Graphs · Digital Twins",
   location: site.location,
-  email: site.emails.work,
+  email: site.emails.personal,
   linkedin: site.linkedin,
   website: site.url,
 } as const;
