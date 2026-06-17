@@ -26,6 +26,7 @@
 
 # editor / internal notes (kept local, not published)
 .cursor/
+.claude/
 /docs/
 
 # debug
