@@ -2,8 +2,6 @@
 
 Personal/professional website for Sanatan Upmanyu — Next.js 16 + TypeScript, deployed as a Docker container.
 
-See [`docs/PRD.md`](docs/PRD.md) for product requirements and [`docs/Design System.html`](docs/Design%20System.html) for visual tokens.
-
 ## Stack
 
 - Next.js 16 (App Router) + TypeScript
