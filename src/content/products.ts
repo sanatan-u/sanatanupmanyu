@@ -44,9 +44,9 @@ export const products: Product[] = [
     tags: ["Full Stack", "Regulatory", "AI/ML"],
     url: "https://app.quriousri.com",
     builtFor: "Artixio Pvt Ltd",
-    impact: "Drug & biologic regulatory intelligence spanning 12+ agencies — FDA, EMA, PMDA, NMPA, Health Canada, MHRA, Swissmedic, and more",
+    impact: "Regulatory intelligence plus CTD dossier authoring and per-section market-entry gap assessment across Modules 2–5 and 12+ agencies — FDA, EMA, PMDA, NMPA, Health Canada, MHRA, Swissmedic, and more",
     description:
-      "Secure, role-based platform for pharma/biotech regulatory affairs teams to search, analyze, compare, and manage global drug and biologic approvals. Covers pharmaceuticals, biologics, biosimilars, and generics across 12+ regulators. Combines role-based dashboards, pathway and classification guides, dossier preparation support, a centralized guidelines library, Q&A with expert responses, and LLM-powered document analysis.",
+      "Secure, role-based platform for pharma/biotech regulatory affairs teams to search, analyze, compare, and manage global drug and biologic approvals across pharmaceuticals, biologics, biosimilars, and generics. Beyond intelligence, it now carries two operational workstreams, both targeting Modules 2 through 5 of the CTD — Module 1 is deliberately out of scope, being country- and company-specific administrative content that does not transfer reliably between filings. CTD dossier preparation: AI-assisted authoring, with reproducibility tested and repeated so far on Module 2, the Quality Overall Summary, 3.2.P.1, and 3.2.P.3.3, and section coverage expanding across the remaining modules. Market-entry gap assessment: for a drug already approved in one market, the platform resolves, module by module and section by section, what a target market requires for that drug type and where those requirements diverge from the original filing. Underneath sit role-based dashboards, pathway and classification guides, a centralized guidelines library, expert Q&A, and LLM-powered document analysis.",
   },
   {
     name: "Secondary Research Automation",

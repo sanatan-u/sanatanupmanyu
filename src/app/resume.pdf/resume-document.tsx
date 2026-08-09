@@ -12,11 +12,12 @@ import {
 import {
   resumeContact,
   resumeSummary,
+  resumeScope,
   resumeCompetencies,
   resumeToolset,
+  resumeSelectedWork,
   experience,
   education,
-  platforms,
   publications,
   patents,
   talks,
@@ -225,9 +226,18 @@ function ResumeDocument() {
           </Link>
         </Text>
 
-        {/* Summary */}
-        <SectionTitle>Summary</SectionTitle>
+        {/* Executive summary */}
+        <SectionTitle>Executive Summary</SectionTitle>
         <Text style={styles.summary}>{s(resumeSummary)}</Text>
+
+        {/* Scope at a glance */}
+        <SectionTitle>Scope at a Glance</SectionTitle>
+        {resumeScope.map((sc) => (
+          <Text key={sc.label} style={styles.compRow}>
+            <Text style={styles.compLabel}>{sc.label}: </Text>
+            <Text style={styles.small}>{s(sc.value)}</Text>
+          </Text>
+        ))}
 
         {/* Core competencies & skills */}
         <SectionTitle>Core Competencies &amp; Skills</SectionTitle>
@@ -243,16 +253,21 @@ function ResumeDocument() {
         </Text>
 
         {/* Experience */}
-        <SectionTitle>Experience</SectionTitle>
+        <SectionTitle>Leadership Experience</SectionTitle>
+        {/* Entries wrap across pages (some now run 6 bullets); the header block
+            is kept intact and given lookahead so a company name is never
+            stranded alone at the foot of a page. */}
         {experience.map((r, i) => (
-          <View key={`${r.company}-${i}`} style={styles.entry} wrap={false}>
-            <View style={styles.entryHeader}>
-              <Text style={styles.company}>{s(r.company)}</Text>
-              <Text style={styles.period}>{s(r.period)}</Text>
+          <View key={`${r.company}-${i}`} style={styles.entry}>
+            <View wrap={false} minPresenceAhead={44}>
+              <View style={styles.entryHeader}>
+                <Text style={styles.company}>{s(r.company)}</Text>
+                <Text style={styles.period}>{s(r.period)}</Text>
+              </View>
+              <Text style={styles.roleLine}>
+                {s(r.title)} | {s(r.location)}
+              </Text>
             </View>
-            <Text style={styles.roleLine}>
-              {s(r.title)} | {s(r.location)}
-            </Text>
             {r.bullets.map((b, j) => (
               <Bullet key={j}>{s(b)}</Bullet>
             ))}
@@ -265,9 +280,9 @@ function ResumeDocument() {
           </View>
         ))}
 
-        {/* Selected platforms & initiatives */}
-        <SectionTitle>Selected Platforms &amp; Initiatives</SectionTitle>
-        {platforms.map((p) => (
+        {/* Selected platforms & business impact */}
+        <SectionTitle>Selected Platforms &amp; Business Impact</SectionTitle>
+        {resumeSelectedWork.map((p) => (
           <View key={p.name} style={styles.entry} wrap={false}>
             <Text style={styles.platformName}>
               {s(p.name)}

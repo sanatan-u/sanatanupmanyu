@@ -5,11 +5,12 @@ import { ResumeActions } from "@/components/resume-actions";
 import {
   resumeContact,
   resumeSummary,
+  resumeScope,
   resumeCompetencies,
   resumeToolset,
+  resumeSelectedWork,
   experience,
   education,
-  platforms,
   publications,
   patents,
   talks,
@@ -18,12 +19,12 @@ import {
 export const metadata: Metadata = {
   title: "Résumé",
   description:
-    "Résumé of Sanatan Upmanyu — data-science executive with 18+ years in AI for biomedicine. Download as PDF or machine-readable JSON.",
+    "Résumé of Sanatan Upmanyu — data-science and technology executive with 18+ years in AI for biomedicine, holding three concurrent executive mandates across Basel and India. Download as PDF or machine-readable JSON.",
   alternates: { canonical: "/resume" },
   openGraph: {
     title: "Résumé — Sanatan Upmanyu",
     description:
-      "18+ years across wet-lab biology, AI/ML engineering, and leadership in pharma and biotech. Architect of the AlphaMeld platform.",
+      "18+ years across wet-lab biology, AI/ML engineering, and executive leadership in pharma and biotech. Architect of the AlphaMeld platform and QuriousRI.",
     type: "profile",
   },
 };
@@ -87,17 +88,37 @@ export default function ResumePage() {
       <div className="grid gap-x-14 gap-y-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)] lg:items-start">
         {/* Main column */}
         <div className="min-w-0 space-y-12">
-          {/* Summary */}
+          {/* Executive summary */}
           <section className="break-inside-avoid">
-            <SectionTitle>Summary</SectionTitle>
+            <SectionTitle>Executive Summary</SectionTitle>
             <p className="text-[15px] leading-[1.65] text-ink-2">
               {resumeSummary}
             </p>
           </section>
 
+          {/* Scope at a glance */}
+          <section className="break-inside-avoid">
+            <SectionTitle>Scope at a Glance</SectionTitle>
+            <dl className="space-y-2.5">
+              {resumeScope.map((sc) => (
+                <div
+                  key={sc.label}
+                  className="grid gap-x-4 gap-y-0.5 sm:grid-cols-[minmax(0,10rem)_minmax(0,1fr)]"
+                >
+                  <dt className="text-[13px] font-medium text-ink">
+                    {sc.label}
+                  </dt>
+                  <dd className="text-[13.5px] text-ink-2 leading-relaxed">
+                    {sc.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
           {/* Experience */}
           <section>
-            <SectionTitle>Experience</SectionTitle>
+            <SectionTitle>Leadership Experience</SectionTitle>
             <div className="space-y-7">
               {experience.map((r, i) => {
                 const current = r.period.includes("Present");
@@ -146,9 +167,9 @@ export default function ResumePage() {
 
           {/* Selected platforms & initiatives */}
           <section>
-            <SectionTitle>Selected Platforms &amp; Initiatives</SectionTitle>
+            <SectionTitle>Selected Platforms &amp; Business Impact</SectionTitle>
             <div className="space-y-4">
-              {platforms.map((p) => (
+              {resumeSelectedWork.map((p) => (
                 <div key={p.name} className="break-inside-avoid">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                     <h3 className="text-[14px] font-semibold text-ink">
@@ -176,7 +197,7 @@ export default function ResumePage() {
         <aside className="min-w-0 space-y-12">
           {/* Key competencies */}
           <section className="break-inside-avoid">
-            <SectionTitle>Key Competencies</SectionTitle>
+            <SectionTitle>Executive Competencies</SectionTitle>
             <div className="space-y-5">
               {resumeCompetencies.map((c) => (
                 <div key={c.label}>
