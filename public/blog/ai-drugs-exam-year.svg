@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Clinical pipeline funnel narrowing toward Phase III, with two pre-written verdicts, validated and debunked, both struck out">
+  <defs>
+    <linearGradient id="exam-bg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7f6f3"/>
+      <stop offset="1" stop-color="#eee6df"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#exam-bg)"/>
+
+  <text x="100" y="110" font-family="Georgia, serif" font-size="26" font-style="italic" fill="#1c3b39">the class of 2026</text>
+  <line x1="100" y1="128" x2="340" y2="128" stroke="#a13d1e" stroke-width="2" opacity="0.7"/>
+
+  <!-- funnel -->
+  <g stroke="#1c3b39" stroke-width="1">
+    <path d="M 100 190 L 240 230 L 240 430 L 100 470 Z" fill="#2f5d5a" opacity="0.25"/>
+    <path d="M 240 230 L 380 262 L 380 398 L 240 430 Z" fill="#2f5d5a" opacity="0.4"/>
+    <path d="M 380 262 L 520 290 L 520 370 L 380 398 Z" fill="#2f5d5a" opacity="0.55"/>
+    <path d="M 520 290 L 640 314 L 640 346 L 520 370 Z" fill="#2f5d5a" opacity="0.8"/>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="20" font-style="italic" fill="#1c3b39" text-anchor="middle">
+    <text x="170" y="512">discovery</text>
+    <text x="310" y="512">phase I</text>
+    <text x="450" y="512">phase II</text>
+    <text x="580" y="512">phase III</text>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="17" fill="#a13d1e" text-anchor="middle">
+    <text x="310" y="212">80–90% pass</text>
+    <text x="450" y="246">≈40% pass</text>
+    <text x="580" y="276">n ≈ 15</text>
+  </g>
+
+  <!-- molecules leaving the funnel toward the exam -->
+  <g fill="#2f5d5a">
+    <circle cx="662" cy="330" r="7"/>
+    <circle cx="692" cy="330" r="5"/>
+    <circle cx="718" cy="330" r="3.5"/>
+  </g>
+  <line x1="730" y1="330" x2="762" y2="330" stroke="#1c3b39" stroke-width="1.5" opacity="0.6"/>
+  <path d="M 762 330 L 752 324 L 752 336 Z" fill="#1c3b39" opacity="0.6"/>
+
+  <!-- pre-written verdicts, struck out -->
+  <g transform="translate(900,225) rotate(-8)">
+    <rect x="-115" y="-34" width="230" height="68" rx="8" fill="none" stroke="#a13d1e" stroke-width="3"/>
+    <text x="0" y="10" font-family="Georgia, serif" font-size="30" letter-spacing="4" fill="#a13d1e" text-anchor="middle">VALIDATED</text>
+    <line x1="-122" y1="26" x2="122" y2="-26" stroke="#1c3b39" stroke-width="3.5"/>
+  </g>
+  <g transform="translate(900,420) rotate(6)">
+    <rect x="-115" y="-34" width="230" height="68" rx="8" fill="none" stroke="#a13d1e" stroke-width="3"/>
+    <text x="0" y="10" font-family="Georgia, serif" font-size="30" letter-spacing="4" fill="#a13d1e" text-anchor="middle">DEBUNKED</text>
+    <line x1="-122" y1="-26" x2="122" y2="26" stroke="#1c3b39" stroke-width="3.5"/>
+  </g>
+
+  <text x="900" y="572" font-family="Georgia, serif" font-size="22" font-style="italic" fill="#1c3b39" text-anchor="middle">one readout is a grade, not a verdict</text>
+</svg>

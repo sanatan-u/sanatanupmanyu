@@ -1,0 +1,141 @@
+---
+title: "AI drug discovery is finally on trial. Both verdicts are already being written."
+date: 2026-08-10
+excerpt: Rentosertib — AI-discovered target, AI-designed molecule — entered a pivotal Phase III in July. Fifteen to twenty more programs may follow this year. The boosters will over-read a success, the sceptics will over-read a failure, and both will be making the same statistical mistake. A field guide to reading the class of 2026 honestly.
+tags: [ai, pharma, drug-discovery, clinical-trials]
+image: /blog/ai-drugs-exam-year.svg
+imageAlt: A clinical pipeline funnel narrowing toward Phase III, with two pre-written verdict stamps — proven and debunked — both crossed out
+---
+
+On 7 July 2026, rentosertib became the first drug whose disease target *and* molecular structure were both credited to generative AI to enter a pivotal Phase III trial<Cite id="rentosertib-p3" />. Three hundred and twenty patients with idiopathic pulmonary fibrosis, 47 centres, 52 weeks, annual rate of forced vital capacity decline as the primary endpoint. A real trial, with a real comparator, powered to answer a real question.
+
+The field has decided this is the exam year, and the surrounding numbers support the framing. Industry analysts expect 15 to 20 AI-derived programs to enter pivotal trials in 2026, and some put a 60% probability on the first approval of an AI-designed drug by 2027<Cite id="aim" />. One tally counts 117 AI-derived assets in interventional trials across 63 companies<Cite id="pipeline" />. The money has already voted: Eli Lilly signed a licensing and research deal with Insilico Medicine worth up to $2.75 billion in March<Cite id="lilly" />, and Isomorphic Labs raised a $2.1 billion Series B in May with its first candidates aimed at the clinic by year end<Cite id="isomorphic" />.
+
+I run AI for a pharma company. I want this wave to succeed, and I have skin in the adjacent game. Which is exactly why the thing I keep noticing bothers me: both possible verdicts are being drafted before the evidence arrives. The boosters have a press release ready that says *AI drug discovery is validated*. The sceptics have a thread ready that says *the bubble has burst*. Whatever the readouts say, someone will publish their pre-written conclusion — and both conclusions commit the same error, because a handful of Phase III readouts cannot carry either claim.
+
+This post is a field guide to reading the class of 2026 without fooling yourself.
+
+## First, agree on what "AI-designed" means
+
+The phrase "AI-designed drug" is doing an enormous amount of unacknowledged work. The pipeline tally above only counts a candidate as AI-discovered when the sponsor itself, in a press release, regulatory filing, or peer-reviewed paper, attributes target identification or molecular design substantially to an AI platform<Cite id="pipeline" /> — and even within that definition, three very different claims are being tested. Collapsing them into one bucket is the original sin of both the hype and the anti-hype.
+
+<Comparison caption="Three different claims travel under one label. Each readout tests only the claim its program actually makes.">
+  <Col heading="AI-assisted matching">
+    <Row label="What the AI actually did">Matched existing molecules or human-validated targets to new indications — phenomic screens, knowledge-graph inference, repurposing engines</Row>
+    <Row label="What a success would prove">The search got better. Valuable, but it validates prioritisation, not molecular invention</Row>
+    <Row label="What a failure would prove">One bet missed, the way repurposing bets usually miss. Says almost nothing about generative chemistry or AI biology</Row>
+  </Col>
+  <Col heading="AI chemistry, human biology">
+    <Row>Generated a novel molecule against a target humans had already validated — the DSP-1181 and EXS-21546 pattern</Row>
+    <Row>The chemistry engine produces developable molecules faster than medicinal chemists. Real, and already largely demonstrated in Phase I pass rates</Row>
+    <Row>Usually an exposure, selectivity, or pharmacology problem — the classic bottleneck, reached faster. Embarrassing, not paradigm-breaking</Row>
+  </Col>
+  <Col heading="AI biology and AI chemistry">
+    <Row>Generated the target hypothesis itself, then designed the molecule against it — the rentosertib pattern</Row>
+    <Row>The strongest available evidence that AI can originate disease biology, not just optimise around it. This is the claim worth the valuation</Row>
+    <Row>Genuine damage to the interesting claim. A novel-target failure is the one outcome that should actually update you downward</Row>
+  </Col>
+</Comparison>
+
+Notice what falls out of the table: **most of the class of 2026 sits in the first two columns**, where Phase III outcomes — in either direction — barely touch the question everyone claims the exam answers. The programs that test the paradigm are the ones where the *biology* came from the machine. There are very few of those, and rentosertib is the furthest along.
+
+## What each phase actually filters
+
+The second confusion is about what a pivotal trial measures. Clinical development is a sequence of filters, and each filter interrogates a different part of the discovery process. AI has receipts at some stages and none at others.
+
+<Mermaid
+  chart="flowchart LR
+    D[Discovery<br/>candidate quality, speed] --> P1[Phase I<br/>safety, PK, exposure]
+    P1 --> P2[Phase II<br/>target hypothesis, dose,<br/>first efficacy signal]
+    P2 --> P3[Phase III<br/>effect size at scale,<br/>durability, population]
+    P3 --> A[Approval]
+    R1[Receipts: months to candidate<br/>instead of years] -.-> D
+    R2[Receipts: 80-90% pass rate<br/>vs 40-65% historical] -.-> P1
+    O1[Open: about 40%,<br/>in line with history] -.-> P2
+    O2[No data yet.<br/>Class of 2026 answers this] -.-> P3
+    classDef stage fill:#90caf9,stroke:#0d47a1,color:#000
+    classDef receipt fill:#a5d6a7,stroke:#1b5e20,color:#000
+    classDef open fill:#ffcc80,stroke:#e65100,color:#000
+    class D,P1,P2,P3,A stage
+    class R1,R2 receipt
+    class O1,O2 open"
+  caption="Where AI drug discovery has receipts, and where the class of 2026 is writing on a blank page."
+/>
+
+The receipts are real. The first systematic analysis of AI-discovered molecules in the clinic found Phase I success rates of 80–90%, against historical averages of 40–65%<Cite id="jayatunga" />. That is not noise. It says the generative chemistry stack — optimising drug-likeness, selectivity, ADMET properties, the things you can actually compute — produces molecules that survive first contact with human pharmacology at an unusual rate.
+
+The same analysis found Phase II success rates of roughly 40%, *in line with historical benchmarks*<Cite id="jayatunga" />. Also not noise. Phase II is where the target hypothesis meets a sick human being, and efficacy is not currently a computable property. AI moved the bottleneck from chemistry to biology. It did not remove it.
+
+Phase III adds a third thing: robustness. Does the mid-phase signal survive scale, duration, and a broader population? That question has historically destroyed drugs that looked convincing at week 12 — and idiopathic pulmonary fibrosis, rentosertib's indication, is precisely the graveyard where mid-phase promise goes to die. Which is what makes this particular trial a genuine test rather than a formality.
+
+## The arithmetic nobody wants to do
+
+Here is the base rate everyone should be forced to write down before any readout lands. Across 9,704 development programs over a decade, drugs entering Phase III advanced to regulatory submission 57.8% of the time, and submissions were approved 90.6% of the time<Cite id="bio" />. Phase III failure is not a tail event. It is roughly a coin flip weighted slightly in your favour.
+
+Now apply that to the class of 2026. If 15 to 20 AI-derived programs reach pivotal trials, and if AI drugs were *exactly as good* as conventional ones — no better, no worse — you should expect six to eight of them to fail. A run of two or three consecutive failures is not merely possible; it is the modal outcome of a fair process. The sceptic's thread — "third AI drug fails, the emperor has no clothes" — will be statistically indistinguishable from the null hypothesis it claims to reject.
+
+The symmetric error is waiting on the other side. A single approval clears a bar that a majority of conventional Phase III drugs also clear. One success validates one target hypothesis, one molecule, one indication. It does not validate a discovery paradigm, and it certainly does not validate the 116 other assets in the pipeline tally.
+
+<Callout variant="warn" title="The sample-size trap">
+  We would reject this inference instantly inside a protocol review: n of a handful, no pre-registered hypothesis, confounded by indication mix — AI-native pipelines skew toward fibrosis, oncology, and rare disease, which carry their own base rates — and reported selectively by whoever's narrative it serves. Apply the standard you would apply to a trial. The meta-question deserves the same statistics as the question.
+</Callout>
+
+There is also a quieter confounder: the counterfactual is unobservable. You never get to see the molecule a conventional program would have produced against the same target on the same budget, so single-readout comparisons are not just underpowered — they are uncontrolled. The only honest scoreboard is portfolio-level attrition compared across many programs, and that scoreboard needs dozens of readouts and several years. Nobody holding a microphone in 2026 wants to hear that.
+
+## The first wave already flunked, quietly
+
+We have, in fact, run this experiment before — and the field has mostly memory-holed the results.
+
+DSP-1181, the first AI-designed molecule to enter human trials, was announced in January 2020 with the headline that discovery had taken twelve months instead of the typical four and a half years<Cite id="dsp1181" />. It was quietly discontinued after Phase I when the study did not meet expectations<Cite id="cas" />. EXS-21546 followed in 2023, dropped over receptor-coverage pharmacology<Cite id="cas" /> — the most old-fashioned failure mode in the book. And in May 2025, Recursion cut three clinical programs in one business update after futility and unconvincing efficacy results<Cite id="recursion" />, a sobering coda to years of phenomics-first storytelling.
+
+Three lessons from that first wave, none of which fit in a headline:
+
+- **The speed claims held.** Twelve-to-eighteen-month discovery timelines were real and have been replicated across programs. Nobody walked back the receipts at the discovery stage.
+- **The failures were pharma failures, not AI failures.** Exposure, receptor coverage, futility in the clinic — every one is a failure mode that predates the technology by decades. The machine got teams to the old bottleneck faster; it did not dissolve it.
+- **Nobody updated publicly.** The discontinuations were announced in pipeline footnotes and earnings calls, not in the venues where the original milestones were celebrated. That asymmetry — loud entries, silent exits — is exactly how a field builds a survivorship-biased picture of itself.
+
+## What the rentosertib readout can actually tell us
+
+Rentosertib is the readout worth privileging, because it is the rare program in the third column: TNIK was not a target anyone had validated for fibrosis — the hypothesis came out of an aging-biology-driven discovery platform, a thesis I have <a href="/blog/aging-reversal-real-science">written about from the biology side before</a>. The Phase IIa data, published in Nature Medicine, were genuinely encouraging: in 71 patients over 12 weeks, the highest dose showed a +98.4 mL change in forced vital capacity against −20.3 mL for placebo, with acceptable tolerability<Cite id="natmed" />.
+
+Encouraging — and fragile, in the specific ways IPF has taught the field to expect. What I will actually be watching in the pivotal readout:
+
+1. **Durability.** A 12-week FVC signal in 71 patients is a hypothesis, not a result. IPF trials have repeatedly produced candidates whose early lung-function signals evaporated — or inverted — over 52 weeks. The primary endpoint here is the annual rate of decline, which is the honest, unforgiving version of the question.
+2. **Dose behaviour.** The Phase IIa effect was dose-dependent, which is what you want to see. If the pivotal effect concentrates oddly across arms, the mechanistic story weakens even if the topline passes.
+3. **Generalisability.** All 47 centres are in China<Cite id="rentosertib-p3" />, which is a perfectly good way to run a trial and a known complication for regulators elsewhere. A positive readout starts a conversation with the FDA and EMA; it does not end one.
+4. **Which claim fails, if it fails.** A tolerability miss, a dosing miss, and a target miss are three different lessons. Only the last one damages the claim that machines can originate disease biology — and even then, it is one target, in one graveyard indication.
+
+<Callout variant="tip" title="Precommit, the way you would for an endpoint">
+  If you run or fund AI discovery programs, write down now — before any 2026 readout — what each outcome would change about your strategy. We force trialists to pre-specify endpoints precisely so they cannot narrate their way out of the data afterwards. The paradigm question deserves the same discipline. If a failed readout would not change your investment thesis and a successful one would, or vice versa, you did not have a thesis. You had a mood.
+</Callout>
+
+## The scoreboard that would actually settle it
+
+If the class of 2026 will not settle the question, what would? A scoreboard with enough n to mean something, tracked boringly over years:
+
+- **Phase II success rate on AI-originated targets** — not AI-designed molecules against known biology, but column-three programs specifically, against the historical first-in-class benchmark. This is the number that tests the interesting claim, and today it barely has a numerator.
+- **Sustained discovery timelines** — whether the 12-to-18-month candidate clock holds across therapeutic areas as programs move beyond the friendly early targets.
+- **The Phase I safety edge at scale** — whether the 80–90% pass rate<Cite id="jayatunga" /> survives the transition from a curated first cohort to a hundred-asset pipeline, or regresses to the mean the way early cohorts usually do.
+- **Cost per development candidate** — the least glamorous metric and the one that pays for everything else. Deals like Lilly–Insilico<Cite id="lilly" /> are, at bottom, a bet that this number has permanently moved.
+
+None of these fit in a verdict tweet. All of them are measurable, and the companies involved know their own numbers. The field's credibility over the next five years will track how much of that bookkeeping happens in public.
+
+## The exam metaphor, resolved
+
+So: is 2026 the exam year? Yes — but not the final exam everyone is staging it as. It is the first exam the field has sat under proper invigilation, with pre-registered endpoints, adequate power, and no way to quietly drop the result. The right response to a first proctored test is neither a diploma nor an expulsion. It is a grade, entered into a ledger, next to the many grades still to come.
+
+Rentosertib's readout will arrive, and within the hour both pre-written verdicts will be published. Read past them. Ask which of the three claims the program actually tested, what the base rate predicted, and what the portfolio ledger says now that it did not say before. The class of 2026 cannot validate AI drug discovery or bury it. What it can do — for the first time — is start the honest bookkeeping. That is worth more than either verdict.
+
+<References>
+  <Ref id="rentosertib-p3" url="https://insilico.com/news/xmjsn4l091-insilico-initiates-phase-iii-clinical-tr">Insilico Medicine. Insilico Initiates Phase III Clinical Trial for Rentosertib, Its AI-Empowered TNIK Inhibitor for Idiopathic Pulmonary Fibrosis. July 7, 2026. 320 participants, 47 centres, 52-week treatment, primary endpoint annual rate of FVC decline.</Ref>
+  <Ref id="aim" url="https://aimmediahouse.com/ai-lifesciences/2026-is-the-year-ai-drug-discovery-meets-clinical-reality">AIM Media House. 2026 Is the Year AI Drug Discovery Meets Clinical Reality. July 2, 2026. Industry estimates of 15–20 programs entering pivotal Phase III trials in 2026 and analyst odds of a first approval by 2027.</Ref>
+  <Ref id="pipeline" url="https://intuitionlabs.ai/articles/ai-discovered-drugs-clinical-trials-2026">IntuitionLabs. AI-Discovered Drugs in Clinical Trials 2026: Full Pipeline. July 31, 2026. Tally of 117 AI-derived assets in interventional trials across 63 companies, with the sponsor-attribution definition of "AI-discovered" used here.</Ref>
+  <Ref id="lilly" url="https://www.prnewswire.com/news-releases/insilico-medicine-announces-global-rd-collaboration-with-lilly-302727884.html">Insilico Medicine. Global R&D Collaboration with Lilly. March 2026. $115M upfront; development, regulatory and commercial milestones up to approximately $2.75B plus tiered royalties.</Ref>
+  <Ref id="isomorphic" url="https://www.isomorphiclabs.com/articles/isomorphic-labs-announces-series-b-investment-round">Isomorphic Labs. Series B investment round announcement. May 2026. $2.1B led by Thrive Capital to scale the AI drug design engine and advance internal and partnered programs toward first-in-human studies.</Ref>
+  <Ref id="jayatunga" url="https://www.sciencedirect.com/science/article/pii/S135964462400134X">Jayatunga MKP, Ayers M, Bruens L, Jayanth D, Meier C. How successful are AI-discovered drugs in clinical trials? A first analysis and emerging lessons. Drug Discovery Today. 2024;29(6):104009.</Ref>
+  <Ref id="bio" url="https://www.bio.org/clinical-development-success-rates-and-contributing-factors-2011-2020">BIO, Informa Pharma Intelligence, QLS Advisors. Clinical Development Success Rates and Contributing Factors 2011–2020. 9,704 programs; Phase III-to-submission success 57.8%; submission-to-approval 90.6%; overall likelihood of approval from Phase I 7.9%.</Ref>
+  <Ref id="dsp1181" url="https://www.sumitomo-pharma.com/news/20200130.html">Sumitomo Dainippon Pharma and Exscientia. New Drug Candidate Created Using Artificial Intelligence (AI) Begins Clinical Study. January 30, 2020. DSP-1181 for obsessive-compulsive disorder; discovery phase completed in under 12 months.</Ref>
+  <Ref id="cas" url="https://www.cas.org/resources/cas-insights/ai-drug-discovery-assessing-the-first-ai-designed-drug-candidates-to-go-into-human-clinical-trials">CAS Insights. AI drug discovery: assessing the first AI-designed drug candidates to go into human clinical trials. Reviews the fates of the first-wave candidates, including the DSP-1181 discontinuation after Phase I and the 2023 EXS-21546 discontinuation on receptor-coverage grounds.</Ref>
+  <Ref id="recursion" url="https://ir.recursion.com/news-releases/news-release-details/recursion-reports-first-quarter-2025-financial-results-and">Recursion Pharmaceuticals. First Quarter 2025 Financial Results and Business Update. May 2025. Discontinuation of REC-2282, REC-994 and REC-3964 following futility and efficacy assessments.</Ref>
+  <Ref id="natmed" url="https://www.nature.com/articles/s41591-025-03743-2">Zhavoronkov A, et al. A generative AI-discovered TNIK inhibitor for idiopathic pulmonary fibrosis: a randomized phase 2a trial. Nature Medicine. 2025. GENESIS-IPF: 71 patients, 12 weeks; +98.4 mL mean FVC change at 60 mg QD vs −20.3 mL on placebo.</Ref>
+</References>
