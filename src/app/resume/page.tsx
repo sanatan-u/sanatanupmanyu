@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { MapPin, Mail, Globe } from "lucide-react";
 import { LinkedinIcon } from "@/components/brand-icons";
 import { ResumeActions } from "@/components/resume-actions";
+import { site } from "@/content/site";
 import {
   resumeContact,
   resumeSummary,
@@ -68,7 +69,7 @@ export default function ResumePage() {
               className="inline-flex items-center gap-1.5 hover:text-accent transition-colors"
             >
               <LinkedinIcon size={14} />
-              linkedin.com/in/sanatan-upmanyu
+              {site.linkedinLabel}
             </a>
             <a
               href={resumeContact.website}

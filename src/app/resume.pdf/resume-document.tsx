@@ -9,6 +9,7 @@ import {
   StyleSheet,
   renderToBuffer,
 } from "@react-pdf/renderer";
+import { site } from "@/content/site";
 import {
   resumeContact,
   resumeSummary,
@@ -218,7 +219,7 @@ function ResumeDocument() {
         <Text style={styles.contact}>
           {resumeContact.location} | {resumeContact.email} |{" "}
           <Link style={styles.link} src={resumeContact.linkedin}>
-            linkedin.com/in/sanatan-upmanyu
+            {site.linkedinLabel}
           </Link>{" "}
           |{" "}
           <Link style={styles.link} src={resumeContact.website}>

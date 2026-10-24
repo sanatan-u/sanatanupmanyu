@@ -12,7 +12,8 @@ export const site = {
     personal: "sanatan.u@gmail.com",
     work: "sanatan.upmanyu@apxora.com",
   },
-  linkedin: "https://linkedin.com/in/sanatan-upmanyu",
+  linkedin: "https://www.linkedin.com/in/sanatanupmanyu/",
+  linkedinLabel: "linkedin.com/in/sanatanupmanyu",
   github: "https://github.com/sanatan-u",
   statsInline: "18+ years experience · 5+ platforms · 2 patents · 5 publications",
   stats: [

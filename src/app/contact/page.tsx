@@ -43,7 +43,7 @@ export default function ContactPage() {
         <div className="flex items-center gap-3">
           <span className="text-ink-3 shrink-0"><LinkedinIcon size={16} /></span>
           <a href={site.linkedin} className="hover:text-accent" target="_blank" rel="noopener noreferrer">
-            linkedin.com/in/sanatan-upmanyu
+            {site.linkedinLabel}
           </a>
         </div>
         <div className="flex items-center gap-3">
@@ -69,7 +69,7 @@ export default function ContactPage() {
           <div className="flex items-start gap-3">
             <span className="mt-1 text-ink-3 shrink-0"><LinkedinIcon size={16} /></span>
             <a href={site.linkedin} className="hover:text-accent" target="_blank" rel="noopener noreferrer">
-              linkedin.com/in/sanatan-upmanyu
+              {site.linkedinLabel}
             </a>
           </div>
           <div className="flex items-start gap-3">
