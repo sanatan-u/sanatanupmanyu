@@ -158,11 +158,18 @@ const STYLE = `
 .dg-num{font:500 15px var(--dg-display);fill:var(--dg-acc)}
 .dg-num-inv{font:500 15px var(--dg-display);fill:var(--dg-bg)}
 .dg-num-lg{font:400 26px var(--dg-display);fill:var(--dg-acc)}
+.dg-num-sm{font:500 12px var(--dg-display);fill:var(--dg-acc)}
+.dg-num-inv-sm{font:500 12px var(--dg-display);fill:var(--dg-bg)}
+.dg-seg-sig{fill:var(--dg-sig)}
+.dg-seg-mid{fill:var(--dg-ink3)}
+.dg-seg-acc{fill:var(--dg-acc)}
 .dg-num-off{font:400 18px var(--dg-display);fill:var(--dg-ink3)}
 .dg-fig{font:italic 400 36px var(--dg-display);letter-spacing:-.02em;fill:var(--dg-sig)}
 .dg-impact{font:400 15px var(--dg-sans);fill:var(--dg-ink2)}
 .dg-caption{font:400 11px var(--dg-sans);fill:var(--dg-ink3)}
 .dg-pill{fill:var(--dg-bg);stroke:var(--dg-rule);stroke-width:1}
+.dg-card-dashed{fill:var(--dg-bg);stroke:var(--dg-acc);stroke-opacity:.6;stroke-dasharray:4 4}
+.dg-card-muted{fill:var(--dg-bg);stroke:var(--dg-ink3);stroke-opacity:.55;stroke-dasharray:3 3}
 .dg-card{fill:var(--dg-bg);stroke:var(--dg-rule);stroke-width:1}
 .dg-core-stroke{stroke:var(--dg-acc);stroke-opacity:.35;stroke-width:1}
 .dg-band{fill:var(--dg-acc);fill-opacity:.05;stroke:var(--dg-acc);stroke-opacity:.45;stroke-dasharray:4 4}
@@ -243,204 +250,209 @@ function caption(name) {
 
 /* ── 1. Discovery Navigator ─────────────────────────────────────────────── */
 
+const DN_WORKFLOWS = [
+  [["Target", "Discovery"], "Ranked targets", 7, false],
+  [["Indication", "Discovery"], "Ranked indications", 6, false],
+  [["Safety", "Assessment"], "Organ risk report", 5, false],
+  [["Hypothesis", "De-risking"], "Go / no-go dossier", 6, false],
+  [["Drug", "Repurposing"], "Candidate matrix", 8, true],
+  [["Biomarker", "Identification"], "Biomarker panel", 4, true],
+];
+const DN_ENGINE = [["Query", "design"], ["KG", "retrieval"], ["Sentence-level", "validation"], ["Agent-led", "assessment"], ["Cited", "synthesis"]];
+const DN_TOOLS = [
+  ["Co-Pilot", "Project-aware research"],
+  ["Trial Designer", "13 steps, each approved"],
+  ["Network Explorer", "Uncapped graph, 2D / 3D"],
+  ["Custom Reports", "Claims checked on KG"],
+  ["Literature Radar", "Alerts on new papers"],
+  ["Weekly Digest", "Local-morning email"],
+];
+
 function discoveryNavigator() {
   const id = "dn";
   let b = "";
   b += eyebrow(48, 64, "Start from");
-  b += eyebrow(340, 64, "Guided workflow");
-  b += eyebrow(930, 64, "Output");
+  b += eyebrow(260, 64, "Six workflows");
+  b += eyebrow(770, 64, "Outputs");
+  b += eyebrow(980, 64, "Toolbox · same graph");
 
-  // Four starting points converging on step 1
-  const starts = ["Disease-first", "Target-first", "Indication expansion", "Combination therapy"];
-  const trackY = 238;
-  const xs = [370, 462, 554, 646, 738, 830];
-  starts.forEach((s, i) => {
-    const cy = 166 + i * 48;
-    const p = pill(48, cy - 18, s, { h: 36, w: 220, dot: "right" });
-    b += p.svg;
-    b += flow(id, `M272,${cy} C312,${cy} 306,${trackY} ${xs[0] - 24},${trackY}`);
+  ["A disease", "A target", "Target + disease"].forEach((s, i) => (b += pill(48, 92 + i * 44, s, { h: 34, w: 180 }).svg));
+  b += t(48, 244, "AI drafts the setup", "dg-sub");
+  b += flow(id, `M228,153 C242,153 244,150 254,150`);
+
+  // Six workflow cards; the two enabled per organisation are dashed
+  const gw = 152, gh = 100;
+  const gx = (c) => 260 + c * (gw + 12);
+  const gy = (r) => 88 + r * (gh + 24);
+  DN_WORKFLOWS.forEach(([nm, out, steps, perOrg], i) => {
+    const c = i % 3, r = Math.floor(i / 3), x = gx(c), y = gy(r);
+    b += `<rect x="${x}" y="${y}" width="${gw}" height="${gh}" rx="14" class="${perOrg ? "dg-card-dashed" : "dg-card"}"/>`;
+    b += lines(x + 14, y + 26, nm, "dg-label-sm", 16);
+    b += t(x + 14, y + 64, out, "dg-sub");
+    b += chip(x + 14, y + 72, `${steps} steps`, { h: 18 }).svg;
+    if (perOrg) b += t(x + gw - 12, y + 20, "per org", "dg-sub", "end");
   });
+  b += `<path d="M${gx(0) + 76},${gy(0) + gh + 2} L${gx(0) + 76},${gy(1) - 4}" class="dg-edge-sig" marker-end="url(#${id}-arrow-sig)"/>`;
+  b += `<line x1="262" y1="${gy(1) + gh + 22}" x2="286" y2="${gy(1) + gh + 22}" class="dg-edge-sig"/>`;
+  b += t(296, gy(1) + gh + 26, "Continue with… hands any result to another workflow, pre-filled", "dg-sub");
 
-  // Copilot band above the track, with a tick to every step
-  b += `<rect x="340" y="92" width="520" height="40" rx="20" class="dg-band"/>`;
-  b += `<text x="600" y="117" text-anchor="middle"><tspan class="dg-label-sm">Discovery Copilot</tspan><tspan class="dg-sub" dx="6">project-aware, alongside every step</tspan></text>`;
-  xs.forEach((x) => (b += `<line x1="${x}" y1="132" x2="${x}" y2="${trackY - 22}" class="dg-edge-soft"/>`));
-
-  // Six-step track
-  const steps = ["Project", "Config", "Exploration", "Agent scoring", "Ranking", "Hypotheses"];
-  for (let i = 0; i < xs.length - 1; i++) b += flow(id, `M${xs[i] + 20},${trackY} L${xs[i + 1] - 22},${trackY}`);
-  xs.forEach((x, i) => {
-    const last = i === xs.length - 1;
-    b += `<circle cx="${x}" cy="${trackY}" r="27" class="dg-halo${last ? " dg-pulse" : ""}"/>`;
-    b += `<circle cx="${x}" cy="${trackY}" r="18" class="${last ? "dg-node" : "dg-ring"}"/>`;
-    b += t(x, trackY + 5, String(i + 1), last ? "dg-num-inv" : "dg-num", "middle");
-    b += t(x, trackY + 44, steps[i], "dg-label-sm", "middle");
+  // Shared evidence engine every workflow runs
+  const ey = 398;
+  b += eyebrow(260, ey - 30, "Every workflow runs the same evidence engine");
+  b += `<line x1="280" y1="${ey}" x2="720" y2="${ey}" class="dg-edge"/><line x1="280" y1="${ey}" x2="720" y2="${ey}" class="dg-flow"/>`;
+  DN_ENGINE.forEach((lab, i) => {
+    const x = 280 + i * 110;
+    b += node(x, ey, 6, true, i === 4);
+    b += lines(x, ey + 24, lab, "dg-label-xs", 13, "middle");
   });
+  b += eyebrow(48, 300, "Also reads");
+  ["PubMed", "ClinicalTrials.gov", "Crossref", "Web search"].forEach((s, i) => (b += chip(48, 314 + i * 30, s, { h: 22 }).svg));
+  b += flow(id, `M196,${ey} L268,${ey}`);
+  b += elabel(204, ey - 8, "evidence");
 
-  // Knowledge graph the whole workflow is built on
-  b += `<rect x="340" y="314" width="520" height="104" rx="16" class="dg-ground"/>`;
-  b += eyebrow(362, 342, "Built on");
-  b += t(362, 364, "AlphaMeld Knowledge Graph", "dg-label");
-  b += constellation(372, 326, 470, 82, 30, 7, { avoid: { x: 352, y: 322, w: 214, h: 54 }, big: [3, 17] });
+  // Knowledge graph layer
+  b += `<path d="M400,${ey + 6} C432,${ey + 14} 437,${ey + 34} 437,${ey + 50}" class="dg-edge" marker-end="url(#${id}-arrow)"/>`;
+  b += `<rect x="260" y="454" width="480" height="76" rx="16" class="dg-ground"/>`;
+  b += t(280, 480, "AlphaMeld Knowledge Graph API", "dg-label");
+  b += t(280, 498, "492K entities · ~26M scored relationships", "dg-sub");
+  b += t(280, 514, "Sentence-level evidence behind each edge", "dg-sub");
+  b += constellation(552, 462, 178, 60, 16, 7, { maxD: 56, big: [3] });
 
-  // Platform chips
-  let cx = 340;
-  ["Multi-tenant SaaS", "SSO", "RBAC", "Audit logging"].forEach((c) => {
-    const ch = chip(cx, 444, c, { h: 24 });
-    b += ch.svg;
-    cx += ch.w + 8;
+  // Outputs and enterprise
+  b += flow(id, `M742,150 L764,150`);
+  b += `<rect x="770" y="88" width="180" height="228" rx="14" class="dg-card"/>`;
+  b += t(788, 114, "Exports", "dg-label-sm");
+  [["PDF", 0, 0], ["Word", 1, 0], ["Excel", 0, 1], ["PowerPoint", 1, 1], ["CSV", 0, 2]].forEach(([s, c, r]) => (b += chip(788 + c * 66, 128 + r * 30, s, { h: 22 }).svg));
+  b += lines(788, 236, ["Each export carries the run ID,", "graph snapshot, and model and", "prompt versions."], "dg-sub", 16);
+  b += `<rect x="770" y="336" width="180" height="100" rx="14" class="dg-card"/>`;
+  b += t(788, 362, "Enterprise", "dg-label-sm");
+  b += lines(788, 382, ["SSO, MFA and passkeys", "Five roles, audit log", "Per-org workflow switches"], "dg-sub", 18);
+
+  // Toolbox
+  DN_TOOLS.forEach(([name, sub], i) => {
+    const y = 88 + i * 58;
+    b += `<rect x="980" y="${y}" width="172" height="48" rx="12" class="dg-card"/>`;
+    b += t(996, y + 21, name, "dg-label-sm") + t(996, y + 38, sub, "dg-sub");
   });
-
-  // Ranked hypotheses card
-  b += flow(id, `M${xs[5] + 22},${trackY} L924,${trackY}`);
-  b += elabel(889, trackY - 12, "ranked", "middle");
-  b += `<rect x="930" y="150" width="222" height="182" rx="14" class="dg-card"/>`;
-  b += t(948, 180, "Ranked hypotheses", "dg-label");
-  const bars = [150, 122, 96, 70];
-  const ops = [0.95, 0.72, 0.52, 0.34];
-  bars.forEach((w, i) => {
-    const y = 204 + i * 34;
-    b += t(952, y + 10, String(i + 1), "dg-num", "middle");
-    b += `<rect x="968" y="${y}" width="${w}" height="10" rx="5" class="dg-bar" fill-opacity="${ops[i]}"/>`;
-    // evidence pin on each row
-    b += `<circle cx="${968 + w + 10}" cy="${y + 5}" r="3" class="dg-sig-ring"/>`;
-  });
-
-  // Evidence trail back into the graph
-  b += `<path d="M1086,332 C1086,396 960,392 866,388" class="dg-edge-sig" marker-end="url(#${id}-arrow-sig)"/>`;
-  b += t(1006, 420, "traceable evidence", "dg-edge-label", "middle");
+  b += `<path d="M1066,428 L1066,490 L746,490" class="dg-edge-soft" marker-end="url(#${id}-arrow)"/>`;
+  b += elabel(980, 484, "same graph");
 
   b += outcome("Weeks → hours", "Hypothesis landscaping compressed from weeks to hours, with traceable evidence at every step.");
   b += caption("Discovery Navigator");
-
   return frame(
     id,
     "Discovery Navigator",
-    "Discovery Navigator workflow: four starting points feed a six-step guided workflow (project, config, exploration, agent scoring, ranking, hypotheses) with the Discovery Copilot alongside every step, built on the AlphaMeld Knowledge Graph, producing ranked hypotheses with traceable evidence.",
+    "Discovery Navigator: a disease, a target or a hypothesis starts one of six workflows (Target Discovery, Indication Discovery, Safety Assessment, Hypothesis De-risking, Drug Repurposing, Biomarker Identification) that hand results to each other. Every workflow runs the same engine of query design, knowledge-graph retrieval, sentence-level validation, agent-led assessment and cited synthesis over the AlphaMeld Knowledge Graph API, with PubMed, ClinicalTrials.gov, Crossref and web evidence. Exports carry run provenance, and a toolbox of Co-Pilot, Trial Designer, Network Explorer, Custom Reports, Literature Radar and a weekly digest reads the same graph.",
     b
   );
 }
 
 /* ── 2. QuriousRI ───────────────────────────────────────────────────────── */
 
+const QR_SOURCES = [
+  ["Agency guidance", "Guidelines and announcements"],
+  ["Product registers", "National approvals"],
+  ["Orange and Purple Book", "US patents and exclusivity"],
+];
+const QR_EXPLORE = [
+  ["Intelligence", ["Regulatory Explorer", "Analytics", "Ask AI assistant", "Weekly brief"]],
+  ["Databases", ["Approved products", "Market landscape", "Patents and exclusivity", "Cross-market matrix", "Company analysis"]],
+  ["Reports and checkers", ["Report Builder", "Label checker", "Compliance checker"]],
+];
+const QR_CHAIN = [
+  ["RLD Finder", ["Reference product", "per target market"]],
+  ["Gap Assessment", ["Section by section", "vs. market rules"]],
+  ["Dossier Authoring", ["CMC sections, live", "co-editing, eCTD"]],
+];
+const QR_GOLD = ["2.3.S", "3.2.P.1", "3.2.P.3.3"];
+const QR_PLATFORM = ["English and Japanese", "SSO, MFA and passkeys", "Tamper-evident audit trail", "Per-org feature switches"];
+
 function quriousRI() {
   const id = "qr";
   let b = "";
-  b += eyebrow(48, 64, "Agencies · 12+");
-  b += eyebrow(290, 64, "Intelligence");
-  b += eyebrow(790, 64, "Common Technical Document");
+  b += eyebrow(48, 64, "Sources");
+  b += eyebrow(262, 64, "Regulatory corpus");
 
-  // Agencies
-  const agencies = ["FDA", "EMA", "PMDA", "NMPA", "Health Canada", "MHRA", "Swissmedic", "+ more"];
-  const coreIn = { x: 290, y: 270 };
-  agencies.forEach((a, i) => {
-    const y = 92 + i * 44;
-    b += pill(48, y, a, { h: 32, w: 140, dot: "right" }).svg;
-    b += flow(id, `M192,${y + 16} C236,${y + 16} 244,${coreIn.y} ${coreIn.x - 6},${coreIn.y}`, { arrow: i === 3 });
+  // Sources, public then client-side
+  QR_SOURCES.forEach(([title, sub], i) => {
+    const y = 88 + i * 84;
+    b += `<rect x="48" y="${y}" width="182" height="72" rx="14" class="dg-card"/>`;
+    b += t(64, y + 30, title, "dg-label-sm") + t(64, y + 48, sub, "dg-sub");
+    b += flow(id, `M230,${y + 36} L256,${y + 36}`);
+  });
+  b += eyebrow(48, 354, "Client side");
+  b += `<rect x="48" y="364" width="182" height="72" rx="14" class="dg-card"/>`;
+  b += t(64, 394, "Your dossiers", "dg-label-sm") + t(64, 412, "OCR and eCTD tagging", "dg-sub");
+  b += flow(id, `M230,400 L256,400`);
+
+  // Corpus and agents
+  b += `<rect x="262" y="88" width="238" height="348" rx="18" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
+  b += t(282, 120, "Central drug database", "dg-label");
+  b += lines(282, 142, ["Full text, translations and", "impact summaries"], "dg-sub", 16);
+  b += chip(282, 178, "Vector + keyword search", { h: 22 }).svg;
+  b += chip(282, 206, "Reranked, cited answers", { h: 22 }).svg;
+  b += `<line x1="282" y1="244" x2="480" y2="244" class="dg-rule"/>`;
+  b += eyebrow(282, 268, "Agents");
+  ["Assistant router", "Report research", "Reference-product evidence", "Gap extract and evaluate", "Authoring knowledge base"].forEach((s, i) => {
+    const y = 290 + i * 20;
+    b += `<circle cx="286" cy="${y - 4}" r="2" class="dg-node"/>` + t(296, y, s, "dg-sub");
+  });
+  b += t(282, 420, "Daily regulatory watch, weekly brief", "dg-sub-sig");
+
+  // Explore group
+  b += `<rect x="524" y="80" width="628" height="160" rx="16" class="dg-ground"/>`;
+  b += eyebrow(540, 104, "Explore");
+  const ew = [182, 182, 220];
+  let ex = 540;
+  QR_EXPLORE.forEach(([title, items], i) => {
+    b += `<rect x="${ex}" y="114" width="${ew[i]}" height="118" rx="12" class="dg-card"/>`;
+    b += t(ex + 14, 136, title, "dg-label-sm");
+    items.forEach((s, j) => (b += `<circle cx="${ex + 18}" cy="${152 + j * 16}" r="2" class="dg-node"/>` + t(ex + 26, 156 + j * 16, s, "dg-sub")));
+    ex += ew[i] + 12;
+  });
+  b += flow(id, `M500,160 L518,160`);
+
+  // File and monitor group
+  b += `<rect x="524" y="256" width="628" height="180" rx="16" class="dg-ground"/>`;
+  b += eyebrow(540, 280, "From approval to filing");
+  b += `<rect x="540" y="290" width="360" height="138" rx="12" class="dg-card"/>`;
+  const cxs = [584, 704, 824];
+  b += `<line x1="${cxs[0]}" y1="318" x2="${cxs[2]}" y2="318" class="dg-edge"/><line x1="${cxs[0]}" y1="318" x2="${cxs[2]}" y2="318" class="dg-flow"/>`;
+  QR_CHAIN.forEach(([name, sub], i) => {
+    b += `<circle cx="${cxs[i]}" cy="318" r="12" class="${i === 2 ? "dg-node" : "dg-ring"}"/>`;
+    b += t(cxs[i], 322, String(i + 1), i === 2 ? "dg-num-inv-sm" : "dg-num-sm", "middle");
+    b += t(cxs[i], 350, name, "dg-label-xs", "middle");
+    b += lines(cxs[i], 366, sub, "dg-sub", 14, "middle");
+  });
+  let gx = 556;
+  QR_GOLD.forEach((s) => {
+    const c = chip(gx, 400, s, { cls: "dg-chip-sig", textCls: "dg-chip-sig-text", h: 18 });
+    b += c.svg;
+    gx += c.w + 6;
+  });
+  b += t(gx + 4, 413, "graded vs. gold standards", "dg-sub-sig");
+  b += flow(id, `M500,360 L518,360`);
+  b += `<rect x="912" y="290" width="232" height="138" rx="12" class="dg-card"/>`;
+  b += t(928, 314, "My Products", "dg-label-sm");
+  b += chip(928, 326, "Impacted now", { cls: "dg-chip-sig", textCls: "dg-chip-sig-text", h: 22 }).svg;
+  b += chip(928, 354, "Plan ahead", { h: 22 }).svg;
+  b += chip(928, 382, "Not yet", { h: 22 }).svg;
+  b += lines(1040, 340, ["Every regulatory", "change, read", "against each", "product and", "market"], "dg-sub", 15);
+
+  // Platform
+  let px = 48;
+  QR_PLATFORM.forEach((s) => {
+    const c = chip(px, 460, s, { h: 24 });
+    b += c.svg;
+    px += c.w + 8;
   });
 
-  // Intelligence core
-  b += `<rect x="290" y="92" width="280" height="356" rx="18" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
-  b += t(310, 128, "Regulatory intelligence", "dg-h");
-  b += lines(310, 152, ["Search, analyze, compare, and manage", "global drug and biologic approvals"], "dg-sub", 16);
-  let cx = 310;
-  ["Pharmaceuticals", "Biologics"].forEach((c) => {
-    const ch = chip(cx, 190, c, { h: 24 });
-    b += ch.svg;
-    cx += ch.w + 8;
-  });
-  cx = 310;
-  ["Biosimilars", "Generics"].forEach((c) => {
-    const ch = chip(cx, 222, c, { h: 24 });
-    b += ch.svg;
-    cx += ch.w + 8;
-  });
-  b += `<line x1="310" y1="266" x2="550" y2="266" class="dg-rule"/>`;
-  b += eyebrow(310, 290, "Underneath");
-  ["Role-based dashboards", "Pathway and classification guides", "Centralized guidelines library", "Expert Q&A", "LLM-powered document analysis"].forEach(
-    (s, i) => {
-      const y = 314 + i * 22;
-      b += `<circle cx="314" cy="${y - 4}" r="2" class="dg-node"/>`;
-      b += t(324, y, s, "dg-sub");
-    }
-  );
-
-  // CTD pyramid geometry
-  const apex = { x: 960, y: 96 };
-  const baseY = 470;
-  const half = (y) => ((y - apex.y) * 190) / (baseY - apex.y);
-  const L = (y) => apex.x - half(y);
-  const R = (y) => apex.x + half(y);
-  const pt = (x, y) => `${n(x)},${n(y)}`;
-
-  // Module 1: hatched, out of scope
-  b += `<polygon points="${pt(apex.x, apex.y)} ${pt(R(168), 168)} ${pt(L(168), 168)}" fill="url(#${id}-hatch)" class="dg-tier-off"/>`;
-  b += t(960, 158, "1", "dg-num-off", "middle");
-  b += `<line x1="992" y1="128" x2="1012" y2="128" class="dg-edge-soft"/>`;
-  b += t(1018, 126, "Out of scope", "dg-label-sm");
-  b += lines(1018, 142, ["Module 1 is country-", "and company-specific"], "dg-sub", 14);
-
-  // Module 2
-  b += `<polygon points="${pt(L(174), 174)} ${pt(R(174), 174)} ${pt(R(258), 258)} ${pt(L(258), 258)}" class="dg-tier"/>`;
-  b += t(960, 204, "Module 2", "dg-label-sm", "middle");
-  b += t(960, 220, "Summaries", "dg-sub", "middle");
-  b += chip(960 - 22, 230, "QOS", { cls: "dg-chip-sig", textCls: "dg-chip-sig-text", h: 20 }).svg;
-
-  // Modules 3, 4, 5 side by side at the base
-  const topXs = [L(264), 0, 0, R(264)];
-  topXs[1] = topXs[0] + (topXs[3] - topXs[0]) / 3;
-  topXs[2] = topXs[0] + (2 * (topXs[3] - topXs[0])) / 3;
-  const botXs = [L(baseY), 0, 0, R(baseY)];
-  botXs[1] = botXs[0] + (botXs[3] - botXs[0]) / 3;
-  botXs[2] = botXs[0] + (2 * (botXs[3] - botXs[0])) / 3;
-  const g = 3;
-  const base = [
-    { num: "3", name: "Quality" },
-    { num: "4", name: "Nonclinical" },
-    { num: "5", name: "Clinical" },
-  ];
-  base.forEach((m, i) => {
-    const tl = topXs[i] + (i ? g : 0);
-    const tr = topXs[i + 1] - (i < 2 ? g : 0);
-    const bl = botXs[i] + (i ? g : 0);
-    const br = botXs[i + 1] - (i < 2 ? g : 0);
-    b += `<polygon points="${pt(tl, 264)} ${pt(tr, 264)} ${pt(br, baseY)} ${pt(bl, baseY)}" class="dg-tier"/>`;
-    const cxm = (tl + tr + bl + br) / 4;
-    b += t(cxm, 318, m.num, "dg-num-lg", "middle");
-    b += t(cxm, 340, m.name, "dg-label-sm", "middle");
-  });
-  // Sections tested so far inside Module 3
-  const m3x = (topXs[0] + topXs[1] + botXs[0] + botXs[1]) / 4 - 8;
-  [["3.2.P.1", 372], ["3.2.P.3.3", 402]].forEach(([s, y]) => {
-    const w = Math.round(est(s, 11, 0.56) + 20);
-    b += chip(m3x - w / 2, y, s, { cls: "dg-chip-sig", textCls: "dg-chip-sig-text", h: 20 }).svg;
-  });
-
-  // Two workstreams into Modules 2 to 5
-  b += flow(id, `M570,214 L${n(L(214) - 8)},214`);
-  b += t(592, 200, "Dossier authoring", "dg-label-sm");
-  b += t(592, 234, "AI-assisted", "dg-sub");
-  b += flow(id, `M570,384 L${n(L(384) - 8)},384`);
-  b += t(592, 370, "Market-entry gap assessment", "dg-label-sm");
-  b += lines(592, 404, ["Approved market vs. target market,", "module by module, section by section"], "dg-sub", 15);
-
-  // Legend
-  b += `<rect x="770" y="494" width="30" height="16" rx="8" class="dg-chip-sig"/>`;
-  b += t(806, 506, "Evaluated against expert gold standards so far", "dg-sub");
-  b += t(806, 526, "Both workstreams cover Modules 2 to 5", "dg-sub");
-  b += `<line x1="776" y1="522" x2="800" y2="522" class="dg-edge"/>`;
-
-  b += outcome(
-    "12+ agencies",
-    "Regulatory intelligence plus CTD dossier authoring and per-section market-entry gap assessment across Modules 2–5 and 12+ agencies — FDA, EMA, PMDA, NMPA, Health Canada, MHRA, Swissmedic, and more",
-    { figSub: "CTD Modules 2–5" }
-  );
+  b += outcome("Signal → submission", "Regulatory intelligence, product registers and patents in one platform, plus reference-product search, per-section gap assessment and CTD authoring for generic filings");
   b += caption("QuriousRI");
-
   return frame(
     id,
     "QuriousRI",
-    "QuriousRI workflow: approvals from 12 or more agencies feed a regulatory intelligence layer, which drives two workstreams, dossier authoring and market-entry gap assessment, across CTD Modules 2 to 5. Module 1 is out of scope.",
+    "QuriousRI: agency guidance, national product registers, the Orange and Purple Books and the client's own dossiers feed a central drug database with hybrid search and agents. Users explore it through intelligence, databases, reports and checkers, take a product from approval to filing through RLD Finder, Gap Assessment and Dossier Authoring (graded against gold standards for 2.3.S, 3.2.P.1 and 3.2.P.3.3), and see product-aware regulatory impact in My Products.",
     b
   );
 }
@@ -451,233 +463,180 @@ function pipelineAlpha() {
   const id = "pa";
   let b = "";
   b += eyebrow(48, 64, "Sources");
-  b += eyebrow(340, 64, "Sync and discovery");
-  b += eyebrow(700, 64, "Catalyst calendar · small/mid-cap NASDAQ biotech");
+  b += eyebrow(290, 64, "Nightly sync · 9 stages");
+  b += eyebrow(616, 64, "Prediction engine · on demand");
+  b += eyebrow(948, 64, "Product");
 
-  // Source cards
-  b += `<rect x="48" y="92" width="220" height="132" rx="14" class="dg-card"/>`;
-  b += t(66, 120, "Clinical-trial data", "dg-label");
-  b += pill(66, 136, "ClinicalTrials.gov", { h: 28, px: 12, cls: "dg-sub" }).svg;
-  b += pill(66, 172, "Clinical Navigator", { h: 28, px: 12, cls: "dg-sub" }).svg;
-
-  b += `<rect x="48" y="248" width="220" height="132" rx="14" class="dg-card"/>`;
-  b += t(66, 276, "Market data", "dg-label");
-  const s1 = pill(66, 292, "Live stock", { h: 28, px: 12, cls: "dg-sub" });
-  b += s1.svg;
-  b += pill(66 + s1.w + 8, 292, "Financials", { h: 28, px: 12, cls: "dg-sub" }).svg;
-  b += t(66, 348, "via Alpha Vantage", "dg-sub");
-
-  // Universe of tracked drugs as a phyllotaxis field
-  const U = { x: 450, y: 180, r: 74 };
-  b += flow(id, `M268,158 C318,158 326,${U.y} ${U.x - U.r - 10},${U.y}`);
-  b += flow(id, `M268,314 C330,314 336,${U.y + 30} ${U.x - U.r + 4},${U.y + 34}`);
-  b += elabel(278, 240, "synced");
-  const N = 560;
-  let field = "";
-  for (let i = 0; i < N; i++) {
-    const rr = (U.r * Math.sqrt(i + 0.5)) / Math.sqrt(N);
-    const th = i * 2.399963;
-    const x = U.x + rr * Math.cos(th);
-    const y = U.y + rr * Math.sin(th);
-    const flagged = i % 41 === 17;
-    field += flagged
-      ? `<circle cx="${n(x)}" cy="${n(y)}" r="2.6" class="dg-sig-fill"/>`
-      : `<circle cx="${n(x)}" cy="${n(y)}" r="1.5" class="dg-star"/>`;
-  }
-  b += `<circle cx="${U.x}" cy="${U.y}" r="${U.r + 8}" class="dg-halo"/>` + field;
-  b += t(U.x, U.y + U.r + 30, "~10,000 drugs tracked", "dg-label", "middle");
-  b += t(U.x, U.y + U.r + 46, "trial records joined to market data", "dg-sub", "middle");
-
-  // Discovery and prediction chain
-  b += flow(id, `M${U.x},${U.y + U.r + 56} L${U.x},334`);
-  b += pill(350, 340, "LLM catalyst discovery", { h: 36, w: 200 }).svg;
-  b += flow(id, `M${U.x},376 L${U.x},398`);
-  b += pill(350, 404, "Streaming AI predictions", { h: 36, w: 200 }).svg;
-
-  // Catalyst calendar
-  const ax = { x0: 712, x1: 1140, y: 338 };
-  const today = 990;
-  // legend
-  const legend = [
-    ["circle", "Readout"],
-    ["diamond", "PDUFA date"],
-    ["square", "Partnership"],
-    ["triangle", "Conference"],
-  ];
-  const shape = (kind, x, y, hollow, sig) => {
-    const cls = hollow ? (sig ? "dg-sig-ring" : "dg-ring") : sig ? "dg-sig-fill" : "dg-node";
-    if (kind === "circle") return `<circle cx="${x}" cy="${y}" r="6" class="${cls}"/>`;
-    if (kind === "diamond") return `<polygon points="${x},${y - 7} ${x + 7},${y} ${x},${y + 7} ${x - 7},${y}" class="${cls}"/>`;
-    if (kind === "square") return `<rect x="${x - 5.5}" y="${y - 5.5}" width="11" height="11" rx="1.5" class="${cls}"/>`;
-    return `<polygon points="${x},${y - 7} ${x + 7},${y + 5} ${x - 7},${y + 5}" class="${cls}"/>`;
-  };
-  let lx = 712;
-  legend.forEach(([k, s], i) => {
-    b += shape(k, lx + 6, 98, false, i === 0);
-    b += t(lx + 18, 102, s, "dg-sub");
-    lx += est(s, 11.5) + 44;
+  // Sources
+  const card = (y, h, title, sub) =>
+    `<rect x="48" y="${y}" width="210" height="${h}" rx="14" class="dg-card"/>` +
+    t(66, y + 26, title, "dg-label") +
+    t(66, y + 44, sub, "dg-sub");
+  b += card(92, 70, "Clinical Navigator", "Companies, assets, events");
+  b += card(176, 70, "ClinicalTrials.gov", "Trial status and dates");
+  b += card(260, 176, "Market data", "First provider that answers");
+  ["Alpha Vantage", "Yahoo Finance", "Finnhub", "SerpAPI"].forEach((s, i) => {
+    const y = 318 + i * 28;
+    b += chip(66, y, s, { h: 22 }).svg;
+    if (i < 3) b += `<line x1="78" y1="${y + 22}" x2="78" y2="${y + 28}" class="dg-edge-soft"/>`;
   });
-  b += `<circle cx="718" cy="124" r="5" class="dg-ring"/>`;
-  b += t(730, 128, "Hollow marks are upcoming events with streaming AI predictions", "dg-sub");
 
-  // future band
-  b += `<rect x="${today}" y="150" width="${ax.x1 - today}" height="${ax.y - 150}" class="dg-future"/>`;
-  b += `<line x1="${today}" y1="150" x2="${today}" y2="${ax.y + 6}" class="dg-edge-soft"/>`;
-  b += t(today, ax.y + 22, "today", "dg-sub", "middle");
-  b += t(today + 10, 166, "upcoming", "dg-sub");
+  // Nightly sync: nine stages in order, the two LLM stages filled
+  const stages = ["Sync entities", "Sync asset events", "Merge trials", "Seed trial catalysts", "Sync stock prices", "Catalyst discovery", "Milestone predictions", "Generate signals", "Run simulations"];
+  const sy = (i) => 104 + i * 36;
+  b += `<line x1="306" y1="${sy(0)}" x2="306" y2="${sy(8)}" class="dg-edge"/><line x1="306" y1="${sy(0)}" x2="306" y2="${sy(8)}" class="dg-flow"/>`;
+  stages.forEach((s, i) => {
+    const llm = i === 5 || i === 6;
+    b += `<circle cx="306" cy="${sy(i)}" r="11" class="${llm ? "dg-node" : "dg-ring"}"/>`;
+    b += t(306, sy(i) + 4, String(i + 1), llm ? "dg-num-inv-sm" : "dg-num-sm", "middle");
+    b += t(328, sy(i) + 4.5, s, "dg-label-sm");
+    if (llm) b += chip(488, sy(i) - 10, "LLM", { h: 20 }).svg;
+  });
+  b += lines(290, sy(8) + 34, ["Daily at 02:00. A failed critical stage", "skips the stages that depend on it."], "dg-sub", 15);
+  b += flow(id, `M258,127 C276,127 276,${sy(0)} 292,${sy(0)}`);
+  b += flow(id, `M258,211 C276,211 276,${sy(2)} 292,${sy(2)}`);
+  b += flow(id, `M258,300 C276,300 276,${sy(4)} 292,${sy(4)}`);
 
-  // illustrative price path, +50% step at the readout
-  const readoutX = 920;
-  const pre = [
-    [712, 262], [740, 258], [766, 265], [792, 256], [818, 260], [844, 252], [870, 258], [896, 255], [readoutX - 2, 257],
+  // Prediction engine
+  const ex = 616, ew = 296, cx = ex + ew / 2;
+  b += flow(id, `M534,${sy(6)} C574,${sy(6)} 578,300 ${ex - 6},300`);
+  b += lines(548, sy(6) + 26, ["enriched", "catalysts"], "dg-edge-label", 14);
+  b += `<rect x="${ex}" y="88" width="${ew}" height="432" rx="18" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
+  b += t(ex + 18, 114, "Four specialists", "dg-label-sm");
+  [["Clinical", 0, 0], ["Competitive", 1, 0], ["Regulatory", 0, 1], ["Financial", 1, 1]].forEach(([s, c, r]) => {
+    b += chip(ex + 18 + c * 134, 124 + r * 30, s, { h: 24 }).svg;
+  });
+  b += flow(id, `M${cx},182 L${cx},202`);
+  b += pill(cx - 110, 206, "Critic · counter-thesis", { h: 32, w: 220 }).svg;
+  b += flow(id, `M${cx},238 L${cx},258`);
+  b += elabel(cx, 282, "≤ 2 rounds", "middle");
+  b += `<path d="M${cx - 40},296 L${cx + 40},296" class="dg-edge" marker-start="url(#${id}-arrow)" marker-end="url(#${id}-arrow)"/>`;
+  b += `<circle cx="${cx - 64}" cy="296" r="21" class="dg-ring"/>` + t(cx - 64, 300, "Bull", "dg-label-xs", "middle");
+  b += `<circle cx="${cx + 64}" cy="296" r="21" class="dg-sig-ring"/>` + t(cx + 64, 300, "Bear", "dg-label-xs", "middle");
+  const mem = chip(0, 0, "Prediction memory", { h: 22 });
+  b += chip(cx - mem.w / 2, 330, "Prediction memory", { h: 22 }).svg;
+  b += `<path d="M${cx - mem.w / 2 + 10},330 L${cx - 64},317" class="dg-edge-soft"/><path d="M${cx + mem.w / 2 - 10},330 L${cx + 64},317" class="dg-edge-soft"/>`;
+  b += flow(id, `M${cx},356 L${cx},378`);
+  b += pill(cx - 110, 382, "Judge · verdict", { h: 32, w: 220 }).svg;
+  b += flow(id, `M${cx},414 L${cx},432`);
+  const segs = [["dg-seg-sig", 0.8], ["dg-seg-sig", 0.4], ["dg-seg-mid", 0.3], ["dg-seg-acc", 0.45], ["dg-seg-acc", 0.85]];
+  const sx = ex + 18, sw = (ew - 36 - 8) / 5;
+  segs.forEach(([c, o], i) => (b += `<rect x="${n(sx + i * (sw + 2))}" y="440" width="${n(sw)}" height="12" rx="3" class="${c}" fill-opacity="${o}"/>`));
+  const mk = sx + 3 * (sw + 2) + sw / 2;
+  b += `<polygon points="${n(mk - 5)},430 ${n(mk + 5)},430 ${n(mk)},437" class="dg-node"/>`;
+  b += t(sx, 470, "Strong sell", "dg-sub");
+  b += t(cx, 470, "Hold", "dg-sub", "middle");
+  b += t(ex + ew - 18, 470, "Strong buy", "dg-sub", "end");
+  b += t(cx, 498, "Five-tier outlook and per-event predictions", "dg-label-xs", "middle");
+
+  // Product surface
+  const tiles = [
+    ["Catalyst calendar", "Readouts, PDUFA, partners"],
+    ["Bulk briefings", "Critic-reviewed, retryable"],
+    ["Screener", "Scouts, filters, ranking"],
+    ["Smart Money", "VC and Congress trades"],
+    ["Simulation", "AI paper trading"],
+    ["Projections", "Graded on real price moves"],
   ];
-  const post = [
-    [readoutX + 4, 214], [946, 210], [970, 216], [today, 212],
-  ];
-  const pts = [...pre, ...post];
-  const d = "M" + pts.map(([x, y]) => `${x},${y}`).join(" L");
-  b += `<path d="${d} L${today},${ax.y} L712,${ax.y} Z" class="dg-area"/>`;
-  b += `<path d="${d}" class="dg-price"/>`;
-  b += `<path d="M${today},212 L1030,208 L1070,214 L1110,206 L1140,210" class="dg-price-fut"/>`;
-  b += `<line x1="${ax.x0}" y1="${ax.y}" x2="${ax.x1}" y2="${ax.y}" class="dg-axis"/>`;
-
-  // markers on the axis
-  b += shape("triangle", 772, ax.y, false);
-  b += shape("square", 846, ax.y, false);
-  b += shape("circle", readoutX, ax.y, false, true);
-  b += `<line x1="${readoutX}" y1="${ax.y - 8}" x2="${readoutX}" y2="222" class="dg-edge-sig"/>`;
-  b += t(readoutX - 12, 182, "Trial readout", "dg-label-sm", "end");
-  b += lines(readoutX - 12, 200, ["A single readout can", "move the stock 50%+"], "dg-sub-sig", 14, "end");
-  b += shape("diamond", 1060, ax.y, true);
-  b += shape("circle", 1112, ax.y, true, true);
-
-  // predictions stream onto the upcoming events
-  b += flow(id, `M550,422 L1086,422 L1086,${ax.y + 14}`);
-  b += elabel(600, 412, "predicts upcoming readouts, PDUFA dates, partnerships, conferences");
-
-  // delivered as
-  b += flow(id, `M${U.x},440 L${U.x},486 L692,486`);
-  b += eyebrow(700, 470, "Delivered as");
-  const o1 = pill(700, 470 + 0 + 8, "Bulk catalyst briefings", { h: 32 });
-  b += o1.svg;
-  b += pill(700 + o1.w + 10, 478, "Interactive research chat", { h: 32 }).svg;
+  tiles.forEach(([name, sub], i) => {
+    const y = 92 + i * 58;
+    b += `<rect x="948" y="${y}" width="204" height="48" rx="12" class="dg-card"/>`;
+    b += t(966, y + 21, name, "dg-label-sm") + t(966, y + 38, sub, "dg-sub");
+    b += flow(id, `M${ex + ew},300 C${ex + ew + 20},300 ${926},${y + 24} 942,${y + 24}`, { arrow: i === 0 || i === 5 });
+  });
+  // Feedback loop: projections grade predictions against what the price did
+  b += `<path d="M1050,430 C1050,500 960,512 ${ex + ew + 6},476" class="dg-edge-sig" marker-end="url(#${id}-arrow-sig)"/>`;
+  b += t(1000, 512, "accuracy feeds back", "dg-edge-label");
 
   b += outcome("~10,000 drugs", "Tracks ~10,000 clinical-trial drugs and AI-predicts the catalysts that move small-cap biotech stocks");
   b += caption("Pipeline Alpha");
-
   return frame(
     id,
     "Pipeline Alpha",
-    "Pipeline Alpha workflow: clinical-trial data and live market data are synced across about 10,000 drugs, LLM catalyst discovery and streaming AI predictions flag upcoming readouts, PDUFA dates, partnerships and conferences on a catalyst calendar, delivered as bulk briefings and a research chat.",
+    "Pipeline Alpha: Clinical Navigator, ClinicalTrials.gov and market data feed a nightly nine-stage sync with LLM catalyst discovery and milestone prediction. On demand, four specialist agents feed a critic, a bull/bear debate with memory and a judge, producing a five-tier outlook and per-event predictions, which power the catalyst calendar, bulk briefings, screener, smart-money tracking, simulation and a projections hub that grades predictions against real price moves.",
     b
   );
 }
 
-function alphaMeldGlyph(kind, x, y) {
-  if (kind === "kg")
-    return (
-      `<path d="M${x},${y + 20} L${x + 10},${y + 4} L${x + 22},${y + 14} L${x + 32},${y + 2} M${x + 22},${y + 14} L${x + 28},${y + 26} M${x + 10},${y + 4} L${x + 22},${y + 14}" class="dg-glyph"/>` +
-      [[0, 20], [10, 4], [22, 14], [32, 2], [28, 26]].map(([a, c]) => `<circle cx="${x + a}" cy="${y + c}" r="3" class="dg-glyph-fill"/>`).join("")
-    );
-  if (kind === "chat")
-    return `<path d="M${x + 5},${y + 2} H${x + 29} a5,5 0 0 1 5,5 V${y + 17} a5,5 0 0 1 -5,5 H${x + 14} L${x + 7},${y + 28} V${y + 22} H${x + 5} a5,5 0 0 1 -5,-5 V${y + 7} a5,5 0 0 1 5,-5 Z" class="dg-glyph"/>` +
-      [10, 17, 24].map((a) => `<circle cx="${x + a}" cy="${y + 12}" r="1.8" class="dg-glyph-fill"/>`).join("");
-  if (kind === "helix") {
-    let p1 = "", p2 = "", rungs = "";
-    for (let i = 0; i <= 34; i += 2) {
-      const yy1 = y + 14 + 11 * Math.sin((i / 34) * Math.PI * 2);
-      const yy2 = y + 14 - 11 * Math.sin((i / 34) * Math.PI * 2);
-      p1 += `${i === 0 ? "M" : "L"}${x + i},${n(yy1)} `;
-      p2 += `${i === 0 ? "M" : "L"}${x + i},${n(yy2)} `;
-      if (i % 6 === 2) rungs += `<line x1="${x + i}" y1="${n(yy1)}" x2="${x + i}" y2="${n(yy2)}" class="dg-glyph" stroke-opacity=".5"/>`;
-    }
-    return `<path d="${p1}" class="dg-glyph"/><path d="${p2}" class="dg-glyph"/>` + rungs;
-  }
-  if (kind === "lit")
-    return `<path d="M${x + 2},${y} H${x + 20} L${x + 28},${y + 8} V${y + 28} H${x + 2} Z M${x + 20},${y} V${y + 8} H${x + 28}" class="dg-glyph"/>` +
-      [13, 18, 23].map((a) => `<line x1="${x + 7}" y1="${y + a}" x2="${x + 23}" y2="${y + a}" class="dg-glyph" stroke-opacity=".6"/>`).join("");
-  return `<path d="M${x},${y + 15} H${x + 8} L${x + 12},${y + 3} L${x + 17},${y + 27} L${x + 21},${y + 15} H${x + 34}" class="dg-glyph"/>`;
-}
-
 /* ── 4. AlphaMeld Operating System ──────────────────────────────────────── */
+
+const AM_TOOLS = ["find_entity", "get_evidence", "find_connection", "assess_safety"];
 
 function alphaMeld() {
   const id = "am";
   let b = "";
+  b += eyebrow(48, 64, "Daily literature pipeline");
+  b += eyebrow(310, 64, "Three graphs · DozerDB (Neo4j)");
+  b += eyebrow(600, 64, "Access");
+  b += eyebrow(880, 64, "Consumers");
 
-  // Layer gutter
-  const layer = (y, title, sub) => eyebrow(48, y, title) + t(48, y + 18, sub, "dg-sub");
-  b += layer(132, "Interfaces", "custom UI layer");
-  b += layer(298, "ML models", "in production");
-  b += layer(448, "Data and inference", "stores and LLM routing");
-  b += `<line x1="48" y1="222" x2="1152" y2="222" class="dg-rule"/>`;
-  b += `<line x1="48" y1="392" x2="1152" y2="392" class="dg-rule"/>`;
+  // Pipeline stations
+  const st = (y, h, title, subs) =>
+    `<rect x="48" y="${y}" width="220" height="${h}" rx="14" class="dg-card"/>` + t(64, y + 26, title, "dg-label-sm") + lines(64, y + 44, subs, "dg-sub", 15);
+  b += st(88, 62, "Sources", ["PubMed · PMC · Semantic Scholar"]);
+  b += st(170, 62, "Ingest and split", ["Articles into sentences, PostgreSQL"]);
+  b += st(252, 76, "Evidence level", ["PubMedBERT classifier: clinical,", "in vivo or in vitro"]);
+  b += `<rect x="48" y="348" width="220" height="114" rx="14" class="dg-card"/>`;
+  b += t(64, 374, "NLP workers", "dg-label-sm") + t(150, 374, "on RabbitMQ", "dg-sub");
+  ["NER · 9 entity types", "Linking · 3.3M concepts", "Relations · 24 types"].forEach((s, i) => (b += chip(64, 384 + i * 25, s, { h: 21 }).svg));
+  [[150, 170], [232, 252], [328, 348]].forEach(([a, c]) => (b += flow(id, `M158,${a} L158,${c - 4}`)));
 
-  // Interfaces
-  const tiles = [
-    ["Knowledge Graph", "kg"],
-    ["ChatAlphaMeld", "chat"],
-    ["Bioinformatics", "helix"],
-    ["Literature Analysis", "lit"],
-    ["AlphaClinMeld", "pulse"],
-  ];
-  const glyph = alphaMeldGlyph;
-  const tw = 170, tg = 16, tx0 = 220;
-  tiles.forEach(([name, kind], i) => {
-    const x = tx0 + i * (tw + tg);
-    b += `<rect x="${x}" y="92" width="${tw}" height="104" rx="14" class="dg-card"/>`;
-    b += glyph(kind, x + 18, 110);
-    b += t(x + 18, 176, name, "dg-label-sm");
-  });
+  // Three graphs
+  const db = (y, h, title, cadence, subs, cls = "dg-card") =>
+    `<rect x="310" y="${y}" width="250" height="${h}" rx="14" class="${cls}"/>` +
+    `<ellipse cx="334" cy="${y + 22}" rx="10" ry="4" class="dg-glyph"/><path d="M324,${y + 22} V${y + 34} a10,4 0 0 0 20,0 V${y + 22}" class="dg-glyph"/>` +
+    t(354, y + 28, title, "dg-label-sm") +
+    chip(500, y + 14, cadence, { h: 20 }).svg +
+    lines(326, y + 54, subs, "dg-sub", 15);
+  b += db(88, 96, "Evidence graph", "daily", ["Every sentence and relation,", "~2.5B relationships"]);
+  b += db(208, 80, "Aggregated graph", "weekly", ["One edge per entity pair"]);
+  b += `<rect x="310" y="312" width="250" height="124" rx="14" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
+  b += `<ellipse cx="334" cy="334" rx="10" ry="4" class="dg-glyph"/><path d="M324,334 V346 a10,4 0 0 0 20,0 V334" class="dg-glyph"/>`;
+  b += t(354, 340, "Scored graph", "dg-label-sm") + chip(500, 326, "weekly", { h: 20 }).svg;
+  b += lines(326, 366, ["Direct, association and direction", "scores, predicted mechanism"], "dg-sub", 15);
+  b += t(326, 416, "492K entities · ~26M relationships", "dg-label-xs");
+  b += flow(id, `M268,405 C292,405 284,136 304,136`);
+  b += elabel(274, 268, "daily");
+  b += flow(id, `M435,184 L435,204`);
+  b += flow(id, `M435,288 L435,308`);
 
-  // Model rail: 12 nodes, five named
-  const railY = 296;
-  b += `<line x1="230" y1="${railY}" x2="1134" y2="${railY}" class="dg-edge"/>`;
-  b += `<line x1="230" y1="${railY}" x2="1134" y2="${railY}" class="dg-flow"/>`;
-  // Trained models with code or artifacts in the AlphaMeld repositories.
-  const named = [
-    ["Named-entity", "recognition"],
-    ["Relation", "extraction"],
-    ["Entity", "linking"],
-    ["Evidence-level", "classifier"],
-    ["HINT trial-outcome", "predictors"],
-  ];
-  named.forEach((lab, i) => {
-    const x = 290 + i * 202;
-    b += node(x, railY, 6, true, i === 4);
-    b += lines(x, railY + 30, lab, "dg-label-sm", 15, "middle");
-  });
+  // Access layer
+  b += `<rect x="600" y="88" width="240" height="150" rx="14" class="dg-card"/>`;
+  b += t(618, 114, "Knowledge Graph API", "dg-label-sm") + t(618, 132, "Read-only REST", "dg-sub");
+  b += flowRow(["Nodes", "Search", "Traversal", "Analytics", "Evidence", "GraphRAG context"], { x0: 618, x1: 828, y0: 144, rowH: 28, make: (x, y, s) => chip(x, y, s, { h: 21 }) }).svg;
+  b += `<rect x="600" y="254" width="240" height="182" rx="14" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
+  b += t(618, 280, "MCP server", "dg-label-sm") + t(618, 298, "16 read-only tools for AI agents", "dg-sub");
+  b += flowRow([...AM_TOOLS, "+12 more"], { x0: 618, x1: 834, y0: 310, rowH: 26, make: (x, y, s) => chip(x, y, s, { h: 20 }) }).svg;
+  b += t(618, 424, "Tiered eval gate on every deploy", "dg-sub-sig");
+  b += flow(id, `M560,136 L594,136`);
+  b += elabel(566, 128, "evidence");
+  b += flow(id, `M560,360 C578,360 576,200 594,200`);
+  b += flow(id, `M560,380 L594,380`);
+  b += elabel(566, 398, "ranking");
 
-  // Interfaces fed by models
-  tiles.forEach((_, i) => {
-    const x = tx0 + i * (tw + tg) + tw / 2;
-    b += flow(id, `M${x},${railY - 16} L${x},204`);
-  });
-  b += elabel(tx0 + tw / 2 + 10, 254, "powers");
+  // Consumers
+  b += `<rect x="880" y="88" width="272" height="86" rx="14" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
+  b += t(898, 116, "Discovery Navigator", "dg-label") + t(898, 136, "Flagship: six workflows, Co-Pilot,", "dg-sub") + t(898, 152, "Trial Designer", "dg-sub");
+  const cons = (y, h, title, subs, cls = "dg-card") => `<rect x="880" y="${y}" width="272" height="${h}" rx="14" class="${cls}"/>` + t(898, y + 26, title, "dg-label-sm") + lines(898, y + 44, subs, "dg-sub", 15);
+  b += cons(186, 62, "AI agents", ["Through the MCP server"]);
+  b += cons(260, 62, "Rediscovery", ["Repurposing for essential tremor"]);
+  b += cons(334, 102, "Original platform modules", ["Knowledge Graph · ChatAlphaMeld", "Bioinformatics · Literature Analysis", "AlphaClinMeld"], "dg-card-muted");
+  b += flow(id, `M840,150 C860,150 860,131 874,131`);
+  b += flow(id, `M840,190 C862,190 858,291 874,291`, { arrow: true });
+  b += flow(id, `M840,220 C866,220 856,385 874,385`, { arrow: true });
+  b += flow(id, `M840,330 C860,330 858,217 874,217`);
 
-  // Data and inference
-  const stores = [
-    ["PostgreSQL", "relational store"],
-    ["Neo4j (DozerDB)", "knowledge graph"],
-    ["OpenRouter", "GPT · Claude · Gemini"],
-  ];
-  const sw = (914 - 32) / 3;
-  stores.forEach(([name, sub], i) => {
-    const x = 220 + i * (sw + 16);
-    b += `<rect x="${n(x)}" y="420" width="${n(sw)}" height="64" rx="14" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
-    b += t(x + sw / 2, 448, name, "dg-label", "middle");
-    b += t(x + sw / 2, 466, sub, "dg-sub", "middle");
-    b += flow(id, `M${n(x + sw / 2)},414 L${n(x + sw / 2)},372`);
-  });
-  b += elabel(220 + sw / 2 + 10, 400, "feeds");
+  // Next-generation graph, R&D
+  b += `<rect x="48" y="474" width="1104" height="58" rx="14" class="dg-band"/>`;
+  b += t(68, 498, "Next-generation graph · R&D", "dg-label-sm");
+  b += t(68, 518, "Whole-article extraction into span-grounded, Biolink-aligned claims over 41.7M documents and 607K trials", "dg-sub");
 
   b += outcome("Months → weeks", "Compresses hypothesis-to-insight cycles from months to weeks, varying by disease area");
   b += caption("AlphaMeld® Operating System");
-
   return frame(
     id,
     "AlphaMeld Operating System",
-    "AlphaMeld Operating System stack: PostgreSQL, a Neo4j (DozerDB) knowledge graph and frontier LLMs routed through OpenRouter feed the production models (named-entity recognition, relation extraction, entity linking, evidence-level classification and HINT trial-outcome predictors), which power five interfaces: Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis and AlphaClinMeld.",
+    "AlphaMeld Operating System: a daily pipeline ingests PubMed, PMC and Semantic Scholar, splits sentences, classifies evidence level and runs NER, entity linking and relation extraction on RabbitMQ workers into a daily evidence graph; weekly builds aggregate and score it into a 492K-entity, ~26M-relationship graph on DozerDB. A read-only Knowledge Graph API and a 16-tool MCP server serve it to Discovery Navigator, AI agents, Rediscovery and the original platform modules. A next-generation graph is in R&D.",
     b
   );
 }
@@ -707,252 +666,251 @@ function discoveryNavigatorMobile() {
   const id = "dnm";
   let b = "";
   b += eyebrow(20, 36, "Start from");
-  ["Disease-first", "Target-first", "Indication expansion", "Combination therapy"].forEach((s, i) => {
-    const right = i % 2 === 1;
-    const x = right ? 198 : 20;
-    const y = 50 + Math.floor(i / 2) * 44;
-    b += pill(x, y, s, { h: 34, w: 162 }).svg;
-    b += node(right ? 198 : 182, y + 17, 3.5, true);
-  });
-  const ys = [248, 302, 356, 410, 464, 518];
-  b += flow(id, `M190,67 L190,${ys[0] - 22}`);
+  b += flowRow(["A disease", "A target", "Target + disease"], { y0: 50, rowH: 40, make: (x, y, s) => pill(x, y, s, { h: 32 }) }).svg;
+  b += t(20, 104, "AI drafts the setup", "dg-sub");
+  b += flow(id, `M190,112 L190,134`);
 
-  b += eyebrow(20, 214, "Guided workflow");
-  b += `<rect x="20" y="230" width="86" height="306" rx="18" class="dg-band"/>`;
-  b += `<g transform="rotate(-90 63 383)">${t(63, 378, "Discovery Copilot", "dg-label-sm", "middle")}${t(63, 394, "alongside every step", "dg-sub", "middle")}</g>`;
-  const steps = ["Project", "Config", "Exploration", "Agent scoring", "Ranking", "Hypotheses"];
-  ys.forEach((y, i) => {
-    const last = i === ys.length - 1;
-    b += `<line x1="106" y1="${y}" x2="168" y2="${y}" class="dg-edge-soft"/>`;
-    if (!last) b += flow(id, `M190,${y + 18} L190,${ys[i + 1] - 20}`);
-    b += `<circle cx="190" cy="${y}" r="24" class="dg-halo${last ? " dg-pulse" : ""}"/>`;
-    b += `<circle cx="190" cy="${y}" r="16" class="${last ? "dg-node" : "dg-ring"}"/>`;
-    b += t(190, y + 5, String(i + 1), last ? "dg-num-inv" : "dg-num", "middle");
-    b += t(220, y + 5, steps[i], "dg-label-sm");
+  b += eyebrow(20, 160, "Six workflows");
+  DN_WORKFLOWS.forEach(([nm, out, steps, perOrg], i) => {
+    const x = i % 2 ? 198 : 20, y = 172 + Math.floor(i / 2) * 108;
+    b += `<rect x="${x}" y="${y}" width="162" height="96" rx="14" class="${perOrg ? "dg-card-dashed" : "dg-card"}"/>`;
+    b += lines(x + 14, y + 26, nm, "dg-label-sm", 16);
+    b += t(x + 14, y + 62, out, "dg-sub");
+    b += chip(x + 14, y + 70, `${steps} steps`, { h: 18 }).svg;
+    if (perOrg) b += t(x + 150, y + 20, "per org", "dg-sub", "end");
   });
+  const ly = 172 + 3 * 108 + 8;
+  b += `<line x1="22" y1="${ly}" x2="46" y2="${ly}" class="dg-edge-sig"/>`;
+  b += lines(58, ly + 4, ["Continue with… hands any result to", "another workflow, pre-filled."], "dg-sub", 15);
 
-  b += flow(id, `M190,${ys[5] + 26} L190,588`);
-  b += elabel(202, 566, "ranked");
-  b += `<rect x="20" y="594" width="340" height="146" rx="14" class="dg-card"/>`;
-  b += t(38, 622, "Ranked hypotheses", "dg-label");
-  [230, 186, 142, 100].forEach((w, i) => {
-    const y = 640 + i * 22;
-    b += t(44, y + 9, String(i + 1), "dg-num", "middle");
-    b += `<rect x="60" y="${y}" width="${w}" height="9" rx="4.5" class="dg-bar" fill-opacity="${[0.95, 0.72, 0.52, 0.34][i]}"/>`;
-    b += `<circle cx="${60 + w + 11}" cy="${y + 4.5}" r="3" class="dg-sig-ring"/>`;
-  });
-  b += `<path d="M300,740 L300,788" class="dg-edge-sig" marker-end="url(#${id}-arrow-sig)"/>`;
-  b += t(290, 770, "traceable evidence", "dg-edge-label", "end");
+  const es = ly + 56;
+  b += eyebrow(20, es, "The same evidence engine");
+  const labels = ["Query design", "KG retrieval", "Sentence-level validation", "Agent-led assessment", "Cited synthesis"];
+  const ny = (i) => es + 24 + i * 30;
+  b += `<line x1="36" y1="${ny(0)}" x2="36" y2="${ny(4)}" class="dg-edge"/><line x1="36" y1="${ny(0)}" x2="36" y2="${ny(4)}" class="dg-flow"/>`;
+  labels.forEach((s, i) => (b += node(36, ny(i), 5.5, true, i === 4) + t(56, ny(i) + 4.5, s, "dg-label-sm")));
 
-  b += `<rect x="20" y="796" width="340" height="100" rx="16" class="dg-ground"/>`;
-  b += eyebrow(38, 822, "Built on");
-  b += t(38, 844, "AlphaMeld Knowledge Graph", "dg-label");
-  b += constellation(36, 808, 312, 80, 22, 11, { avoid: { x: 28, y: 804, w: 216, h: 52 }, maxD: 58, big: [2, 13] });
-  let cx = 20;
-  ["Multi-tenant SaaS", "SSO", "RBAC", "Audit logging"].forEach((c) => {
-    const ch = chip(cx, 912, c, { h: 24 });
-    b += ch.svg;
-    cx += ch.w + 8;
+  const kg = ny(4) + 30;
+  b += `<rect x="20" y="${kg}" width="340" height="86" rx="16" class="dg-ground"/>`;
+  b += t(36, kg + 26, "AlphaMeld Knowledge Graph API", "dg-label-sm");
+  b += t(36, kg + 44, "492K entities · ~26M relationships", "dg-sub");
+  b += t(36, kg + 60, "Sentence-level evidence per edge", "dg-sub");
+  b += constellation(262, kg + 12, 88, 62, 9, 5, { maxD: 46, big: [2] });
+  b += eyebrow(20, kg + 116, "Also reads");
+  const ar = flowRow(["PubMed", "ClinicalTrials.gov", "Crossref", "Web search"], { y0: kg + 128, rowH: 30, make: (x, y, s) => chip(x, y, s, { h: 22 }) });
+  b += ar.svg;
+
+  const ex = ar.bottom + 30;
+  b += eyebrow(20, ex, "Outputs");
+  b += `<rect x="20" y="${ex + 12}" width="340" height="104" rx="14" class="dg-card"/>`;
+  b += flowRow(["PDF", "Word", "Excel", "PowerPoint", "CSV"], { x0: 36, x1: 344, y0: ex + 26, rowH: 30, make: (x, y, s) => chip(x, y, s, { h: 22 }) }).svg;
+  b += lines(36, ex + 76, ["Each export carries the run ID, graph", "snapshot, and model and prompt versions."], "dg-sub", 15);
+
+  const tb = ex + 146;
+  b += eyebrow(20, tb, "Toolbox · same graph");
+  DN_TOOLS.forEach(([name, sub], i) => {
+    const x = i % 2 ? 198 : 20, y = tb + 12 + Math.floor(i / 2) * 62;
+    b += `<rect x="${x}" y="${y}" width="162" height="54" rx="12" class="dg-card"/>`;
+    b += t(x + 14, y + 23, name, "dg-label-sm") + t(x + 14, y + 40, sub, "dg-sub");
   });
-  const h = 976;
+  const en = tb + 12 + 3 * 62 + 22;
+  b += t(20, en, "SSO, MFA and passkeys · five roles · audit log", "dg-sub");
+  const h = en + 46;
   b += mCaption(h);
-  return frame(id, "Discovery Navigator", "Discovery Navigator workflow: four starting points feed a six-step guided workflow with the Discovery Copilot alongside every step, producing ranked hypotheses with traceable evidence back into the AlphaMeld Knowledge Graph.", b, { w: MW, h, rx: 20 });
+  return frame(id, "Discovery Navigator", "Discovery Navigator: six workflows that hand results to each other, one shared evidence engine over the AlphaMeld Knowledge Graph API, provenance-stamped exports, and a toolbox of Co-Pilot, Trial Designer, Network Explorer, Custom Reports, Literature Radar and a weekly digest.", b, { w: MW, h, rx: 20 });
 }
 
 function quriousRIMobile() {
   const id = "qrm";
   let b = "";
-  b += eyebrow(20, 36, "Agencies · 12+");
-  const ag = flowRow(["FDA", "EMA", "PMDA", "NMPA", "Health Canada", "MHRA", "Swissmedic", "+ more"], {
-    y0: 50,
-    make: (x, y, a) => pill(x, y, a, { h: 28 }),
+  b += eyebrow(20, 36, "Sources");
+  [...QR_SOURCES, ["Your dossiers", "OCR and eCTD tagging"]].forEach(([title, sub], i) => {
+    const x = i % 2 ? 198 : 20, y = 50 + Math.floor(i / 2) * 70;
+    b += `<rect x="${x}" y="${y}" width="162" height="60" rx="12" class="${i === 3 ? "dg-card-dashed" : "dg-card"}"/>`;
+    b += t(x + 12, y + 26, title.replace("Orange and Purple Book", "Orange, Purple Book"), "dg-label-sm") + t(x + 12, y + 43, sub.replace("US patents and exclusivity", "US patents").replace("Guidelines and announcements", "Guidelines, notices"), "dg-sub");
   });
-  b += ag.svg;
-  const coreTop = ag.bottom + 46;
-  b += flow(id, `M190,${ag.bottom + 8} L190,${coreTop - 6}`);
-  b += elabel(202, ag.bottom + 30, "approvals");
+  b += flow(id, `M190,190 L190,212`);
 
-  const ct = coreTop;
-  b += `<rect x="20" y="${ct}" width="340" height="304" rx="18" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
-  b += t(40, ct + 36, "Regulatory intelligence", "dg-h");
-  b += lines(40, ct + 58, ["Search, analyze, compare, and manage", "global drug and biologic approvals"], "dg-sub", 16);
-  let cx = 40;
-  ["Pharmaceuticals", "Biologics"].forEach((c) => { const ch = chip(cx, ct + 92, c, { h: 24 }); b += ch.svg; cx += ch.w + 8; });
-  cx = 40;
-  ["Biosimilars", "Generics"].forEach((c) => { const ch = chip(cx, ct + 124, c, { h: 24 }); b += ch.svg; cx += ch.w + 8; });
-  b += `<line x1="40" y1="${ct + 166}" x2="340" y2="${ct + 166}" class="dg-rule"/>`;
-  b += eyebrow(40, ct + 190, "Underneath");
-  ["Role-based dashboards", "Pathway and classification guides", "Centralized guidelines library", "Expert Q&A", "LLM-powered document analysis"].forEach((s, i) => {
-    const y = ct + 212 + i * 20;
-    b += `<circle cx="44" cy="${y - 4}" r="2" class="dg-node"/>` + t(54, y, s, "dg-sub");
-  });
-  const cb = ct + 304;
+  const ct = 218;
+  b += `<rect x="20" y="${ct}" width="340" height="226" rx="18" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
+  b += t(38, ct + 30, "Central drug database", "dg-label");
+  b += t(38, ct + 50, "Full text, translations, impact summaries", "dg-sub");
+  b += flowRow(["Vector + keyword search", "Reranked, cited answers"], { x0: 38, x1: 344, y0: ct + 62, rowH: 30, make: (x, y, s) => chip(x, y, s, { h: 22 }) }).svg;
+  b += eyebrow(38, ct + 136, "Agents");
+  b += lines(38, ct + 158, ["Assistant router · report research", "Reference-product evidence · gap", "extract and evaluate · authoring"], "dg-sub", 16);
+  b += t(38, ct + 214, "Daily regulatory watch, weekly brief", "dg-sub-sig");
+  b += flow(id, `M190,${ct + 232} L190,${ct + 254}`);
 
-  const pyTop = cb + 108;
-  const baseY = pyTop + 290;
-  const half = (y) => ((y - pyTop) * 150) / 290;
-  const L = (y) => 190 - half(y);
-  const R = (y) => 190 + half(y);
-  const pt = (x, y) => `${n(x)},${n(y)}`;
-  // Both arrows land on the Module 2 tier's sloped edges, labels outside them.
-  const landAt = (x) => pyTop + (Math.abs(190 - x) * 290) / 150;
-  b += flow(id, `M148,${cb} L148,${n(landAt(148) - 6)}`);
-  b += flow(id, `M232,${cb} L232,${n(landAt(232) - 6)}`);
-  b += t(138, cb + 40, "Dossier authoring", "dg-label-sm", "end");
-  b += t(138, cb + 56, "AI-assisted", "dg-sub", "end");
-  b += t(242, cb + 40, "Gap assessment", "dg-label-sm");
-  b += t(242, cb + 56, "section by section", "dg-sub");
-
-  const m1b = pyTop + 54;
-  b += `<polygon points="${pt(190, pyTop)} ${pt(R(m1b), m1b)} ${pt(L(m1b), m1b)}" fill="url(#${id}-hatch)" class="dg-tier-off"/>`;
-  b += t(190, pyTop + 46, "1", "dg-num-off", "middle");
-  b += t(244, pyTop + 22, "Out of scope", "dg-label-sm");
-  b += lines(244, pyTop + 38, ["Module 1 is country-", "and company-specific"], "dg-sub", 14);
-
-  const m2t = pyTop + 60, m2b = pyTop + 136;
-  b += `<polygon points="${pt(L(m2t), m2t)} ${pt(R(m2t), m2t)} ${pt(R(m2b), m2b)} ${pt(L(m2b), m2b)}" class="dg-tier"/>`;
-  b += t(190, pyTop + 88, "Module 2", "dg-label-sm", "middle");
-  b += t(190, pyTop + 103, "Summaries", "dg-sub", "middle");
-  b += chip(190 - 21, pyTop + 111, "QOS", { cls: "dg-chip-sig", textCls: "dg-chip-sig-text", h: 18 }).svg;
-
-  const bt = pyTop + 142;
-  const top = [L(bt), 0, 0, R(bt)];
-  top[1] = top[0] + (top[3] - top[0]) / 3; top[2] = top[0] + (2 * (top[3] - top[0])) / 3;
-  const bot = [40, 140, 240, 340];
-  const g = 3;
-  [["3", "Quality"], ["4", "Nonclinical"], ["5", "Clinical"]].forEach(([num, name], i) => {
-    const tl = top[i] + (i ? g : 0), tr = top[i + 1] - (i < 2 ? g : 0);
-    const bl = bot[i] + (i ? g : 0), br = bot[i + 1] - (i < 2 ? g : 0);
-    b += `<polygon points="${pt(tl, bt)} ${pt(tr, bt)} ${pt(br, baseY)} ${pt(bl, baseY)}" class="dg-tier"/>`;
-    const c = (tl + tr + bl + br) / 4;
-    b += t(c, pyTop + 184, num, "dg-num-md", "middle");
-    b += t(c, pyTop + 204, name, "dg-label-xs", "middle");
-  });
-  const m3c = (top[0] + top[1] + bot[0] + bot[1]) / 4 - 6;
-  [["3.2.P.1", pyTop + 220], ["3.2.P.3.3", pyTop + 246]].forEach(([s, y]) => {
-    const w = Math.round(est(s, 11, 0.56) + 20);
-    b += chip(m3c - w / 2, y, s, { cls: "dg-chip-sig", textCls: "dg-chip-sig-text", h: 18 }).svg;
+  let y = ct + 282;
+  b += eyebrow(20, y, "Explore");
+  y += 12;
+  QR_EXPLORE.forEach(([title, items]) => {
+    b += `<rect x="20" y="${y}" width="340" height="${30 + Math.ceil(items.length / 2) * 18 + 10}" rx="12" class="dg-card"/>`;
+    b += t(34, y + 24, title, "dg-label-sm");
+    items.forEach((s, j) => {
+      const ix = j % 2 ? 196 : 34, iy = y + 44 + Math.floor(j / 2) * 18;
+      b += `<circle cx="${ix + 4}" cy="${iy - 4}" r="2" class="dg-node"/>` + t(ix + 12, iy, s, "dg-sub");
+    });
+    y += 30 + Math.ceil(items.length / 2) * 18 + 10 + 10;
   });
 
-  b += `<rect x="20" y="${baseY + 22}" width="28" height="14" rx="7" class="dg-chip-sig"/>`;
-  b += t(58, baseY + 33, "Evaluated against gold standards so far", "dg-sub");
-  b += `<line x1="22" y1="${baseY + 50}" x2="46" y2="${baseY + 50}" class="dg-edge"/>`;
-  b += t(58, baseY + 54, "Both workstreams cover Modules 2 to 5", "dg-sub");
-  const h = baseY + 98;
+  y += 20;
+  b += eyebrow(20, y, "From approval to filing");
+  const sy = (i) => y + 26 + i * 50;
+  b += `<line x1="36" y1="${sy(0)}" x2="36" y2="${sy(2)}" class="dg-edge"/><line x1="36" y1="${sy(0)}" x2="36" y2="${sy(2)}" class="dg-flow"/>`;
+  QR_CHAIN.forEach(([name, sub], i) => {
+    b += `<circle cx="36" cy="${sy(i)}" r="11" class="${i === 2 ? "dg-node" : "dg-ring"}"/>`;
+    b += t(36, sy(i) + 4, String(i + 1), i === 2 ? "dg-num-inv-sm" : "dg-num-sm", "middle");
+    b += t(58, sy(i) + 4.5, name, "dg-label-sm") + t(58, sy(i) + 21, sub.join(" "), "dg-sub");
+  });
+  let gx = 20;
+  const gy = sy(2) + 40;
+  QR_GOLD.forEach((s) => {
+    const c = chip(gx, gy, s, { cls: "dg-chip-sig", textCls: "dg-chip-sig-text", h: 18 });
+    b += c.svg;
+    gx += c.w + 6;
+  });
+  b += t(20, gy + 38, "Graded against expert gold standards", "dg-sub-sig");
+
+  const mp = gy + 66;
+  b += eyebrow(20, mp, "My Products");
+  b += flowRow(["Impacted now", "Plan ahead", "Not yet"], { y0: mp + 12, rowH: 30, make: (x, yy, s) => chip(x, yy, s, s === "Impacted now" ? { cls: "dg-chip-sig", textCls: "dg-chip-sig-text", h: 22 } : { h: 22 }) }).svg;
+  b += t(20, mp + 58, "Each regulatory change, per product and market", "dg-sub");
+
+  const pl = mp + 86;
+  const pr = flowRow(QR_PLATFORM, { y0: pl, rowH: 30, make: (x, yy, s) => chip(x, yy, s, { h: 22 }) });
+  b += pr.svg;
+  const h = pr.bottom + 46;
   b += mCaption(h);
-  return frame(id, "QuriousRI", "QuriousRI workflow: approvals from 12 or more agencies feed a regulatory intelligence layer, which drives dossier authoring and market-entry gap assessment across CTD Modules 2 to 5. Module 1 is out of scope.", b, { w: MW, h, rx: 20 });
+  return frame(id, "QuriousRI", "QuriousRI: public regulatory sources and client dossiers feed a central drug database with agents; users explore intelligence, databases, reports and checkers, move from approval to filing through RLD Finder, Gap Assessment and Dossier Authoring, and track product-aware impact.", b, { w: MW, h, rx: 20 });
 }
 
 function pipelineAlphaMobile() {
   const id = "pam";
   let b = "";
   b += eyebrow(20, 36, "Sources");
-  b += `<rect x="20" y="50" width="162" height="132" rx="14" class="dg-card"/>`;
-  b += t(34, 74, "Clinical-trial data", "dg-label-sm");
-  b += pill(34, 88, "ClinicalTrials.gov", { h: 28, px: 12, cls: "dg-sub", w: 134 }).svg;
-  b += pill(34, 124, "Clinical Navigator", { h: 28, px: 12, cls: "dg-sub", w: 134 }).svg;
-  b += `<rect x="198" y="50" width="162" height="132" rx="14" class="dg-card"/>`;
-  b += t(212, 74, "Market data", "dg-label-sm");
-  b += pill(212, 88, "Live stock", { h: 28, px: 12, cls: "dg-sub", w: 134 }).svg;
-  b += pill(212, 124, "Financials", { h: 28, px: 12, cls: "dg-sub", w: 134 }).svg;
-  b += t(212, 172, "via Alpha Vantage", "dg-sub");
+  const card = (y, h, title, sub) =>
+    `<rect x="20" y="${y}" width="340" height="${h}" rx="14" class="dg-card"/>` +
+    t(36, y + 25, title, "dg-label-sm") +
+    t(36, y + 42, sub, "dg-sub");
+  b += card(50, 58, "Clinical Navigator", "Companies, assets, events");
+  b += card(116, 58, "ClinicalTrials.gov", "Trial status and dates");
+  b += card(182, 108, "Market data", "First provider that answers");
+  b += flowRow(["Alpha Vantage", "Yahoo Finance", "Finnhub", "SerpAPI"], { x0: 36, x1: 344, y0: 228, rowH: 28, make: (x, y, s) => chip(x, y, s, { h: 22 }) }).svg;
+  b += flow(id, `M190,292 L190,318`);
+  b += elabel(202, 310, "nightly");
 
-  const U = { x: 190, y: 296, r: 70 };
-  b += flow(id, `M101,182 C101,206 150,214 ${U.x - 26},${U.y - U.r - 6}`);
-  b += flow(id, `M279,182 C279,206 230,214 ${U.x + 26},${U.y - U.r - 6}`);
-  b += elabel(190, 204, "synced", "middle");
-  const N = 480;
-  let field = `<circle cx="${U.x}" cy="${U.y}" r="${U.r + 8}" class="dg-halo"/>`;
-  for (let i = 0; i < N; i++) {
-    const rr = (U.r * Math.sqrt(i + 0.5)) / Math.sqrt(N);
-    const th = i * 2.399963;
-    const x = U.x + rr * Math.cos(th), y = U.y + rr * Math.sin(th);
-    field += i % 37 === 15 ? `<circle cx="${n(x)}" cy="${n(y)}" r="2.5" class="dg-sig-fill"/>` : `<circle cx="${n(x)}" cy="${n(y)}" r="1.4" class="dg-star"/>`;
-  }
-  b += field;
-  b += t(190, U.y + U.r + 30, "~10,000 drugs tracked", "dg-label", "middle");
-  b += t(190, U.y + U.r + 46, "trial records joined to market data", "dg-sub", "middle");
-
-  b += flow(id, `M190,${U.y + U.r + 56} L190,446`);
-  b += pill(70, 452, "LLM catalyst discovery", { h: 36, w: 240 }).svg;
-  b += flow(id, `M190,488 L190,508`);
-  b += pill(70, 514, "Streaming AI predictions", { h: 36, w: 240 }).svg;
-  b += flow(id, `M190,550 L190,588`);
-  b += elabel(202, 574, "predicts upcoming events");
-
-  b += eyebrow(20, 612, "Catalyst calendar");
-  b += t(20, 628, "Small/mid-cap NASDAQ biotech", "dg-sub");
-  const shape = (kind, x, y, hollow, sig) => {
-    const cls = hollow ? (sig ? "dg-sig-ring" : "dg-ring") : sig ? "dg-sig-fill" : "dg-node";
-    if (kind === "circle") return `<circle cx="${x}" cy="${y}" r="5.5" class="${cls}"/>`;
-    if (kind === "diamond") return `<polygon points="${x},${y - 6.5} ${x + 6.5},${y} ${x},${y + 6.5} ${x - 6.5},${y}" class="${cls}"/>`;
-    if (kind === "square") return `<rect x="${x - 5}" y="${y - 5}" width="10" height="10" rx="1.5" class="${cls}"/>`;
-    return `<polygon points="${x},${y - 6.5} ${x + 6.5},${y + 4.5} ${x - 6.5},${y + 4.5}" class="${cls}"/>`;
-  };
-  [["circle", "Readout", 26, 652, true], ["diamond", "PDUFA date", 196, 652], ["square", "Partnership", 26, 674], ["triangle", "Conference", 196, 674]].forEach(([k, s, x, y, sig]) => {
-    b += shape(k, x, y, false, sig) + t(x + 14, y + 4, s, "dg-sub");
+  b += eyebrow(20, 344, "Nightly sync · 9 stages");
+  const stages = ["Sync entities", "Sync asset events", "Merge trials", "Seed trial catalysts", "Sync stock prices", "Catalyst discovery", "Milestone predictions", "Generate signals", "Run simulations"];
+  const sy = (i) => 368 + i * 30;
+  b += `<line x1="36" y1="${sy(0)}" x2="36" y2="${sy(8)}" class="dg-edge"/><line x1="36" y1="${sy(0)}" x2="36" y2="${sy(8)}" class="dg-flow"/>`;
+  stages.forEach((s, i) => {
+    const llm = i === 5 || i === 6;
+    b += `<circle cx="36" cy="${sy(i)}" r="10" class="${llm ? "dg-node" : "dg-ring"}"/>`;
+    b += t(36, sy(i) + 4, String(i + 1), llm ? "dg-num-inv-sm" : "dg-num-sm", "middle");
+    b += t(58, sy(i) + 4.5, s, "dg-label-sm");
+    if (llm) b += chip(250, sy(i) - 10, "LLM", { h: 20 }).svg;
   });
-  b += `<circle cx="26" cy="696" r="5" class="dg-ring"/>` + t(40, 700, "Hollow marks: upcoming, AI-predicted", "dg-sub");
+  b += t(20, sy(8) + 32, "Daily at 02:00", "dg-sub");
+  b += flow(id, `M190,${sy(8) + 42} L190,${sy(8) + 66}`);
+  b += elabel(202, sy(8) + 58, "enriched catalysts");
 
-  const axY = 868, today = 262, rx = 170;
-  b += `<rect x="${today}" y="716" width="${360 - today}" height="${axY - 716}" class="dg-future"/>`;
-  b += `<line x1="${today}" y1="716" x2="${today}" y2="${axY + 6}" class="dg-edge-soft"/>`;
-  b += t(today, axY + 22, "today", "dg-sub", "middle");
-  b += t(today + 8, 732, "upcoming", "dg-sub");
-  const pts = [[20, 812], [40, 808], [62, 815], [84, 806], [106, 810], [128, 803], [150, 809], [rx - 2, 807], [rx + 3, 770], [192, 766], [214, 772], [238, 767], [today, 769]];
-  const d = "M" + pts.map(([x, y]) => `${x},${y}`).join(" L");
-  b += `<path d="${d} L${today},${axY} L20,${axY} Z" class="dg-area"/>`;
-  b += `<path d="${d}" class="dg-price"/>`;
-  b += `<path d="M${today},769 L290,765 L318,771 L340,764 L360,767" class="dg-price-fut"/>`;
-  b += `<line x1="20" y1="${axY}" x2="360" y2="${axY}" class="dg-axis"/>`;
-  b += shape("triangle", 50, axY) + shape("square", 108, axY) + shape("circle", rx, axY, false, true);
-  b += `<line x1="${rx}" y1="${axY - 8}" x2="${rx}" y2="778" class="dg-edge-sig"/>`;
-  b += t(rx - 10, 734, "Trial readout", "dg-label-sm", "end");
-  b += lines(rx - 10, 750, ["A single readout can", "move the stock 50%+"], "dg-sub-sig", 14, "end");
-  b += shape("diamond", 300, axY, true) + shape("circle", 342, axY, true, true);
+  const pt = sy(8) + 72;
+  b += `<rect x="20" y="${pt}" width="340" height="430" rx="18" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
+  b += eyebrow(38, pt + 26, "Prediction engine · on demand");
+  b += t(38, pt + 50, "Four specialists", "dg-label-sm");
+  [["Clinical", 0, 0], ["Competitive", 1, 0], ["Regulatory", 0, 1], ["Financial", 1, 1]].forEach(([s, c, r]) => {
+    b += chip(38 + c * 152, pt + 60 + r * 30, s, { h: 24 }).svg;
+  });
+  b += flow(id, `M190,${pt + 118} L190,${pt + 138}`);
+  b += pill(80, pt + 142, "Critic · counter-thesis", { h: 32, w: 220 }).svg;
+  b += flow(id, `M190,${pt + 174} L190,${pt + 194}`);
+  b += elabel(190, pt + 214, "≤ 2 rounds", "middle");
+  const dy = pt + 228;
+  b += `<path d="M150,${dy} L230,${dy}" class="dg-edge" marker-start="url(#${id}-arrow)" marker-end="url(#${id}-arrow)"/>`;
+  b += `<circle cx="126" cy="${dy}" r="21" class="dg-ring"/>` + t(126, dy + 4, "Bull", "dg-label-xs", "middle");
+  b += `<circle cx="254" cy="${dy}" r="21" class="dg-sig-ring"/>` + t(254, dy + 4, "Bear", "dg-label-xs", "middle");
+  const mem = chip(0, 0, "Prediction memory", { h: 22 });
+  b += chip(190 - mem.w / 2, dy + 34, "Prediction memory", { h: 22 }).svg;
+  b += flow(id, `M190,${dy + 60} L190,${dy + 80}`);
+  b += pill(80, dy + 84, "Judge · verdict", { h: 32, w: 220 }).svg;
+  b += flow(id, `M190,${dy + 116} L190,${dy + 134}`);
+  const segs = [["dg-seg-sig", 0.8], ["dg-seg-sig", 0.4], ["dg-seg-mid", 0.3], ["dg-seg-acc", 0.45], ["dg-seg-acc", 0.85]];
+  const sw = (304 - 8) / 5, ys = dy + 142;
+  segs.forEach(([c, o], i) => (b += `<rect x="${n(38 + i * (sw + 2))}" y="${ys}" width="${n(sw)}" height="12" rx="3" class="${c}" fill-opacity="${o}"/>`));
+  b += t(38, ys + 30, "Strong sell", "dg-sub") + t(190, ys + 30, "Hold", "dg-sub", "middle") + t(342, ys + 30, "Strong buy", "dg-sub", "end");
+  b += t(190, ys + 56, "Five-tier outlook and per-event predictions", "dg-label-xs", "middle");
 
-  b += eyebrow(20, 924, "Delivered as");
-  b += pill(20, 936, "Bulk catalyst briefings", { h: 32 }).svg;
-  b += pill(20, 976, "Interactive research chat", { h: 32 }).svg;
-  const h = 1044;
+  const pb = pt + 430;
+  b += flow(id, `M190,${pb + 6} L190,${pb + 30}`);
+  b += eyebrow(20, pb + 54, "Product");
+  const tiles = [["Catalyst calendar", "Readouts and PDUFA"], ["Bulk briefings", "Critic-reviewed"], ["Screener", "Scouts to ranking"], ["Smart Money", "VC and Congress"], ["Simulation", "AI paper trading"], ["Projections", "Graded on price"]];
+  tiles.forEach(([name, sub], i) => {
+    const x = i % 2 ? 198 : 20, y = pb + 66 + Math.floor(i / 2) * 62;
+    b += `<rect x="${x}" y="${y}" width="162" height="54" rx="12" class="dg-card"/>`;
+    b += t(x + 14, y + 23, name, "dg-label-sm") + t(x + 14, y + 40, sub, "dg-sub");
+  });
+  const fy = pb + 66 + 3 * 62 + 18;
+  b += `<line x1="22" y1="${fy}" x2="46" y2="${fy}" class="dg-edge-sig"/>`;
+  b += lines(58, fy + 4, ["Projections grade every prediction against", "the real price move, closing the loop."], "dg-sub", 15);
+  const h = fy + 60;
   b += mCaption(h);
-  return frame(id, "Pipeline Alpha", "Pipeline Alpha workflow: clinical-trial and market data are synced across about 10,000 drugs; LLM catalyst discovery and streaming AI predictions flag upcoming readouts, PDUFA dates, partnerships and conferences, delivered as briefings and a research chat.", b, { w: MW, h, rx: 20 });
+  return frame(id, "Pipeline Alpha", "Pipeline Alpha: sources feed a nightly nine-stage sync; an on-demand engine of four specialists, a critic, a bull/bear debate and a judge produces a five-tier outlook; outputs include the catalyst calendar, briefings, screener, smart money, simulation and projections that grade predictions against real price moves.", b, { w: MW, h, rx: 20 });
 }
 
 function alphaMeldMobile() {
   const id = "amm";
   let b = "";
-  b += eyebrow(20, 36, "Interfaces");
-  const tiles = [["Knowledge Graph", "kg"], ["ChatAlphaMeld", "chat"], ["Bioinformatics", "helix"], ["Literature Analysis", "lit"], ["AlphaClinMeld", "pulse"]];
-  // Same glyph shapes as desktop, scaled to the row height.
-  const desktop = alphaMeldGlyph;
-  tiles.forEach(([name, kind], i) => {
-    const y = 50 + i * 52;
-    b += `<rect x="20" y="${y}" width="340" height="44" rx="12" class="dg-card"/>`;
-    b += `<g transform="translate(36 ${y + 9}) scale(.8)">${desktop(kind, 0, 0)}</g>`;
-    b += t(84, y + 27, name, "dg-label-sm");
-  });
-  [100, 190, 280].forEach((x) => (b += flow(id, `M${x},356 L${x},${310}`)));
-  b += elabel(110, 338, "powers");
+  b += eyebrow(20, 36, "Daily literature pipeline");
+  const st = (y, title, sub) => `<rect x="20" y="${y}" width="340" height="56" rx="12" class="dg-card"/>` + t(36, y + 24, title, "dg-label-sm") + t(36, y + 41, sub, "dg-sub");
+  b += st(50, "Sources", "PubMed · PMC · Semantic Scholar");
+  b += st(118, "Ingest and split", "Articles into sentences, PostgreSQL");
+  b += st(186, "Evidence level", "PubMedBERT: clinical, in vivo, in vitro");
+  b += `<rect x="20" y="254" width="340" height="96" rx="12" class="dg-card"/>`;
+  b += t(36, 278, "NLP workers", "dg-label-sm") + t(132, 278, "on RabbitMQ", "dg-sub");
+  b += flowRow(["NER · 9 entity types", "Relations · 24 types", "Linking · 3.3M concepts"], { x0: 36, x1: 344, y0: 290, rowH: 28, make: (x, y, s) => chip(x, y, s, { h: 21 }) }).svg;
+  b += flow(id, `M190,356 L190,380`);
+  b += elabel(202, 372, "daily");
 
-  b += eyebrow(20, 384, "ML models in production");
-  const named = ["Named-entity recognition", "Relation extraction", "Entity linking", "Evidence-level classifier", "HINT trial-outcome predictors"];
-  b += `<line x1="36" y1="404" x2="36" y2="530" class="dg-edge"/><line x1="36" y1="404" x2="36" y2="530" class="dg-flow"/>`;
-  named.forEach((s, i) => {
-    const y = 404 + i * 30;
-    b += node(36, y, 5.5, true, i === 3) + t(56, y + 4.5, s, "dg-label-sm");
+  b += eyebrow(20, 404, "Three graphs · DozerDB (Neo4j)");
+  const db = (y, h, title, cadence, subs, core) =>
+    (core ? `<rect x="20" y="${y}" width="340" height="${h}" rx="14" fill="url(#${id}-core)" class="dg-core-stroke"/>` : `<rect x="20" y="${y}" width="340" height="${h}" rx="14" class="dg-card"/>`) +
+    t(36, y + 25, title, "dg-label-sm") + chip(296, y + 11, cadence, { h: 20 }).svg + lines(36, y + 44, subs, "dg-sub", 15);
+  b += db(416, 66, "Evidence graph", "daily", ["Every sentence and relation, ~2.5B edges"]);
+  b += flow(id, `M190,482 L190,498`);
+  b += db(502, 52, "Aggregated graph", "weekly", ["One edge per entity pair"]);
+  b += flow(id, `M190,554 L190,570`);
+  b += db(574, 86, "Scored graph", "weekly", ["Direct, association, direction, mechanism"], true);
+  b += t(36, 646, "492K entities · ~26M relationships", "dg-label-xs");
+  b += flow(id, `M190,666 L190,690`);
+
+  b += eyebrow(20, 714, "Access");
+  b += `<rect x="20" y="726" width="340" height="104" rx="14" class="dg-card"/>`;
+  b += t(36, 750, "Knowledge Graph API", "dg-label-sm") + t(196, 750, "read-only REST", "dg-sub");
+  b += flowRow(["Nodes", "Search", "Traversal", "Analytics", "Evidence", "GraphRAG context"], { x0: 36, x1: 344, y0: 762, rowH: 28, make: (x, y, s) => chip(x, y, s, { h: 21 }) }).svg;
+  b += `<rect x="20" y="842" width="340" height="132" rx="14" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
+  b += t(36, 866, "MCP server", "dg-label-sm") + t(126, 866, "16 tools for AI agents", "dg-sub");
+  b += flowRow([...AM_TOOLS, "+12 more"], { x0: 36, x1: 344, y0: 878, rowH: 26, make: (x, y, s) => chip(x, y, s, { h: 20 }) }).svg;
+  b += t(36, 962, "Tiered eval gate on every deploy", "dg-sub-sig");
+  b += flow(id, `M190,980 L190,1004`);
+
+  b += eyebrow(20, 1028, "Consumers");
+  b += `<rect x="20" y="1040" width="340" height="66" rx="14" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
+  b += t(36, 1066, "Discovery Navigator", "dg-label-sm") + t(36, 1084, "Flagship: six workflows, Co-Pilot", "dg-sub");
+  [["AI agents", "Through MCP"], ["Rediscovery", "Essential tremor"]].forEach(([n1, s1], i) => {
+    const x = i ? 198 : 20;
+    b += `<rect x="${x}" y="1116" width="162" height="56" rx="12" class="dg-card"/>` + t(x + 14, 1140, n1, "dg-label-sm") + t(x + 14, 1157, s1, "dg-sub");
   });
-  [100, 190, 280].forEach((x) => (b += flow(id, `M${x},588 L${x},${548}`)));
-  b += elabel(110, 572, "feeds");
-  b += eyebrow(20, 612, "Data and inference");
-  [["PostgreSQL", "relational store"], ["Neo4j (DozerDB)", "knowledge graph"], ["OpenRouter", "GPT · Claude · Gemini"]].forEach(([name, sub], i) => {
-    const y = 626 + i * 56;
-    b += `<rect x="20" y="${y}" width="340" height="46" rx="12" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
-    b += t(38, y + 28, name, "dg-label-sm") + t(342, y + 28, sub, "dg-sub", "end");
-  });
-  const h = 828;
+  b += `<rect x="20" y="1182" width="340" height="74" rx="12" class="dg-card-muted"/>`;
+  b += t(36, 1206, "Original platform modules", "dg-label-sm");
+  b += lines(36, 1224, ["Knowledge Graph · ChatAlphaMeld · Bioinformatics", "Literature Analysis · AlphaClinMeld"], "dg-sub", 15);
+
+  b += `<rect x="20" y="1272" width="340" height="80" rx="14" class="dg-band"/>`;
+  b += t(36, 1296, "Next-generation graph · R&D", "dg-label-sm");
+  b += lines(36, 1314, ["Span-grounded, Biolink-aligned claims over", "41.7M documents and 607K trials"], "dg-sub", 15);
+  const h = 1396;
   b += mCaption(h);
-  return frame(id, "AlphaMeld Operating System", "AlphaMeld Operating System stack: PostgreSQL, a Neo4j (DozerDB) knowledge graph and frontier LLMs routed through OpenRouter feed the production NLP and trial-outcome models, which power five interfaces: Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis and AlphaClinMeld.", b, { w: MW, h, rx: 20 });
+  return frame(id, "AlphaMeld Operating System", "AlphaMeld Operating System: a daily literature pipeline feeds evidence, aggregated and scored graphs on DozerDB; a read-only API and a 16-tool MCP server serve Discovery Navigator, AI agents, Rediscovery and the original modules; a next-generation graph is in R&D.", b, { w: MW, h, rx: 20 });
 }
 
 /* ── output ─────────────────────────────────────────────────────────────── */

@@ -154,12 +154,12 @@ export const resumeSelectedWork: Platform[] = [
   pick(
     platforms,
     "AlphaMeld® Operating System",
-    "End-to-end AI stack — Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis, and AlphaClinMeld over transformer NER, relation-extraction, entity-linking and evidence-classification models (spaCy, PubMedBERT), a DozerDB (Neo4j) knowledge graph and HINT trial-outcome predictors, with frontier LLMs routed through OpenRouter.",
+    "End-to-end AI platform behind the AlphaMeld knowledge graph: a daily literature pipeline (evidence-level classification, transformer NER, entity linking and relation extraction on RabbitMQ workers) feeding a sentence-level evidence graph and a weekly-scored 492K-entity, ~26M-relationship graph on DozerDB (Neo4j), served through a read-only API and a 16-tool MCP server to Discovery Navigator, AI agents and the platform modules.",
   ),
   pick(
     products,
     "QuriousRI",
-    "Secure role-based regulatory platform for pharma and biotech affairs teams, built from concept as CTO. Beyond search and comparison of global approvals, it drives CTD dossier authoring and per-section gap assessment across Modules 2 through 5 — Module 1 deliberately excluded as non-transferable country- and company-specific content — telling a sponsor exactly how a target market's requirements diverge from an existing filing. Generated sections evaluated to date against expert gold standards for the Quality Overall Summary (Module 2.3), 3.2.P.1, and 3.2.P.3.3.",
+    "Secure regulatory-intelligence platform for pharma and biotech regulatory teams, built from concept as CTO: a Regulatory Explorer and AI assistant over agency guidance, product-register and patent databases, a Report Builder and a weekly brief, plus a filing chain for generic drugs — RLD Finder, section-by-section Gap Assessment and CMC Dossier Authoring with live co-editing and eCTD export, evaluated against expert gold standards for 2.3.S, 3.2.P.1 and 3.2.P.3.3.",
   ),
   pick(platforms, "AlphaCompass Portfolio Intelligence"),
   pick(
@@ -170,7 +170,7 @@ export const resumeSelectedWork: Platform[] = [
   pick(
     platforms,
     "Discovery Navigator",
-    "Guided hypothesis-generation platform on the AlphaMeld Knowledge Graph, supporting disease-first, target-first, indication-expansion, and combination-therapy entry points through a project → exploration → agent scoring → ranking workflow, with a built-in agentic Trial Designer that drafts protocols section by section from analogous ClinicalTrials.gov trials. Multi-tenant SaaS with SSO, RBAC, and audit logging.",
+    "Drug-discovery platform on the AlphaMeld knowledge graph with six workflows — target and indication discovery, safety assessment, hypothesis de-risking, drug repurposing and biomarker identification — each validating graph relationships at sentence level and ending in cited, exportable results, plus a Co-Pilot, a 13-step agentic Trial Designer, a Network Explorer and verified custom reports. Multi-tenant with SSO, MFA and audit logging.",
   ),
   pick(
     platforms,
