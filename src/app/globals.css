@@ -374,6 +374,28 @@ html.js .fade-up:not(.fade-up-in) {
   color: var(--accent-ink);
 }
 
+/* ── Tech stack architecture (homepage) ── */
+/* Faint dot grid, as on the project diagrams. */
+.tech-stack {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--ink) 7%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  background-position: 12px 12px;
+}
+/* Dashed tick from the languages spine to each layer. */
+@media (min-width: 1024px) {
+  .tech-layer::before {
+    content: "";
+    position: absolute;
+    left: -24px;
+    top: 50%;
+    width: 24px;
+    border-top: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+}
+
 /* ── Reduced motion ── */
 
 @media (prefers-reduced-motion: reduce) {
