@@ -64,12 +64,12 @@ export const platforms: Platform[] = [
   },
   {
     name: "Digital Twins for Systemic Sclerosis (EUSTAR)",
-    stage: "Live",
+    stage: "Early access",
     tags: ["AI/ML", "Clinical Trials", "Deep Learning"],
     impact: "In-silico control arms over a 23,000+ patient, 200+ center systemic sclerosis registry",
     url: "https://twin.sequenceflow.ch",
     description:
-      "Outcome-focused digital-twin framework built on the EUSTAR systemic sclerosis registry — longitudinal records for 23,000+ patients across 200+ centers. A PyTorch deep/generative stack (a mask- and time-aware GRU-D sequence forecaster plus a conditional sequence-VAE twin generator) produces prognostic scores and synthetic placebo trajectories for organ-specific and composite clinical outcomes. Designed as an ML-generated digital control arm — a PROCOVA/ANCOVA covariate that lifts trial power and cuts sample size — aligned with FDA digital-twin and EMA/ICH MIDD guidance. Delivered as a secure web application for trial emulation.",
+      "Outcome-focused digital-twin framework built on the EUSTAR systemic sclerosis registry — longitudinal records for 23,000+ patients across 200+ centers. Forecasters (a clinical logistic regression, gradient boosting, and a PyTorch GRU-D sequence model) and a cross-fitted baseline prognostic score drive power planning, trial emulation, and prognostic survival models for organ-specific and composite outcomes; the generative synthetic-control arm is parked. Designed as an ML-generated digital control arm — a PROCOVA/ANCOVA covariate that lifts trial power and cuts sample size — aligned with FDA digital-twin guidance and EMA/ICH M15 MIDD principles. Delivered as an invite-only web application, with every figure flagged provisional until the clinical lead signs off.",
   },
   {
     name: "Clinical-Trial Digital Twins",

@@ -170,12 +170,12 @@ export const resumeSelectedWork: Platform[] = [
   pick(
     platforms,
     "Discovery Navigator",
-    "Guided hypothesis-generation platform on the AlphaMeld Knowledge Graph, supporting disease-first, target-first, indication-expansion, and combination-therapy entry points through a project → exploration → agent scoring → ranking workflow. Multi-tenant SaaS with SSO, RBAC, and audit logging.",
+    "Guided hypothesis-generation platform on the AlphaMeld Knowledge Graph, supporting disease-first, target-first, indication-expansion, and combination-therapy entry points through a project → exploration → agent scoring → ranking workflow, with a built-in agentic Trial Designer that drafts protocols section by section from analogous ClinicalTrials.gov trials. Multi-tenant SaaS with SSO, RBAC, and audit logging.",
   ),
   pick(
     platforms,
     "Digital Twins for Systemic Sclerosis (EUSTAR)",
-    "Digital-twin framework over a 23,000+ patient, 200+ center systemic sclerosis registry. A PyTorch deep/generative stack produces prognostic scores and synthetic placebo trajectories — an ML-generated digital control arm that lifts trial power and cuts sample size, aligned with FDA digital-twin and EMA/ICH MIDD guidance.",
+    "Digital-twin framework over a 23,000+ patient, 200+ center systemic sclerosis registry. Forecasters (logistic regression, gradient boosting, PyTorch GRU-D) and a baseline prognostic score drive power planning and trial emulation — an ML-generated digital control arm that lifts trial power and cuts sample size, aligned with FDA digital-twin guidance and EMA/ICH M15 MIDD. Delivered as an invite-only web application; results provisional pending clinical sign-off.",
   ),
   pick(platforms, "ChatAlphaMeld Benchmark Suite"),
 ];

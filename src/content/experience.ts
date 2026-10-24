@@ -19,6 +19,8 @@ export const experience: Role[] = [
     bullets: [
       "Co-founded the company and own the AI/data-science function end to end — technical strategy, architecture, hiring, and delivery across the product portfolio.",
       "Direct build and deployment of SequenceFlow ResearchNexus and Clinical Navigator: an Angular and PostgREST platform over a multi-schema PostgreSQL warehouse, fed by Python pipelines for ClinicalTrials.gov, drug ontologies, HTA decisions and pricing, with FastAPI model services for trial-outcome prediction, phase-transition prediction and patient digital twins.",
+      "Build the outcome-focused digital-twin platform for systemic sclerosis on the EUSTAR registry (23,000+ patients, 200+ centers): forecasting models, a baseline prognostic score for trial power, trial emulation, and an invite-only web application for the clinical collaborators.",
+      "Built Rediscovery, a drug-repurposing application for essential tremor that assembles a verified disease graph from the AlphaMeld knowledge graph, PubMed, and ClinicalTrials.gov, then screens 1,280 marketed medicines toward a shortlist.",
       "Set the AI/ML agenda for early innovation-signal detection across emerging targets, novel therapeutics, and healthcare solutions — and translate it into the commercial product roadmap.",
       "Steer the Asset Lifecycle Manager and Portfolio Management platforms, extending the company's reach from discovery signals into portfolio decision-making.",
       "Lead delivery of AI engagements for top-tier global pharmaceutical companies (client names confidential).",
@@ -58,6 +60,7 @@ export const experience: Role[] = [
       "Conceptualized and built QuriousRI, a secure role-based regulatory-intelligence platform covering pharmaceuticals, biologics, biosimilars, and generics across 12+ agencies (FDA, EMA, PMDA, NMPA, Health Canada, MHRA, Swissmedic, and more).",
       "Extended QuriousRI into CTD dossier preparation, driving AI-assisted authoring across Modules 2 through 5 — and scoping Module 1 out deliberately, as country- and company-specific content that does not transfer reliably. Generated sections evaluated to date against expert gold standards for the Quality Overall Summary (Module 2.3), 3.2.P.1, and 3.2.P.3.3, with section coverage expanding.",
       "Built per-module, per-section regulatory gap assessment for market expansion: for a drug already approved in one market, the platform resolves what a target market requires for that drug type and where those requirements diverge from the original filing — converting a manual, consultant-heavy exercise into a repeatable product capability.",
+      "Built SafetyIQ, a medicine and medical-device safety-intelligence platform for Africa over NAFDAC and SAHPRA regulator alerts, and BRANE, a white-label CRM and operations platform with an AI assistant.",
       "Architected an AI assistant that mines global regulatory updates and auto-drafts submission dossiers for first-in-class device filings, opening a new non-pharma revenue channel.",
       "Direct enterprise data-science and AI product development on Agile, holding delivery to FDA, EMA, and ICH standards across the drug-development lifecycle.",
     ],
