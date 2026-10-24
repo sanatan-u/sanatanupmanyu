@@ -5,6 +5,8 @@ import { platforms } from "@/content/platforms";
 import { products } from "@/content/products";
 import { servicePillars } from "@/content/services";
 import { WorkGrid } from "@/components/work-grid";
+import { ProjectExhibition } from "@/components/project-exhibition";
+import { getFeaturedProjects, featuredNames } from "@/content/featured";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -30,6 +32,7 @@ export default function WorkPage() {
   }));
 
   const allTags = Array.from(new Set(items.flatMap((i) => i.tags))).sort((a, b) => a.localeCompare(b));
+  const featured = getFeaturedProjects();
 
   return (
     <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
@@ -40,7 +43,19 @@ export default function WorkPage() {
         twins, regulatory automation, and portfolio decisions.
       </p>
 
-      <WorkGrid items={items} allTags={allTags} />
+      <section aria-labelledby="featured-heading" className="mb-24">
+        <h2 id="featured-heading" className="display text-[clamp(1.5rem,2.5vw,2rem)] mb-8">
+          Featured
+        </h2>
+        <ProjectExhibition items={featured} />
+      </section>
+
+      <section aria-labelledby="all-heading">
+        <h2 id="all-heading" className="display text-[clamp(1.5rem,2.5vw,2rem)] mb-8">
+          All projects
+        </h2>
+        <WorkGrid items={items} allTags={allTags} featuredNames={featuredNames} />
+      </section>
 
       <section className="mt-20">
         <h2 className="display text-[clamp(1.5rem,2.5vw,2rem)] mb-8">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Star } from "lucide-react";
 import type { Stage } from "@/content/platforms";
 
 type WorkItem = {
@@ -35,11 +35,14 @@ function StageChip({ stage }: Readonly<{ stage: Stage }>) {
 export function WorkGrid({
   items,
   allTags,
+  featuredNames = [],
 }: Readonly<{
   items: WorkItem[];
   allTags: string[];
+  featuredNames?: string[];
 }>) {
   const [active, setActive] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const filtered = active
     ? items.filter((i) => i.tags.includes(active))
@@ -49,10 +52,12 @@ export function WorkGrid({
     <section>
       <div className="flex gap-2 mb-10 overflow-x-auto pb-2 -mx-6 px-6 md:mx-0 md:px-0 md:flex-wrap md:overflow-visible scrollbar-none">
         <button
+          type="button"
+          aria-pressed={active === null}
           onClick={() => setActive(null)}
           className={`shrink-0 rounded-full px-4 py-2 text-sm border transition-all duration-200 ${
             active === null
-              ? "bg-accent text-white border-accent"
+              ? "bg-accent text-bg border-accent"
               : "bg-transparent text-ink-2 border-rule hover:border-accent hover:text-accent"
           }`}
         >
@@ -61,10 +66,12 @@ export function WorkGrid({
         {allTags.map((tag) => (
           <button
             key={tag}
+            type="button"
+            aria-pressed={active === tag}
             onClick={() => setActive(active === tag ? null : tag)}
             className={`shrink-0 rounded-full px-4 py-2 text-sm border transition-all duration-200 ${
               active === tag
-                ? "bg-accent text-white border-accent"
+                ? "bg-accent text-bg border-accent"
                 : "bg-transparent text-ink-2 border-rule hover:border-accent hover:text-accent"
             }`}
           >
@@ -73,8 +80,8 @@ export function WorkGrid({
         ))}
       </div>
 
-      <ul className="grid gap-5 md:grid-cols-2 md:gap-6">
-        {filtered.map((p) => (
+      <ul className="grid gap-5 md:grid-cols-2 md:gap-6 items-start">
+        {filtered.map((p, i) => (
           <li
             key={p.name}
             className="card-lift rounded-xl border border-rule bg-bg-soft p-6 flex flex-col"
@@ -96,6 +103,12 @@ export function WorkGrid({
 
             <div className="flex flex-wrap items-center gap-2 mb-3">
               {p.stage ? <StageChip stage={p.stage} /> : null}
+              {featuredNames.includes(p.name) ? (
+                <span className="inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.12em] text-signal">
+                  <Star size={11} strokeWidth={2} aria-hidden />
+                  Featured
+                </span>
+              ) : null}
               {p.tags.map((t) => (
                 <span
                   key={t}
@@ -118,9 +131,23 @@ export function WorkGrid({
               </div>
             ) : null}
 
-            <p className="text-[15px] text-ink-2 leading-relaxed mt-auto">
+            <p
+              id={`work-desc-${i}`}
+              className={`text-[15px] text-ink-2 leading-relaxed ${expanded[p.name] ? "" : "line-clamp-4"}`}
+            >
               {p.description}
             </p>
+            {p.description.length > 260 ? (
+              <button
+                type="button"
+                aria-expanded={!!expanded[p.name]}
+                aria-controls={`work-desc-${i}`}
+                onClick={() => setExpanded((s) => ({ ...s, [p.name]: !s[p.name] }))}
+                className="mt-2 self-start text-sm font-medium text-accent hover:text-accent-ink transition-colors"
+              >
+                {expanded[p.name] ? "Show less" : "Read more"}
+              </button>
+            ) : null}
           </li>
         ))}
       </ul>

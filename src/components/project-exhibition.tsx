@@ -3,17 +3,9 @@
 import { useRef, useState, type KeyboardEvent } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import type { FeaturedProject } from "@/content/featured";
 
-export type ExhibitItem = {
-  slug: string;
-  name: string;
-  stage?: string;
-  domain?: string;
-  impact?: string;
-  description: string;
-  url?: string;
-  diagram: { desktop: string; mobile: string };
-};
+export type ExhibitItem = FeaturedProject;
 
 const KEY_STEP: Record<string, number> = {
   ArrowDown: 1,

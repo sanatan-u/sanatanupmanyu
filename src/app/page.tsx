@@ -9,30 +9,11 @@ import { TechGrid } from "@/components/tech-grid";
 import { FlipCard } from "@/components/flip-card";
 import { Typewriter } from "@/components/typewriter";
 import { FadeUp } from "@/components/fade-up";
-import { platforms } from "@/content/platforms";
-import { products } from "@/content/products";
-import { projectDiagrams } from "@/content/project-diagrams";
+import { getFeaturedProjects } from "@/content/featured";
 import { ProjectExhibition } from "@/components/project-exhibition";
 
 export default function HomePage() {
-  const byName = <T extends { name: string }>(list: T[], name: string) =>
-    list.find((x) => x.name === name)!;
-  // Featured order is a deliberate choice: Discovery Navigator leads, AlphaMeld closes.
-  const featured = [
-    { slug: "discovery-navigator", ...byName(platforms, "Discovery Navigator") },
-    { slug: "quriousri", ...byName(products, "QuriousRI") },
-    { slug: "pipeline-alpha", ...byName(products, "Pipeline Alpha") },
-    { slug: "alphameld", ...byName(platforms, "AlphaMeld® Operating System") },
-  ].map((p) => ({
-    slug: p.slug,
-    name: p.name,
-    stage: p.stage,
-    domain: p.tags?.find((t) => t !== "AI/ML" && t !== "Full Stack"),
-    impact: p.impact,
-    description: p.description,
-    url: p.url,
-    diagram: projectDiagrams[p.slug],
-  }));
+  const featured = getFeaturedProjects();
   return (
     <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
       {/* ── Hero ── */}
