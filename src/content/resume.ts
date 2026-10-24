@@ -43,7 +43,7 @@ export const resumeScope: ScopeItem[] = [
   {
     label: "Products Shipped",
     value:
-      "5+ production platforms · 12 ML models in production · regulatory coverage across 12+ global agencies",
+      "5+ production platforms · transformer NLP, graph-neural and generative models in production · regulatory coverage across 12+ global agencies",
   },
   {
     label: "Client Base",
@@ -115,18 +115,21 @@ export const resumeToolset: string[] = [
   "TypeScript",
   "React",
   "Next.js",
+  "FastAPI",
   "LLMs & RAG",
   "Agentic AI",
   "NLP",
-  "LangChain",
+  "LangChain / LangGraph",
   "PyTorch",
   "spaCy",
   "Neo4j",
   "PostgreSQL",
   "MongoDB",
+  "RabbitMQ",
   "AWS",
   "Docker",
   "Kubernetes",
+  "Terraform",
   "Git",
   "CI/CD",
 ];
@@ -151,18 +154,18 @@ export const resumeSelectedWork: Platform[] = [
   pick(
     platforms,
     "AlphaMeld® Operating System",
-    "End-to-end AI stack — Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis, and AlphaClinMeld over 12 ML models (NER, relation extraction, evidence scoring, digital-twin trial predictors, landscape assessment) on PostgreSQL + Neo4j with self-hosted LLM APIs.",
+    "End-to-end AI stack — Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis, and AlphaClinMeld over transformer NER, relation-extraction, entity-linking and evidence-classification models (spaCy, PubMedBERT), a DozerDB (Neo4j) knowledge graph and HINT trial-outcome predictors, with frontier LLMs routed through OpenRouter.",
   ),
   pick(
     products,
     "QuriousRI",
-    "Secure role-based regulatory platform for pharma and biotech affairs teams, built from concept as CTO. Beyond search and comparison of global approvals, it drives CTD dossier authoring and per-section gap assessment across Modules 2 through 5 — Module 1 deliberately excluded as non-transferable country- and company-specific content — telling a sponsor exactly how a target market's requirements diverge from an existing filing. Reproducibility tested and repeated to date on Module 2, the Quality Overall Summary, 3.2.P.1, and 3.2.P.3.3.",
+    "Secure role-based regulatory platform for pharma and biotech affairs teams, built from concept as CTO. Beyond search and comparison of global approvals, it drives CTD dossier authoring and per-section gap assessment across Modules 2 through 5 — Module 1 deliberately excluded as non-transferable country- and company-specific content — telling a sponsor exactly how a target market's requirements diverge from an existing filing. Generated sections evaluated to date against expert gold standards for the Quality Overall Summary (Module 2.3), 3.2.P.1, and 3.2.P.3.3.",
   ),
   pick(platforms, "AlphaCompass Portfolio Intelligence"),
   pick(
     platforms,
     "SequenceFlow® ResearchNexus & Clinical Navigator",
-    "End-to-end AI stack combining Knowledge Graph, clinical-trial prediction, literature analysis, patient digital twins, TPP and TOP, with 12 ML models on PostgreSQL + Neo4j and self-hosted LLM APIs.",
+    "Angular and PostgREST platform over a multi-schema PostgreSQL warehouse fed by Python pipelines (ClinicalTrials.gov, drug ontologies, HTA, pricing), with FastAPI services for trial-outcome prediction, phase-transition prediction and patient digital twins.",
   ),
   pick(
     platforms,

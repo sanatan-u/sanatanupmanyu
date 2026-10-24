@@ -1,13 +1,21 @@
 import { Cloud } from "lucide-react";
 import {
   siDocker,
+  siFastapi,
+  siGithubactions,
+  siKubernetes,
   siLangchain,
   siNeo4j,
   siNextdotjs,
+  siNodedotjs,
+  siOpenrouter,
   siPostgresql,
   siPython,
   siPytorch,
+  siRabbitmq,
   siReact,
+  siRedis,
+  siSpacy,
   siTypescript,
 } from "simple-icons";
 import { site } from "@/content/site";
@@ -24,26 +32,48 @@ import { site } from "@/content/site";
 type Icon = { path: string } | "cloud";
 type Tech = { name: string; role: string; icon: Icon };
 
-// Descriptors say what each tool is, not how much it was used.
+// Descriptors say what each tool is, or where it shows up across the work,
+// never how much it was used. Every entry is backed by production code.
 const TECH: Record<string, Omit<Tech, "name">> = {
   Python: { role: "Data and ML", icon: siPython },
   TypeScript: { role: "Web apps and APIs", icon: siTypescript },
   React: { role: "UI library", icon: siReact },
   "Next.js": { role: "Web framework", icon: siNextdotjs },
-  PyTorch: { role: "Deep learning", icon: siPytorch },
-  LangChain: { role: "LLM orchestration", icon: siLangchain },
-  PostgreSQL: { role: "Relational database", icon: siPostgresql },
-  Neo4j: { role: "Graph database", icon: siNeo4j },
-  AWS: { role: "Cloud", icon: "cloud" },
+  FastAPI: { role: "Python APIs and model services", icon: siFastapi },
+  "Node.js": { role: "Express, NestJS, Hono", icon: siNodedotjs },
+  OpenRouter: { role: "GPT, Claude, Gemini routing", icon: siOpenrouter },
+  LangGraph: { role: "Agent workflows", icon: siLangchain },
+  PyTorch: { role: "GNNs, GRU-D, CVAE twins", icon: siPytorch },
+  spaCy: { role: "Biomedical NER and RE", icon: siSpacy },
+  PostgreSQL: { role: "Relational and pgvector", icon: siPostgresql },
+  Neo4j: { role: "Knowledge graph", icon: siNeo4j },
+  RabbitMQ: { role: "NLP worker queues", icon: siRabbitmq },
+  Redis: { role: "Caching and job queues", icon: siRedis },
+  AWS: { role: "EKS, ECS Fargate, S3", icon: "cloud" },
+  Kubernetes: { role: "Orchestration", icon: siKubernetes },
   Docker: { role: "Containers", icon: siDocker },
+  "GitHub Actions": { role: "CI/CD", icon: siGithubactions },
 };
 
 const SPINE = ["Python", "TypeScript"];
 const LAYERS: { name: string; sub: string; items: string[] }[] = [
   { name: "Interface", sub: "What users touch", items: ["React", "Next.js"] },
-  { name: "Intelligence", sub: "Models and agents", items: ["PyTorch", "LangChain"] },
-  { name: "Data", sub: "Stores and graphs", items: ["PostgreSQL", "Neo4j"] },
-  { name: "Infrastructure", sub: "Where it runs", items: ["AWS", "Docker"] },
+  { name: "Services", sub: "APIs and workers", items: ["FastAPI", "Node.js"] },
+  {
+    name: "Intelligence",
+    sub: "Models and agents",
+    items: ["OpenRouter", "LangGraph", "PyTorch", "spaCy"],
+  },
+  {
+    name: "Data",
+    sub: "Stores, graphs and queues",
+    items: ["PostgreSQL", "Neo4j", "RabbitMQ", "Redis"],
+  },
+  {
+    name: "Infrastructure",
+    sub: "Where it runs",
+    items: ["AWS", "Kubernetes", "Docker", "GitHub Actions"],
+  },
 ];
 
 const tech = (name: string): Tech => ({ name, ...TECH[name] });

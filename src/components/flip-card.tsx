@@ -6,7 +6,6 @@ import Link from "next/link";
 import { MapPin, RotateCcw, ArrowRight } from "lucide-react";
 import { site } from "@/content/site";
 
-const coreStack = ["Python", "TypeScript", "React", "Neo4j", "AWS", "LangChain"];
 
 export function FlipCard() {
   const [flipped, setFlipped] = useState(false);
@@ -108,7 +107,7 @@ export function FlipCard() {
             <div>
               <div className="text-[9px] uppercase tracking-[0.14em] text-ink-3 mb-2">Stack</div>
               <div className="flex flex-wrap gap-1.5">
-                {coreStack.map((t) => (
+                {site.coreStack.slice(0, 6).map((t) => (
                   <span
                     key={t}
                     className="text-[10px] font-medium uppercase tracking-wide text-accent border border-accent/30 bg-accent/8 rounded px-2 py-0.5"

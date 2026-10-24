@@ -3,17 +3,6 @@ import { Mail } from "lucide-react";
 import { LinkedinIcon, GithubIcon } from "@/components/brand-icons";
 import { site } from "@/content/site";
 
-const techStack = [
-  "Python",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "PostgreSQL",
-  "Neo4j",
-  "AWS",
-  "Docker",
-];
-
 export function SiteFooter() {
   return (
     <footer className="mt-32 border-t border-rule">
@@ -21,7 +10,7 @@ export function SiteFooter() {
         <div>
           <div className="text-ink-3 text-sm mb-3">Toolset</div>
           <ul className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-ink-2">
-            {techStack.map((t) => (
+            {site.coreStack.map((t) => (
               <li key={t}>{t}</li>
             ))}
           </ul>

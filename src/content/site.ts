@@ -14,7 +14,7 @@ export const site = {
   },
   linkedin: "https://linkedin.com/in/sanatan-upmanyu",
   github: "https://github.com/sanatan-u",
-  statsInline: "18+ years experience · 5+ platforms · 12+ ML models · 2 patents · 5 publications",
+  statsInline: "18+ years experience · 5+ platforms · 2 patents · 5 publications",
   stats: [
     { value: "18+", label: "Years Experience" },
     { value: "5+", label: "Platforms Built" },
@@ -22,18 +22,31 @@ export const site = {
     { value: "2", label: "Patents" },
   ],
   availability: "Open to consulting & advisory",
+  // Evidence-based: every entry is used in production code across the AlphaMeld,
+  // Artixio (QuriousRI), SequenceFlow and Pipeline Alpha repositories (stack
+  // review, October 2026). The homepage draws these as a layered architecture.
   techStack: [
     "Python",
     "TypeScript",
     "React",
     "Next.js",
+    "FastAPI",
+    "Node.js",
+    "OpenRouter",
+    "LangGraph",
+    "PyTorch",
+    "spaCy",
     "PostgreSQL",
     "Neo4j",
+    "RabbitMQ",
+    "Redis",
     "AWS",
+    "Kubernetes",
     "Docker",
-    "PyTorch",
-    "LangChain",
+    "GitHub Actions",
   ],
+  // Short list for compact places: the flip card's back and the footer.
+  coreStack: ["Python", "TypeScript", "React", "FastAPI", "PostgreSQL", "Neo4j", "PyTorch", "AWS"],
   currentRoles: [
     { role: "Co-Founder", org: "Apxora GmbH" },
     { role: "Head of Data Science", org: "AlphaMeld GmbH" },

@@ -426,7 +426,7 @@ function quriousRI() {
 
   // Legend
   b += `<rect x="770" y="494" width="30" height="16" rx="8" class="dg-chip-sig"/>`;
-  b += t(806, 506, "Reproducibility tested so far", "dg-sub");
+  b += t(806, 506, "Evaluated against expert gold standards so far", "dg-sub");
   b += t(806, 526, "Both workstreams cover Modules 2 to 5", "dg-sub");
   b += `<line x1="776" y1="522" x2="800" y2="522" class="dg-edge"/>`;
 
@@ -608,8 +608,8 @@ function alphaMeld() {
   // Layer gutter
   const layer = (y, title, sub) => eyebrow(48, y, title) + t(48, y + 18, sub, "dg-sub");
   b += layer(132, "Interfaces", "custom UI layer");
-  b += layer(298, "ML models", "12 models");
-  b += layer(448, "Data and inference", "self-hosted");
+  b += layer(298, "ML models", "in production");
+  b += layer(448, "Data and inference", "stores and LLM routing");
   b += `<line x1="48" y1="222" x2="1152" y2="222" class="dg-rule"/>`;
   b += `<line x1="48" y1="392" x2="1152" y2="392" class="dg-rule"/>`;
 
@@ -634,24 +634,19 @@ function alphaMeld() {
   const railY = 296;
   b += `<line x1="230" y1="${railY}" x2="1134" y2="${railY}" class="dg-edge"/>`;
   b += `<line x1="230" y1="${railY}" x2="1134" y2="${railY}" class="dg-flow"/>`;
+  // Trained models with code or artifacts in the AlphaMeld repositories.
   const named = [
-    ["NER"],
-    ["RE"],
-    ["Evidence", "scoring"],
-    ["Digital-twin", "CT predictors"],
-    ["Landscape", "assessment"],
+    ["Named-entity", "recognition"],
+    ["Relation", "extraction"],
+    ["Entity", "linking"],
+    ["Evidence-level", "classifier"],
+    ["HINT trial-outcome", "predictors"],
   ];
   named.forEach((lab, i) => {
-    const x = 262 + i * 116;
-    b += node(x, railY, 6, true, i === 3);
+    const x = 290 + i * 202;
+    b += node(x, railY, 6, true, i === 4);
     b += lines(x, railY + 30, lab, "dg-label-sm", 15, "middle");
   });
-  for (let j = 0; j < 7; j++) {
-    const x = 830 + j * 50;
-    b += `<circle cx="${x}" cy="${railY}" r="5" class="dg-ring"/>`;
-  }
-  b += `<path d="M830,${railY + 18} V${railY + 24} H1130 V${railY + 18}" class="dg-edge-soft"/>`;
-  b += t(980, railY + 44, "+ 7 more models", "dg-sub", "middle");
 
   // Interfaces fed by models
   tiles.forEach((_, i) => {
@@ -663,8 +658,8 @@ function alphaMeld() {
   // Data and inference
   const stores = [
     ["PostgreSQL", "relational store"],
-    ["Neo4j", "graph store"],
-    ["Self-hosted LLM APIs", "inference"],
+    ["Neo4j (DozerDB)", "knowledge graph"],
+    ["OpenRouter", "GPT · Claude · Gemini"],
   ];
   const sw = (914 - 32) / 3;
   stores.forEach(([name, sub], i) => {
@@ -682,7 +677,7 @@ function alphaMeld() {
   return frame(
     id,
     "AlphaMeld Operating System",
-    "AlphaMeld Operating System stack: PostgreSQL, Neo4j and self-hosted LLM APIs feed 12 ML models, including NER, relation extraction, evidence scoring, digital-twin clinical-trial predictors and landscape assessment, which power five interfaces: Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis and AlphaClinMeld.",
+    "AlphaMeld Operating System stack: PostgreSQL, a Neo4j (DozerDB) knowledge graph and frontier LLMs routed through OpenRouter feed the production models (named-entity recognition, relation extraction, entity linking, evidence-level classification and HINT trial-outcome predictors), which power five interfaces: Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis and AlphaClinMeld.",
     b
   );
 }
@@ -840,7 +835,7 @@ function quriousRIMobile() {
   });
 
   b += `<rect x="20" y="${baseY + 22}" width="28" height="14" rx="7" class="dg-chip-sig"/>`;
-  b += t(58, baseY + 33, "Reproducibility tested so far", "dg-sub");
+  b += t(58, baseY + 33, "Evaluated against gold standards so far", "dg-sub");
   b += `<line x1="22" y1="${baseY + 50}" x2="46" y2="${baseY + 50}" class="dg-edge"/>`;
   b += t(58, baseY + 54, "Both workstreams cover Modules 2 to 5", "dg-sub");
   const h = baseY + 98;
@@ -940,27 +935,24 @@ function alphaMeldMobile() {
   [100, 190, 280].forEach((x) => (b += flow(id, `M${x},356 L${x},${310}`)));
   b += elabel(110, 338, "powers");
 
-  b += eyebrow(20, 384, "ML models · 12");
-  const named = ["NER", "RE", "Evidence scoring", "Digital-twin CT predictors", "Landscape assessment"];
+  b += eyebrow(20, 384, "ML models in production");
+  const named = ["Named-entity recognition", "Relation extraction", "Entity linking", "Evidence-level classifier", "HINT trial-outcome predictors"];
   b += `<line x1="36" y1="404" x2="36" y2="530" class="dg-edge"/><line x1="36" y1="404" x2="36" y2="530" class="dg-flow"/>`;
   named.forEach((s, i) => {
     const y = 404 + i * 30;
     b += node(36, y, 5.5, true, i === 3) + t(56, y + 4.5, s, "dg-label-sm");
   });
-  for (let j = 0; j < 7; j++) b += `<circle cx="${36 + j * 20}" cy="560" r="4.5" class="dg-ring"/>`;
-  b += t(178, 564, "+ 7 more models", "dg-sub");
-
-  [100, 190, 280].forEach((x) => (b += flow(id, `M${x},628 L${x},${584}`)));
-  b += elabel(110, 612, "feeds");
-  b += eyebrow(20, 652, "Data and inference");
-  [["PostgreSQL", "relational store"], ["Neo4j", "graph store"], ["Self-hosted LLM APIs", "inference"]].forEach(([name, sub], i) => {
-    const y = 666 + i * 56;
+  [100, 190, 280].forEach((x) => (b += flow(id, `M${x},588 L${x},${548}`)));
+  b += elabel(110, 572, "feeds");
+  b += eyebrow(20, 612, "Data and inference");
+  [["PostgreSQL", "relational store"], ["Neo4j (DozerDB)", "knowledge graph"], ["OpenRouter", "GPT · Claude · Gemini"]].forEach(([name, sub], i) => {
+    const y = 626 + i * 56;
     b += `<rect x="20" y="${y}" width="340" height="46" rx="12" fill="url(#${id}-core)" class="dg-core-stroke"/>`;
     b += t(38, y + 28, name, "dg-label-sm") + t(342, y + 28, sub, "dg-sub", "end");
   });
-  const h = 868;
+  const h = 828;
   b += mCaption(h);
-  return frame(id, "AlphaMeld Operating System", "AlphaMeld Operating System stack: PostgreSQL, Neo4j and self-hosted LLM APIs feed 12 ML models, which power five interfaces: Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis and AlphaClinMeld.", b, { w: MW, h, rx: 20 });
+  return frame(id, "AlphaMeld Operating System", "AlphaMeld Operating System stack: PostgreSQL, a Neo4j (DozerDB) knowledge graph and frontier LLMs routed through OpenRouter feed the production NLP and trial-outcome models, which power five interfaces: Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis and AlphaClinMeld.", b, { w: MW, h, rx: 20 });
 }
 
 /* ── output ─────────────────────────────────────────────────────────────── */

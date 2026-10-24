@@ -18,7 +18,7 @@ export const experience: Role[] = [
     skills: ["Python", "LLMs", "React", "AWS", "Neo4j"],
     bullets: [
       "Co-founded the company and own the AI/data-science function end to end — technical strategy, architecture, hiring, and delivery across the product portfolio.",
-      "Direct build and deployment of SequenceFlow ResearchNexus and Clinical Navigator: an integrated stack spanning knowledge graph, clinical-trial prediction, literature analysis, patient digital twins, TPP and TOP, with 12 ML models in production on PostgreSQL + Neo4j and self-hosted LLM APIs.",
+      "Direct build and deployment of SequenceFlow ResearchNexus and Clinical Navigator: an Angular and PostgREST platform over a multi-schema PostgreSQL warehouse, fed by Python pipelines for ClinicalTrials.gov, drug ontologies, HTA decisions and pricing, with FastAPI model services for trial-outcome prediction, phase-transition prediction and patient digital twins.",
       "Set the AI/ML agenda for early innovation-signal detection across emerging targets, novel therapeutics, and healthcare solutions — and translate it into the commercial product roadmap.",
       "Steer the Asset Lifecycle Manager and Portfolio Management platforms, extending the company's reach from discovery signals into portfolio decision-making.",
       "Lead delivery of AI engagements for top-tier global pharmaceutical companies (client names confidential).",
@@ -32,7 +32,7 @@ export const experience: Role[] = [
     skills: ["Python", "Neo4j", "AWS", "React", "LLMs", "Knowledge Graphs"],
     bullets: [
       "Site head for the Basel operation and owner of the data-sciences function — team of 5 data scientists, hiring, technical direction, and site-level delivery accountability.",
-      "Own the AlphaMeld Operating System end to end — a custom UI layer (Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis, AlphaClinMeld) over 12 ML models — compressing hypothesis-to-insight cycles from months to weeks.",
+      "Own the AlphaMeld Operating System end to end — a custom UI layer (Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis, AlphaClinMeld) over transformer NLP models, a Neo4j-based knowledge graph and graph-neural trial predictors — compressing hypothesis-to-insight cycles from months to weeks.",
       "Delivered AlphaCompass portfolio intelligence: adopted by two business-development teams within six months, standardizing evidence-based indication prioritization across 200 active programs.",
       "Directed the ChatAlphaMeld benchmark programme — 97.34% accuracy on a 188-question biomedical benchmark, outperforming leading general-purpose frontier models and delivering the step-by-step rationales complex clinical questions demand.",
       "Anchor platform delivery and support for the publicly announced collaborations that validate AlphaMeld commercially: Kyowa Kirin (multi-year strategic partnership; subscription-and-support relationship spanning five years, with an AI-identified program validated in preclinical proof-of-concept), Shionogi (multi-target drug discovery, worth up to $200M per program in upfronts, milestones, and royalties), GSK Consumer Healthcare (three-year AI innovation collaboration), and Ono Pharmaceutical (2024 target discovery).",
@@ -55,7 +55,7 @@ export const experience: Role[] = [
     bullets: [
       "Own technology strategy, architecture, and delivery for the company's entire digital product portfolio — concept to production — and the engineering function behind it.",
       "Conceptualized and built QuriousRI, a secure role-based regulatory-intelligence platform covering pharmaceuticals, biologics, biosimilars, and generics across 12+ agencies (FDA, EMA, PMDA, NMPA, Health Canada, MHRA, Swissmedic, and more).",
-      "Extended QuriousRI into CTD dossier preparation, driving AI-assisted authoring across Modules 2 through 5 — and scoping Module 1 out deliberately, as country- and company-specific content that does not transfer reliably. Reproducibility tested and repeated to date on Module 2, the Quality Overall Summary, 3.2.P.1, and 3.2.P.3.3, with section coverage expanding.",
+      "Extended QuriousRI into CTD dossier preparation, driving AI-assisted authoring across Modules 2 through 5 — and scoping Module 1 out deliberately, as country- and company-specific content that does not transfer reliably. Generated sections evaluated to date against expert gold standards for the Quality Overall Summary (Module 2.3), 3.2.P.1, and 3.2.P.3.3, with section coverage expanding.",
       "Built per-module, per-section regulatory gap assessment for market expansion: for a drug already approved in one market, the platform resolves what a target market requires for that drug type and where those requirements diverge from the original filing — converting a manual, consultant-heavy exercise into a repeatable product capability.",
       "Architected an AI assistant that mines global regulatory updates and auto-drafts submission dossiers for first-in-class device filings, opening a new non-pharma revenue channel.",
       "Direct enterprise data-science and AI product development on Agile, holding delivery to FDA, EMA, and ICH standards across the drug-development lifecycle.",

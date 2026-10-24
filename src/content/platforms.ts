@@ -17,7 +17,7 @@ export const platforms: Platform[] = [
     impact: "Compresses hypothesis-to-insight cycles from months to weeks, varying by disease area",
     url: "https://alphameld.com",
     description:
-      "End-to-end AI stack combining a custom UI layer (Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis, AlphaClinMeld) with 12 ML models — including NER, RE, evidence scoring, digital-twin CT predictors and landscape assessment — running on PostgreSQL + Neo4j and self-hosted LLM APIs.",
+      "End-to-end biomedical AI platform. A daily literature pipeline (PubMed, PMC, Semantic Scholar, GEO) runs transformer NER, relation extraction, entity linking and evidence-level classification (spaCy, PubMedBERT) on RabbitMQ workers, building a knowledge graph on DozerDB (Neo4j) and PostgreSQL. A FastAPI and MCP API serves that graph to the product modules (Knowledge Graph, ChatAlphaMeld, Bioinformatics, Literature Analysis, AlphaClinMeld) and to Discovery Navigator, alongside HINT graph-neural-network trial-outcome predictors and frontier LLMs (GPT, Claude, Gemini) routed through OpenRouter.",
   },
   {
     name: "Discovery Navigator",
@@ -43,7 +43,7 @@ export const platforms: Platform[] = [
     tags: ["AI/ML", "Full Stack", "Clinical Trials"],
     impact: "6+ integrated modules",
     description:
-      "End-to-end AI stack combining Knowledge Graph, Clinical Trial Prediction, Literature Analysis, Patient Digital Twin, TPP, TOP with 12 ML models running on PostgreSQL + Neo4j and self-hosted LLM APIs.",
+      "Asset-lifecycle intelligence platform for pharma. An Angular front end reads a multi-schema PostgreSQL warehouse through PostgREST, fed by Python pipelines for ClinicalTrials.gov (AACT), drug ontologies, Mondo and HPO, Orphanet, German G-BA HTA decisions and drug pricing. FastAPI model services add clinical-trial outcome prediction (a HINT graph neural network in PyTorch), phase-transition prediction, HTA analog search, epidemiology and CVAE patient digital twins. Its successor, Clinical Navigator, is being rebuilt on React, NestJS, Prisma and BullMQ.",
   },
   {
     name: "AlphaCompass Portfolio Intelligence",
@@ -51,7 +51,7 @@ export const platforms: Platform[] = [
     tags: ["AI/ML", "Data Science", "Drug Discovery"],
     impact: "Standardized indication-prioritization across 200 active programs",
     description:
-      "Clinical-trial–centric SaaS module on AlphaMeld® graph analytics; benchmarks pipeline assets and quantifies comparative risk. Adopted by two BD teams within six months, standardizing evidence-based indication-prioritization across 200 active programs.",
+      "Clinical-trial–centric portfolio-intelligence SaaS in the AlphaMeld® suite; benchmarks pipeline assets and quantifies comparative risk. Adopted by two BD teams within six months, standardizing evidence-based indication-prioritization across 200 active programs.",
   },
   {
     name: "Digital Twins for Systemic Sclerosis (EUSTAR)",
