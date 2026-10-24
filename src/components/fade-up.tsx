@@ -8,6 +8,14 @@ interface FadeUpProps {
   className?: string;
 }
 
+/**
+ * Reveals its children with a short rise-and-fade when they scroll into view.
+ *
+ * The content is visible by default. The hidden starting state is applied only
+ * through `html.js .fade-up:not(.fade-up-in)` in globals.css, so a visitor
+ * without JavaScript sees everything, and `prefers-reduced-motion` disables the
+ * effect entirely in the same stylesheet.
+ */
 export function FadeUp({ children, delay = 0, className = "" }: FadeUpProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -15,6 +23,7 @@ export function FadeUp({ children, delay = 0, className = "" }: FadeUpProps) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -31,9 +40,7 @@ export function FadeUp({ children, delay = 0, className = "" }: FadeUpProps) {
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-      } ${className}`}
+      className={`fade-up ${visible ? "fade-up-in" : ""} ${className}`}
       style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
     >
       {children}

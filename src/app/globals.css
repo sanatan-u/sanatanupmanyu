@@ -185,8 +185,11 @@ button:focus-visible {
 .flip-card {
   perspective: 900px;
 }
+/* Both faces share one grid cell, so the card is always as tall as the taller
+   face and neither side can clip. */
 .flip-card-inner {
   position: relative;
+  display: grid;
   width: 100%;
   transition: transform 0.65s cubic-bezier(0.34, 1.4, 0.64, 1);
   transform-style: preserve-3d;
@@ -195,6 +198,7 @@ button:focus-visible {
   transform: rotateY(180deg);
 }
 .flip-card-face {
+  grid-area: 1 / 1;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   width: 100%;
@@ -203,11 +207,7 @@ button:focus-visible {
   position: relative;
 }
 .flip-card-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  min-height: 100%;
+  position: relative;
   transform: rotateY(180deg);
   overflow: hidden;
 }
@@ -220,6 +220,188 @@ button:focus-visible {
 }
 .animate-blink {
   animation: blink 0.8s step-end infinite;
+}
+
+/* ── Scroll reveal (FadeUp) ── */
+/* Visible by default. Only a JS-capable page (html.js, set in layout.tsx) hides
+   the block until the IntersectionObserver in fade-up.tsx adds .fade-up-in, so
+   a visitor without JavaScript, a crawler, or a print job never sees a blank
+   section. */
+
+.fade-up {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out;
+}
+html.js .fade-up:not(.fade-up-in) {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* ── Featured project exhibition (homepage) ── */
+
+.exhibit-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: sticky;
+  top: 96px;
+}
+.exhibit-tab {
+  position: relative;
+  text-align: left;
+  padding: 16px 16px 16px 30px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.exhibit-tab-name {
+  display: block;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.3;
+  transition: color 0.2s ease;
+}
+.exhibit-tab-meta {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.exhibit-tab:hover .exhibit-tab-name {
+  color: var(--accent);
+}
+.exhibit-tab[aria-selected="true"] {
+  background: var(--bg-soft);
+}
+.exhibit-tab[aria-selected="true"]::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 24px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+@media (max-width: 1023px) {
+  .exhibit-tabs {
+    position: static;
+    flex-direction: row;
+    gap: 8px;
+    overflow-x: auto;
+    margin-inline: -24px;
+    padding: 0 24px 4px;
+    scrollbar-width: none;
+  }
+  .exhibit-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .exhibit-tab {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 8px 16px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+  }
+  .exhibit-tab-name {
+    font-size: 14px;
+  }
+  .exhibit-tab-meta,
+  .exhibit-tab::before {
+    display: none;
+  }
+  .exhibit-tab[aria-selected="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .exhibit-tab[aria-selected="true"] .exhibit-tab-name {
+    color: var(--bg);
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .exhibit-tabs {
+    margin-inline: -48px;
+    padding-inline: 48px;
+  }
+}
+
+.exhibit-panel {
+  display: grid;
+  gap: 24px;
+  animation: exhibit-rise 0.35s ease-out;
+}
+.exhibit-panel[hidden] {
+  display: none;
+}
+@keyframes exhibit-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.exhibit-diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.exhibit-diagram-mobile {
+  max-width: 440px;
+}
+@media (max-width: 767px) {
+  .exhibit-diagram-desktop {
+    display: none;
+  }
+}
+@media (min-width: 768px) {
+  .exhibit-diagram-mobile {
+    display: none;
+  }
+}
+
+.stage-chip {
+  display: inline-block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-radius: 999px;
+  padding: 2px 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent-ink);
+}
+
+/* ── Reduced motion ── */
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    scroll-behavior: auto;
+  }
+  html.js .fade-up:not(.fade-up-in) {
+    opacity: 1;
+    transform: none;
+  }
+  .fade-up {
+    transition: none;
+  }
+  .exhibit-panel {
+    animation: none;
+  }
+  .animate-blink,
+  .animate-ping {
+    animation: none;
+  }
+  .flip-card-inner,
+  .btn-primary,
+  .btn-outline,
+  .link-arrow,
+  .card-lift {
+    transition-duration: 0.01ms;
+  }
 }
 
 /* ── Mobile utilities ── */
@@ -317,6 +499,11 @@ button:focus-visible {
 
 @media print {
   /* Strip site chrome so only the résumé prints. */
+  html.js .fade-up:not(.fade-up-in) {
+    opacity: 1;
+    transform: none;
+  }
+
   body > header,
   body > footer {
     display: none !important;

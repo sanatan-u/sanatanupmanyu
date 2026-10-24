@@ -11,10 +11,14 @@ import { ThemeToggle } from "@/components/theme-toggle";
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [lastPath, setLastPath] = useState(pathname);
 
-  useEffect(() => {
+  // Close the mobile menu on navigation. Adjusting state during render (rather
+  // than in an effect) avoids an extra render pass with the stale menu open.
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";

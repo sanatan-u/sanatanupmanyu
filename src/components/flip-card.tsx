@@ -12,14 +12,14 @@ export function FlipCard() {
   const [flipped, setFlipped] = useState(false);
 
   return (
-    <div className="flip-card w-48 md:w-full">
+    <div className="flip-card w-full max-w-[300px] md:max-w-none">
       <div className={`flip-card-inner ${flipped ? "flip-card-flipped" : ""}`}>
 
         {/* ── Front ── */}
         <div className="flip-card-face flip-card-front rounded-[28px] border border-rule bg-bg-soft shadow-[0_2px_30px_rgba(0,0,0,0.06)] overflow-hidden">
           <button
             type="button"
-            className="w-full cursor-pointer group"
+            className="w-full h-full flex flex-col cursor-pointer group"
             onClick={() => setFlipped(true)}
             aria-label="Flip to see profile details"
           >
@@ -50,27 +50,13 @@ export function FlipCard() {
               <div className="text-xs text-ink-3 mt-0.5">AI &amp; Data Science Executive</div>
             </div>
 
-            {/* Availability badge */}
-            <div className="px-6 pb-4 flex justify-center">
-              <div className="inline-flex items-center gap-1.5 text-xs text-accent bg-accent/8 border border-accent/20 rounded-full px-3 py-1">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-                </span>
-                {site.availability}
-              </div>
-            </div>
-
-            {/* Stats row */}
-            <div className="grid grid-cols-4 border-t border-rule divide-x divide-rule">
-              {site.stats.map((s) => (
-                <div key={s.label} className="py-3 text-center">
-                  <div className="display text-sm text-accent leading-none">{s.value}</div>
-                  <div className="text-[9px] text-ink-3 uppercase tracking-wide mt-1 leading-tight">
-                    {s.label.split(" ").at(-1)}
-                  </div>
-                </div>
-              ))}
+            {/* Visible flip affordance; the hover hint above does not exist on touch screens.
+                Availability and stats are shown once, beside the greeting and in the stats strip. */}
+            <div className="mt-auto px-6 pt-1 pb-5 flex justify-center">
+              <span className="inline-flex items-center gap-1.5 text-xs text-ink-3 group-hover:text-accent transition-colors">
+                <RotateCcw size={11} strokeWidth={1.75} aria-hidden />
+                Flip for profile
+              </span>
             </div>
           </button>
         </div>

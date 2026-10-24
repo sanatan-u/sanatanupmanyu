@@ -11,22 +11,34 @@ import { Typewriter } from "@/components/typewriter";
 import { FadeUp } from "@/components/fade-up";
 import { platforms } from "@/content/platforms";
 import { products } from "@/content/products";
+import { projectDiagrams } from "@/content/project-diagrams";
+import { ProjectExhibition } from "@/components/project-exhibition";
 
 export default function HomePage() {
   const byName = <T extends { name: string }>(list: T[], name: string) =>
     list.find((x) => x.name === name)!;
+  // Featured order is a deliberate choice: Discovery Navigator leads, AlphaMeld closes.
   const featured = [
-    byName(platforms, "AlphaMeld® Operating System"),
-    byName(platforms, "Discovery Navigator"),
-    byName(products, "QuriousRI"),
-    byName(products, "Pipeline Alpha"),
-  ];
+    { slug: "discovery-navigator", ...byName(platforms, "Discovery Navigator") },
+    { slug: "quriousri", ...byName(products, "QuriousRI") },
+    { slug: "pipeline-alpha", ...byName(products, "Pipeline Alpha") },
+    { slug: "alphameld", ...byName(platforms, "AlphaMeld® Operating System") },
+  ].map((p) => ({
+    slug: p.slug,
+    name: p.name,
+    stage: p.stage,
+    domain: p.tags?.find((t) => t !== "AI/ML" && t !== "Full Stack"),
+    impact: p.impact,
+    description: p.description,
+    url: p.url,
+    diagram: projectDiagrams[p.slug],
+  }));
   return (
     <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-12 pb-8">
       {/* ── Hero ── */}
       <section className="relative isolate grid md:grid-cols-[1fr_320px] gap-8 md:gap-16 items-start py-6 md:py-12">
         <ParticlesBackdrop />
-        <div className="order-2 md:order-1">
+        <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/5 px-3 py-1 text-xs text-accent mb-6">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60" />
@@ -59,7 +71,7 @@ export default function HomePage() {
           <SocialRow />
         </div>
 
-        <div className="order-1 md:order-2 flex flex-col items-center md:items-stretch">
+        <div className="flex flex-col items-center md:items-stretch">
           <FlipCard />
         </div>
       </section>
@@ -91,21 +103,9 @@ export default function HomePage() {
             </Link>
           </div>
         </FadeUp>
-        <ul className="grid md:grid-cols-2 gap-x-10 gap-y-12">
-          {featured.map((p, i) => (
-            <FadeUp key={p.name} delay={i * 80}>
-              <li className="flex flex-col">
-                <h3 className="font-medium text-lg mb-2">{p.name}</h3>
-                <div className="text-sm text-signal mb-3 min-h-[3em]">
-                  {p.impact ?? ""}
-                </div>
-                <p className="text-[15px] text-ink-2 leading-relaxed">
-                  {p.description}
-                </p>
-              </li>
-            </FadeUp>
-          ))}
-        </ul>
+        <FadeUp>
+          <ProjectExhibition items={featured} />
+        </FadeUp>
       </section>
 
       {/* ── Work together ── */}

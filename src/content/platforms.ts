@@ -21,7 +21,7 @@ export const platforms: Platform[] = [
   },
   {
     name: "Discovery Navigator",
-    stage: "Early access",
+    stage: "Live",
     tags: ["AI/ML", "Full Stack", "Drug Discovery"],
     impact: "Hypothesis landscaping compressed from weeks to hours, with traceable evidence at every step",
     url: "https://discovery.alphameld.com",

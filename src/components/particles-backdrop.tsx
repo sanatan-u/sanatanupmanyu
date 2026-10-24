@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { ISourceOptions } from "@tsparticles/engine";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 const options: ISourceOptions = {
   background: { color: { value: "transparent" } },
@@ -55,9 +56,28 @@ const darkOptions: ISourceOptions = {
   },
 };
 
+/** Same constellation, frozen in place: no drift, no twinkle, no hover grab. */
+function withoutMotion(base: ISourceOptions): ISourceOptions {
+  return {
+    ...base,
+    interactivity: {
+      events: {
+        onHover: { enable: false },
+        resize: { enable: true },
+      },
+    },
+    particles: {
+      ...base.particles,
+      move: { ...base.particles!.move!, enable: false },
+      opacity: { value: 0.35, animation: { enable: false } },
+    },
+  };
+}
+
 export function ParticlesBackdrop() {
   const [ready, setReady] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const reduceMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -74,6 +94,11 @@ export function ParticlesBackdrop() {
     return () => observer.disconnect();
   }, []);
 
+  const active = useMemo(() => {
+    const themed = isDark ? darkOptions : options;
+    return reduceMotion ? withoutMotion(themed) : themed;
+  }, [isDark, reduceMotion]);
+
   if (!ready) return null;
 
   return (
@@ -84,7 +109,7 @@ export function ParticlesBackdrop() {
       <Particles
         id="hero-particles"
         className="absolute inset-0 h-full w-full"
-        options={isDark ? darkOptions : options}
+        options={active}
       />
     </div>
   );
