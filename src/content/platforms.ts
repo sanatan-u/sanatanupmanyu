@@ -26,7 +26,7 @@ export const platforms: Platform[] = [
     impact: "Hypothesis landscaping compressed from weeks to hours, with traceable evidence at every step",
     url: "https://discovery.alphameld.com",
     description:
-      "Guided drug-discovery hypothesis-generation platform built on the AlphaMeld Knowledge Graph. Supports four starting points — disease-first, target-first, indication expansion, and combination therapy — through a step-by-step workflow (project → config → exploration → agent scoring → ranking → hypotheses). A project-aware Discovery Copilot accompanies every step. Multi-tenant SaaS with SSO, RBAC, and audit logging.",
+      "Guided drug-discovery hypothesis-generation platform built on the AlphaMeld Knowledge Graph. Supports four starting points — disease-first, target-first, indication expansion, and combination therapy — through a step-by-step workflow (project → config → exploration → agent scoring → ranking → hypotheses). A built-in Trial Designer then turns a drug and a disease into a clinical trial protocol in a 13-step workspace: specialised agents draft each section from analogous ClinicalTrials.gov trials, and a person approves each one before the next is built on it. A project-aware Discovery Copilot accompanies every step. Multi-tenant SaaS with SSO, RBAC, and audit logging.",
   },
   {
     name: "AlphaMeld Knowledge Graph API & MCP Server",
@@ -35,13 +35,6 @@ export const platforms: Platform[] = [
     impact: "Read-only REST and MCP access to a ~26M-relationship biomedical knowledge graph, with sentence-level literature provenance behind every edge",
     url: "https://api.alphameld.com/docs",
     description: "FastAPI service over the AlphaMeld knowledge graph on DozerDB (Neo4j): node, relationship, search, path-traversal and analytics endpoints, plus sentence-level evidence from the literature graph behind each relationship. A FastMCP server exposes the same graph to AI agents as 16 tools — find entities, explain relationships, find connections, retrieve evidence, surface evidence gaps — gated by a tiered evaluation suite that runs on every deploy. Hashed API keys, rate limiting and request logs live in PostgreSQL. Discovery Navigator and Rediscovery build on it.",
-  },
-  {
-    name: "AlphaClinMeld Trial Designer",
-    stage: "Live",
-    tags: ["AI/ML", "Clinical Trials", "Automation"],
-    impact: "Turns a trial concept into eligibility criteria, a study plan, outcome measures and metadata, with human review at every step",
-    description: "Conversational clinical-trial protocol designer inside the AlphaMeld platform. From a concept — phase, modality, target, indication — it designs eligibility criteria, a study plan with statistical sample-size estimates, outcome measures and trial metadata, with optional human-in-the-loop review and revision at each step and export to PDF. Built in Python on Chainlit, with frontier models (Claude, GPT, Gemini) routed through OpenRouter and conversation history in PostgreSQL. It supports protocol design and deliberately makes no outcome predictions.",
   },
   {
     name: "ChatAlphaMeld Benchmark Suite",
